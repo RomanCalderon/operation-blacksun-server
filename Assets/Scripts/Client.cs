@@ -223,8 +223,9 @@ public class Client
              player = null;
          } );
 
-
         tcp.Disconnect ();
         udp.Disconnect ();
+
+        ServerSend.PlayerDisconnected ( id );
     }
 }

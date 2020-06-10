@@ -24,6 +24,7 @@ public class ServerSend
             Server.clients [ i ].tcp.SendData ( _packet );
         }
     }
+
     private static void SendTCPDataToAll ( int _exceptClient, Packet _packet )
     {
         _packet.WriteLength ();
@@ -44,6 +45,7 @@ public class ServerSend
             Server.clients [ i ].udp.SendData ( _packet );
         }
     }
+
     private static void SendUDPDataToAll ( int _exceptClient, Packet _packet )
     {
         _packet.WriteLength ();
@@ -100,6 +102,37 @@ public class ServerSend
             _packet.Write ( _player.transform.rotation );
 
             SendUDPDataToAll ( _player.id, _packet );
+        }
+    }
+
+    public static void PlayerDisconnected ( int _playerId )
+    {
+        using ( Packet _packet = new Packet ( ( int ) ServerPackets.playerDisconnected ) )
+        {
+            _packet.Write ( _playerId );
+
+            SendTCPDataToAll ( _packet );
+        }
+    }
+
+    public static void PlayerHealth ( Player _player )
+    {
+        using ( Packet _packet = new Packet ( ( int ) ServerPackets.playerHealth ) )
+        {
+            _packet.Write ( _player.id );
+            _packet.Write ( _player.health );
+
+            SendTCPDataToAll ( _packet );
+        }
+    }
+
+    public static void PlayerRespawned ( Player _player )
+    {
+        using ( Packet _packet = new Packet ( ( int ) ServerPackets.playerRespawned ) )
+        {
+            _packet.Write ( _player.id );
+
+            SendTCPDataToAll ( _packet );
         }
     }
     #endregion
