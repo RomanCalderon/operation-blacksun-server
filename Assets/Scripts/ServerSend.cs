@@ -70,6 +70,7 @@ public class ServerSend
         }
     }
 
+    #region Player
     public static void SpawnPlayer ( int _toClient, Player _player )
     {
         using ( Packet _packet = new Packet ( ( int ) ServerPackets.spawnPlayer ) )
@@ -135,5 +136,7 @@ public class ServerSend
             SendTCPDataToAll ( _packet );
         }
     }
+    #endregion
+
     #endregion
 }
