@@ -361,6 +361,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 822374681925116258, guid: 195ab05b0ca56a540b6c4d3d5de11d97,
+        type: 3}
+      propertyPath: m_TerrainData
+      value: 
+      objectReference: {fileID: 15600000, guid: 46923b15cc5aebc4b89c11bb9b6886e0,
+        type: 2}
     - target: {fileID: 8762771007858276760, guid: 195ab05b0ca56a540b6c4d3d5de11d97,
         type: 3}
       propertyPath: m_LocalPosition.x
