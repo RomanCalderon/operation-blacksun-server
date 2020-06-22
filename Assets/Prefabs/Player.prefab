@@ -50,9 +50,9 @@ MonoBehaviour:
   username: 
   controller: {fileID: 7354411244000219092}
   shootOrigin: {fileID: 1074138538965056323}
-  gravity: -19.62
+  gravity: -22
   moveSpeed: 4
-  jumpSpeed: 7.5
+  jumpSpeed: 6.5
   health: 0
   maxHealth: 100
 --- !u!143 &7354411244000219092

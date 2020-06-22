@@ -63,7 +63,7 @@ public class Player : MonoBehaviour
 
     private void Move ( Vector2 _inputDirection )
     {
-        Vector3 _moveDirection = transform.right * _inputDirection.x + transform.forward * _inputDirection.y;
+        Vector3 _moveDirection = (transform.right * _inputDirection.x + transform.forward * _inputDirection.y).normalized;
         _moveDirection *= moveSpeed;
 
         if ( controller.isGrounded )
