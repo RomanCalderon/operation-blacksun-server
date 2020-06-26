@@ -165,6 +165,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 2414371901970800181, guid: 66694f294f5bfca478546f89367b9710,
     type: 3}
+  m_maxPlayers: 50
+  m_port: 26951
 --- !u!4 &380976496
 Transform:
   m_ObjectHideFlags: 0
@@ -203,7 +205,7 @@ Light:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705507993}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0

@@ -8,6 +8,11 @@ public class NetworkManager : MonoBehaviour
 
     public GameObject playerPrefab;
 
+    [SerializeField]
+    private int m_maxPlayers = 50;
+    [SerializeField]
+    private int m_port = 26951;
+
     private void Awake ()
     {
         if ( instance == null )
@@ -25,7 +30,7 @@ public class NetworkManager : MonoBehaviour
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = 30;
 
-        Server.Start ( 50, 26950 );
+        Server.Start ( m_maxPlayers, m_port );
     }
 
     private void OnApplicationQuit ()
