@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ServerSend
 {
+    #region ServerSend Methods
     private static void SendTCPData ( int _toClient, Packet _packet )
     {
         _packet.WriteLength ();
@@ -57,6 +58,7 @@ public class ServerSend
             }
         }
     }
+    #endregion
 
     #region Packets
     public static void Welcome ( int _toClient, string _msg )
@@ -71,12 +73,22 @@ public class ServerSend
     }
 
     #region Player
+    public static void ConnectPlayer ( int _toClient, int _clientId, string _username )
+    {
+        using ( Packet _packet = new Packet ( ( int ) ServerPackets.playerConnected ) )
+        {
+            _packet.Write ( _clientId );
+            _packet.Write ( _username );
+
+            SendTCPData ( _toClient, _packet );
+        }
+    }
+
     public static void SpawnPlayer ( int _toClient, Player _player )
     {
         using ( Packet _packet = new Packet ( ( int ) ServerPackets.spawnPlayer ) )
         {
             _packet.Write ( _player.id );
-            _packet.Write ( _player.username );
             _packet.Write ( _player.transform.position );
             _packet.Write ( _player.transform.rotation );
 

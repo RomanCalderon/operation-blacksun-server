@@ -43,6 +43,7 @@ public class Server
         tcpListener.BeginAcceptTcpClient ( TCPConnectCallback, null );
         Debug.Log ( $"Incoming connection from {_client.Client.RemoteEndPoint}..." );
 
+        // Find an empty socket
         for ( int i = 1; i <= MaxPlayers; i++ )
         {
             if ( clients [ i ].tcp.socket == null )
@@ -127,6 +128,7 @@ public class Server
         packetHandlers = new Dictionary<int, PacketHandler> ()
         {
             { (int)ClientPackets.welcomeReceived, ServerHandle.WelcomeReceived },
+            { (int)ClientPackets.spawnPlayer, ServerHandle.SpawnPlayer },
             { (int)ClientPackets.playerMovement, ServerHandle.PlayerMovement },
             { (int)ClientPackets.playerShoot, ServerHandle.PlayerShoot }
         };

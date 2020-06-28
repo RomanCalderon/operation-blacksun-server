@@ -9,12 +9,30 @@ public class ServerHandle
         int _clientIdCheck = _packet.ReadInt ();
         string _username = _packet.ReadString ();
 
-        Debug.Log ( $"{Server.clients [ _fromClient ].tcp.socket.Client.RemoteEndPoint} connected successfully and is now player {_fromClient}." );
+        Debug.Log ( $"{Server.clients [ _fromClient ].tcp.socket.Client.RemoteEndPoint} connected successfully and is now player {_fromClient} [ {_username} ]." );
         if ( _fromClient != _clientIdCheck )
         {
             Debug.Log ( $"Player \"{_username}\" (ID: {_fromClient}) has assumed the wrong client ID ({_clientIdCheck})!" );
         }
-        Server.clients [ _fromClient ].SendIntoGame ( _username );
+
+        Server.clients [ _fromClient ].username = _username;
+        Server.clients [ _fromClient ].ConnectPlayer ();
+    }
+
+    public static void SpawnPlayer ( int _fromClient, Packet _packet )
+    {
+        int _clientIdCheck = _packet.ReadInt ();
+        string _username = _packet.ReadString ();
+
+        if ( _fromClient != _clientIdCheck )
+        {
+            Debug.Log ( $"[{_username}] (ID: {_fromClient}) has assumed the wrong client ID ({_clientIdCheck})!" );
+        }
+        else
+        {
+            Debug.Log ( $"[{_username}] (ID: {_fromClient}) has spawned." );
+            Server.clients [ _fromClient ].SendIntoGame ( _username );
+        }
     }
 
     public static void PlayerMovement ( int _fromClient, Packet _packet )

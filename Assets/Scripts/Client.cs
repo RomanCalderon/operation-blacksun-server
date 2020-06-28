@@ -10,6 +10,7 @@ public class Client
     public static int dataBufferSize = 4096;
 
     public int id;
+    public string username;
     public Player player;
     public TCP tcp;
     public UDP udp;
@@ -188,14 +189,24 @@ public class Client
         }
     }
 
-    public void SendIntoGame ( string _playerName )
+    public void ConnectPlayer ()
     {
-        player = NetworkManager.instance.InstantiatePlayer ();
-        player.Initialize ( id, _playerName );
-
+        // Send all virtual players to the new virtual player
         foreach ( Client _client in Server.clients.Values )
         {
-            if ( _client.player != null )
+            if ( !string.IsNullOrEmpty ( _client.username ) )
+            {
+                if ( _client.id != id )
+                {
+                    ServerSend.ConnectPlayer ( id, _client.id, _client.username );
+                }
+            }
+        }
+
+        // Spawn all other players to the new player
+        foreach ( Client _client in Server.clients.Values )
+        {
+            if ( !string.IsNullOrEmpty ( _client.username ) && _client.player != null )
             {
                 if ( _client.id != id )
                 {
@@ -204,23 +215,47 @@ public class Client
             }
         }
 
+        // Send the new virtual player to all virtual players (including himself)
         foreach ( Client _client in Server.clients.Values )
         {
-            if ( _client.player != null )
+            if ( !string.IsNullOrEmpty ( _client.username ) )
+            {
+                ServerSend.ConnectPlayer ( _client.id, id, username );
+            }
+        }
+    }
+
+    /// <summary>Sends the client into the game and informs other clients of the new player.</summary>
+    /// <param name="_playerName">The username of the new player.</param>
+    public void SendIntoGame ( string _playerName )
+    {
+        player = NetworkManager.instance.InstantiatePlayer ();
+        player.Initialize ( id, _playerName );
+
+        
+
+        // Spawn the new player to all players (including himself)
+        foreach ( Client _client in Server.clients.Values )
+        {
+            if ( !string.IsNullOrEmpty ( _client.username ) /*_client.player != null*/ )
             {
                 ServerSend.SpawnPlayer ( _client.id, player );
             }
         }
     }
 
+    /// <summary>Disconnects the client and stops all network traffic.</summary>
     private void Disconnect ()
     {
         Debug.Log ( $"{tcp.socket.Client.RemoteEndPoint} has disconnected." );
 
         ThreadManager.ExecuteOnMainThread ( () =>
          {
-             UnityEngine.Object.Destroy ( player.gameObject );
-             player = null;
+             if ( player != null )
+             {
+                 UnityEngine.Object.Destroy ( player.gameObject );
+                 player = null;
+             }
          } );
 
         tcp.Disconnect ();
