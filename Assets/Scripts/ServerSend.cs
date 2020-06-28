@@ -84,6 +84,17 @@ public class ServerSend
         }
     }
 
+    public static void Ping ( int _toClient, int _elapsedTime, string _serverBounceTime )
+    {
+        using ( Packet _packet = new Packet ( ( int ) ServerPackets.ping ) )
+        {
+            _packet.Write ( _elapsedTime );
+            _packet.Write ( _serverBounceTime );
+
+            SendTCPData ( _toClient, _packet );
+        }
+    }
+
     public static void SpawnPlayer ( int _toClient, Player _player )
     {
         using ( Packet _packet = new Packet ( ( int ) ServerPackets.spawnPlayer ) )
