@@ -13,6 +13,7 @@ public enum ServerPackets
     spawnPlayer,
     playerPosition,
     playerRotation,
+    playerMovementVector,
     playerDisconnected,
     playerHealth,
     playerRespawned

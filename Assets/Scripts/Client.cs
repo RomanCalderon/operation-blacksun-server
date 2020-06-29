@@ -232,8 +232,6 @@ public class Client
         player = NetworkManager.instance.InstantiatePlayer ();
         player.Initialize ( id, _playerName );
 
-        
-
         // Spawn the new player to all players (including himself)
         foreach ( Client _client in Server.clients.Values )
         {

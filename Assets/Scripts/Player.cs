@@ -2,58 +2,73 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent ( typeof ( CharacterController ) )]
 public class Player : MonoBehaviour
 {
-    public int id;
-    public string username;
-    public CharacterController controller;
-    public Transform shootOrigin;
-    public float gravity = -9.81f;
-    public float moveSpeed = 5f;
-    public float jumpSpeed = 5f;
-    public float health;
-    public float maxHealth = 100f;
+    public int Id { get; private set; }
+    public string Username { get; private set; }
 
-    private bool [] inputs;
-    private float yVelocity = 0;
+    private CharacterController m_controller;
+    [SerializeField]
+    private Rigidbody m_rigidbody = null;
+    [SerializeField]
+    private Transform m_shootOrigin = null;
+    [SerializeField]
+    private float m_gravity = -22f;
+    [SerializeField]
+    private float m_moveSpeed = 4f;
+    [SerializeField]
+    private float m_jumpSpeed = 6.5f;
+    [SerializeField]
+    private float m_maxHealth = 100f;
+    public float Health { get; private set; }
+    private bool [] m_inputs;
+    private float m_yVelocity = 0;
+
+
+    private void Awake ()
+    {
+        m_controller = GetComponent<CharacterController> ();
+        m_rigidbody = GetComponent<Rigidbody> ();
+    }
 
     private void Start ()
     {
-        gravity *= Time.fixedDeltaTime * Time.fixedDeltaTime;
-        moveSpeed *= Time.fixedDeltaTime;
-        jumpSpeed *= Time.fixedDeltaTime;
+        m_gravity *= Time.fixedDeltaTime * Time.fixedDeltaTime;
+        m_moveSpeed *= Time.fixedDeltaTime;
+        m_jumpSpeed *= Time.fixedDeltaTime;
     }
 
     public void Initialize ( int _id, string _username )
     {
-        id = _id;
-        username = _username;
-        health = maxHealth;
+        Id = _id;
+        Username = _username;
+        Health = m_maxHealth;
 
-        inputs = new bool [ 5 ];
+        m_inputs = new bool [ 5 ];
     }
 
     public void FixedUpdate ()
     {
-        if ( health <= 0f )
+        if ( Health <= 0f )
         {
             return;
         }
 
         Vector2 _inputDirection = Vector2.zero;
-        if ( inputs [ 0 ] )
+        if ( m_inputs [ 0 ] )
         {
             _inputDirection.y += 1;
         }
-        if ( inputs [ 1 ] )
+        if ( m_inputs [ 1 ] )
         {
             _inputDirection.y -= 1;
         }
-        if ( inputs [ 2 ] )
+        if ( m_inputs [ 2 ] )
         {
             _inputDirection.x -= 1;
         }
-        if ( inputs [ 3 ] )
+        if ( m_inputs [ 3 ] )
         {
             _inputDirection.x += 1;
         }
@@ -63,35 +78,36 @@ public class Player : MonoBehaviour
 
     private void Move ( Vector2 _inputDirection )
     {
-        Vector3 _moveDirection = (transform.right * _inputDirection.x + transform.forward * _inputDirection.y).normalized;
-        _moveDirection *= moveSpeed;
+        Vector3 _moveDirection = ( transform.right * _inputDirection.x + transform.forward * _inputDirection.y ).normalized;
+        _moveDirection *= m_moveSpeed;
 
-        if ( controller.isGrounded )
+        if ( m_controller.isGrounded )
         {
-            yVelocity = 0f;
-            if ( inputs [ 4 ] )
+            m_yVelocity = 0f;
+            if ( m_inputs [ 4 ] )
             {
-                yVelocity = jumpSpeed;
+                m_yVelocity = m_jumpSpeed;
             }
         }
-        yVelocity += gravity;
+        m_yVelocity += m_gravity;
 
-        _moveDirection.y = yVelocity;
-        controller.Move ( _moveDirection );
+        _moveDirection.y = m_yVelocity;
+        m_controller.Move ( _moveDirection );
 
         ServerSend.PlayerPosition ( this );
         ServerSend.PlayerRotation ( this );
+        ServerSend.PlayerMovementVector ( this, _inputDirection );
     }
 
     public void SetInput ( bool [] _inputs, Quaternion _rotation )
     {
-        inputs = _inputs;
+        m_inputs = _inputs;
         transform.rotation = _rotation;
     }
 
     public void Shoot ( Vector3 _viewDirection )
     {
-        if ( Physics.Raycast ( shootOrigin.position, _viewDirection, out RaycastHit _hit, 25f ) )
+        if ( Physics.Raycast ( m_shootOrigin.position, _viewDirection, out RaycastHit _hit, 25f ) )
         {
             if ( _hit.collider.CompareTag ( "Player" ) )
             {
@@ -102,16 +118,16 @@ public class Player : MonoBehaviour
 
     public void TakeDamage ( float _damage )
     {
-        if ( health <= 0f )
+        if ( Health <= 0f )
         {
             return;
         }
 
-        health -= _damage;
-        if ( health <= 0 )
+        Health -= _damage;
+        if ( Health <= 0 )
         {
-            health = 0f;
-            controller.enabled = false;
+            Health = 0f;
+            m_controller.enabled = false;
             transform.position = new Vector3 ( 0f, 25f, 0f );
             ServerSend.PlayerPosition ( this );
             StartCoroutine ( Respawn () );
@@ -124,8 +140,8 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds ( Constants.PLAYER_RESPAWN_DELAY );
 
-        health = maxHealth;
-        controller.enabled = true;
+        Health = m_maxHealth;
+        m_controller.enabled = true;
         ServerSend.PlayerRespawned ( this );
     }
 }
