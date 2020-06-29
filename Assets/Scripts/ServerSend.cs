@@ -99,7 +99,7 @@ public class ServerSend
     {
         using ( Packet _packet = new Packet ( ( int ) ServerPackets.spawnPlayer ) )
         {
-            _packet.Write ( _player.id );
+            _packet.Write ( _player.Id );
             _packet.Write ( _player.transform.position );
             _packet.Write ( _player.transform.rotation );
 
@@ -111,7 +111,7 @@ public class ServerSend
     {
         using ( Packet _packet = new Packet ( ( int ) ServerPackets.playerPosition ) )
         {
-            _packet.Write ( _player.id );
+            _packet.Write ( _player.Id );
             _packet.Write ( _player.transform.position );
 
             SendUDPDataToAll ( _packet );
@@ -122,10 +122,22 @@ public class ServerSend
     {
         using ( Packet _packet = new Packet ( ( int ) ServerPackets.playerRotation ) )
         {
-            _packet.Write ( _player.id );
+            _packet.Write ( _player.Id );
             _packet.Write ( _player.transform.rotation );
 
-            SendUDPDataToAll ( _player.id, _packet );
+            SendUDPDataToAll ( _player.Id, _packet );
+        }
+    }
+
+    public static void PlayerMovementVector ( Player _player, Vector2 _movement )
+    {
+        using ( Packet _packet = new Packet ( ( int ) ServerPackets.playerMovementVector ) )
+        {
+            _packet.Write ( _player.Id );
+            _packet.Write ( _movement.x );
+            _packet.Write ( _movement.y );
+
+            SendUDPDataToAll ( _player.Id, _packet );
         }
     }
 
@@ -143,8 +155,8 @@ public class ServerSend
     {
         using ( Packet _packet = new Packet ( ( int ) ServerPackets.playerHealth ) )
         {
-            _packet.Write ( _player.id );
-            _packet.Write ( _player.health );
+            _packet.Write ( _player.Id );
+            _packet.Write ( _player.Health );
 
             SendTCPDataToAll ( _packet );
         }
@@ -154,7 +166,7 @@ public class ServerSend
     {
         using ( Packet _packet = new Packet ( ( int ) ServerPackets.playerRespawned ) )
         {
-            _packet.Write ( _player.id );
+            _packet.Write ( _player.Id );
 
             SendTCPDataToAll ( _packet );
         }

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1865876460998233276}
   - component: {fileID: 5309489249902899617}
   - component: {fileID: 7354411244000219092}
+  - component: {fileID: -5864948486563278260}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -46,15 +47,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df86078137996fc4c8cc21306656f490, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
-  username: 
-  controller: {fileID: 7354411244000219092}
-  shootOrigin: {fileID: 1074138538965056323}
-  gravity: -22
-  moveSpeed: 4
-  jumpSpeed: 6.5
-  health: 0
-  maxHealth: 100
+  m_shootOrigin: {fileID: 1074138538965056323}
+  m_gravity: -22
+  m_moveSpeed: 4
+  m_jumpSpeed: 5
+  m_maxHealth: 100
 --- !u!143 &7354411244000219092
 CharacterController:
   m_ObjectHideFlags: 0
@@ -73,6 +70,22 @@ CharacterController:
   m_SkinWidth: 0.01
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &-5864948486563278260
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2414371901970800181}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &4536952128417070343
 GameObject:
   m_ObjectHideFlags: 0
