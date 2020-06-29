@@ -237,7 +237,7 @@ public class Client
         // Spawn the new player to all players (including himself)
         foreach ( Client _client in Server.clients.Values )
         {
-            if ( !string.IsNullOrEmpty ( _client.username ) /*_client.player != null*/ )
+            if ( !string.IsNullOrEmpty ( _client.username ) )
             {
                 ServerSend.SpawnPlayer ( _client.id, player );
             }
