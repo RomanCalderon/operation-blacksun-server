@@ -14,7 +14,7 @@ public class ServerHandle
         Debug.Log ( $"{Server.clients [ _fromClient ].tcp.socket.Client.RemoteEndPoint} connected successfully and is now player {_fromClient} [ {_username} ]." );
         if ( _fromClient != _clientIdCheck )
         {
-            Debug.Log ( $"Player \"{_username}\" (ID: {_fromClient}) has assumed the wrong client ID ({_clientIdCheck})!" );
+            Debug.Log ( $"[{_username}][{_fromClient}] has assumed the wrong client ID ({_clientIdCheck})!" );
         }
 
         Server.clients [ _fromClient ].username = _username;
@@ -39,11 +39,11 @@ public class ServerHandle
 
         if ( _fromClient != _clientIdCheck )
         {
-            Debug.Log ( $"[{_username}] (ID: {_fromClient}) has assumed the wrong client ID ({_clientIdCheck})!" );
+            Debug.Log ( $"[{_username}][{_fromClient}] has assumed the wrong client ID ({_clientIdCheck})!" );
         }
         else
         {
-            Debug.Log ( $"[{_username}] (ID: {_fromClient}) has spawned." );
+            Debug.Log ( $"[{_username}][{_fromClient}] has spawned." );
             Server.clients [ _fromClient ].SendIntoGame ( _username );
         }
     }
