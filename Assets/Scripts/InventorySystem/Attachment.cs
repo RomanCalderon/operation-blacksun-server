@@ -5,20 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-/// <summary>
-/// A PlayerItem which defines the properties of an attachment.
-/// </summary>
-[CreateAssetMenu(fileName = "New Attachment", menuName = "ScriptableObjects/PlayerItems/Attachment", order = 2)]
-class Attachment : PlayerItem
+namespace Assets.Scripts.InventorySystem
 {
-    public enum AttachmentTypes
-    {
-        Sight,
-        Stock
-    }
-
     /// <summary>
-    /// The type of attachment.
+    /// A PlayerItem which defines the properties of an attachment.
     /// </summary>
-    public AttachmentTypes AttachmentType;
+    public class Attachment : PlayerItem
+    {
+    }
 }

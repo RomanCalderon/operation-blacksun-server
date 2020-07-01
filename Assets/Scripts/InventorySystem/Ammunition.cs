@@ -5,32 +5,36 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-/// <summary>
-/// A PlayerItem which defines the properties of an ammunition type.
-/// </summary>
-[CreateAssetMenu(fileName = "New Ammunition", menuName = "ScriptableObjects/PlayerItems/Ammunition", order = 3)]
-class Ammunition : PlayerItem
+namespace Assets.Scripts.InventorySystem
 {
-    public enum AmmunitionTypes
-    {
-        /// <summary>SMG, Pistol</summary>
-        B_9MM,
-        /// <summary>SMG, Pistol</summary>
-        C_ACP,
-        /// <summary>Rifle</summary>
-        A_556,
-        /// <summary>Rifle</summary>
-        E_AAC,
-        /// <summary>Shotgun</summary>
-        D_Boar75,
-        /// <summary>Sniper</summary>
-        F_Carbon3,
-        /// <summary>Sniper</summary>
-        G_Vanquisher 
-    }
-
     /// <summary>
-    /// The type of ammo.
+    /// A PlayerItem which defines the properties of an ammunition type.
     /// </summary>
-    public AmmunitionTypes AmmunitionType;
+    [CreateAssetMenu ( fileName = "New Ammunition", menuName = "PlayerItems/Ammunition", order = 3 )]
+    public class Ammunition : PlayerItem
+    {
+        public enum Calibers
+        {
+            /// <summary>SMG, Pistol</summary>
+            Wilson_9MM,
+            /// <summary>SMG, Pistol</summary>
+            ACP_Ultra,
+            /// <summary>Rifle</summary>
+            NATO_556,
+            /// <summary>Rifle</summary>
+            AAC,
+            /// <summary>Shotgun</summary>
+            G12,
+            /// <summary>Shotgun</summary>
+            Boar_75,
+            /// <summary>Sniper</summary>
+            C3,
+            /// <summary>Sniper</summary>
+            Vanquisher
+        }
+
+        [Header ( "Ammo" )]
+        [Tooltip ( "This ammunition's caliber." )]
+        public Calibers Caliber;
+    }
 }
