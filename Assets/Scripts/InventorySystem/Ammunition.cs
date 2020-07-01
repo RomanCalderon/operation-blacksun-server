@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
+/// <summary>
+/// A PlayerItem which defines the properties of an ammunition type.
+/// </summary>
 [CreateAssetMenu(fileName = "New Ammunition", menuName = "ScriptableObjects/PlayerItems/Ammunition", order = 3)]
 class Ammunition : PlayerItem
 {
@@ -26,5 +29,8 @@ class Ammunition : PlayerItem
         G_Vanquisher 
     }
 
+    /// <summary>
+    /// The type of ammo.
+    /// </summary>
     public AmmunitionTypes AmmunitionType;
 }
