@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+﻿using UnityEngine;
 using InventorySystem.PlayerItems;
-using UnityEngine;
 
 namespace InventorySystem.Slots
 {
@@ -278,7 +275,6 @@ namespace InventorySystem.Slots
         #endregion
         #endregion
 
-
         #region Models
 
         public class InsertionResult
@@ -311,9 +307,9 @@ namespace InventorySystem.Slots
             {
                 if ( Result == Results.OVERFLOW )
                 {
-                    return $"Slot InsertionResult: Result [{Result}] OverflowAmount [{OverflowAmount}]";
+                    return $"InsertionResult [{Result}] OverflowAmount [{OverflowAmount}]";
                 }
-                return $"Slot InsertionResult: Result [{Result}]";
+                return $"InsertionResult [{Result}]";
             }
         }
 
@@ -361,14 +357,12 @@ namespace InventorySystem.Slots
             {
                 if ( Result == Results.SUCCESS )
                 {
-                    return $"Slot RemovalResult: Result [{Result}] Removed [{Contents.Name}] RemoveAmount [{RemoveAmount}]";
+                    return $"RemovalResult [{Result}] Removed [{Contents.Name}] RemoveAmount [{RemoveAmount}]";
                 }
-                return $"Slot RemovalResult: Result [{Result}]";
+                return $"RemovalResult [{Result}]";
             }
         }
 
         #endregion
     }
-
-
 }

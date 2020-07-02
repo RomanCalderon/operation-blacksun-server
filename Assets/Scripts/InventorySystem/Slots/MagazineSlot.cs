@@ -2,36 +2,36 @@
 
 namespace InventorySystem.Slots
 {
-    public class AttachmentSlot : Slot
+    public class MagazineSlot : AttachmentSlot
     {
         #region Constructors
 
-        public AttachmentSlot ()
+        public MagazineSlot ()
         {
             PlayerItem = null;
         }
 
-        public AttachmentSlot ( Attachment attachment )
+        public MagazineSlot ( Magazine magazine )
         {
-            PlayerItem = attachment;
+            PlayerItem = magazine;
         }
 
         #endregion
 
         /// <summary>
-        /// Inserts <paramref name="attachment"/> into this Slot.
+        /// Inserts <paramref name="magazine"/> into this Slot.
         /// </summary>
-        /// <param name="attachment">The Attachment to be inserted into this Slot.</param>
+        /// <param name="magazine">The Magazine to be inserted into this Slot.</param>
         /// <returns>Returns a SlotInsertionResult.</returns>
-        public override InsertionResult Insert ( PlayerItem attachment )
+        public override InsertionResult Insert ( PlayerItem magazine )
         {
-            if ( !IsValidPlayerItem ( attachment ) )
+            if ( !IsValidPlayerItem ( magazine ) )
             {
                 return new InsertionResult ( InsertionResult.Results.INVALID_TYPE );
             }
             if ( IsEmpty () )
             {
-                return base.Insert ( attachment );
+                return base.Insert ( magazine );
             }
             return new InsertionResult ( InsertionResult.Results.SLOT_FULL );
         }
@@ -42,18 +42,18 @@ namespace InventorySystem.Slots
             {
                 return false;
             }
-            return playerItem is Attachment;
+            return playerItem is Magazine;
         }
 
         public override string ToString ()
         {
             if ( PlayerItem != null )
             {
-                return $"Attachment Slot - {PlayerItem.Name}";
+                return $"Attachment Slot (Magazine) - {PlayerItem.Name}";
             }
             else
             {
-                return "Attachment Slot - Empty";
+                return "Attachment Slot (Magazine) - Empty";
             }
         }
     }

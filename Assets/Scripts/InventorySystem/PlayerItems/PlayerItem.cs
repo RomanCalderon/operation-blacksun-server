@@ -31,5 +31,10 @@ namespace InventorySystem.PlayerItems
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode ( Name );
             return hashCode;
         }
+
+        public override string ToString ()
+        {
+            return Name;
+        }
     }
 }

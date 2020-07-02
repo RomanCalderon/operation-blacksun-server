@@ -2,36 +2,36 @@
 
 namespace InventorySystem.Slots
 {
-    public class AttachmentSlot : Slot
+    public class SightSlot : AttachmentSlot
     {
         #region Constructors
 
-        public AttachmentSlot ()
+        public SightSlot ()
         {
             PlayerItem = null;
         }
 
-        public AttachmentSlot ( Attachment attachment )
+        public SightSlot ( Sight sight )
         {
-            PlayerItem = attachment;
+            PlayerItem = sight;
         }
 
         #endregion
 
         /// <summary>
-        /// Inserts <paramref name="attachment"/> into this Slot.
+        /// Inserts <paramref name="sight"/> into this Slot.
         /// </summary>
-        /// <param name="attachment">The Attachment to be inserted into this Slot.</param>
+        /// <param name="sight">The Sight to be inserted into this Slot.</param>
         /// <returns>Returns a SlotInsertionResult.</returns>
-        public override InsertionResult Insert ( PlayerItem attachment )
+        public override InsertionResult Insert ( PlayerItem sight )
         {
-            if ( !IsValidPlayerItem ( attachment ) )
+            if ( !IsValidPlayerItem ( sight ) )
             {
                 return new InsertionResult ( InsertionResult.Results.INVALID_TYPE );
             }
             if ( IsEmpty () )
             {
-                return base.Insert ( attachment );
+                return base.Insert ( sight );
             }
             return new InsertionResult ( InsertionResult.Results.SLOT_FULL );
         }
@@ -42,18 +42,18 @@ namespace InventorySystem.Slots
             {
                 return false;
             }
-            return playerItem is Attachment;
+            return playerItem is Sight;
         }
 
         public override string ToString ()
         {
             if ( PlayerItem != null )
             {
-                return $"Attachment Slot - {PlayerItem.Name}";
+                return $"Attachment Slot (Sight) - {PlayerItem.Name}";
             }
             else
             {
-                return "Attachment Slot - Empty";
+                return "Attachment Slot (Sight) - Empty";
             }
         }
     }

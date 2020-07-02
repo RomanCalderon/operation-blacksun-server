@@ -2,36 +2,36 @@
 
 namespace InventorySystem.Slots
 {
-    public class AttachmentSlot : Slot
+    public class BarrelSlot : AttachmentSlot
     {
         #region Constructors
 
-        public AttachmentSlot ()
+        public BarrelSlot ()
         {
             PlayerItem = null;
         }
 
-        public AttachmentSlot ( Attachment attachment )
+        public BarrelSlot ( Barrel barrel )
         {
-            PlayerItem = attachment;
+            PlayerItem = barrel;
         }
 
         #endregion
 
         /// <summary>
-        /// Inserts <paramref name="attachment"/> into this Slot.
+        /// Inserts <paramref name="barrel"/> into this Slot.
         /// </summary>
-        /// <param name="attachment">The Attachment to be inserted into this Slot.</param>
+        /// <param name="barrel">The Barrel to be inserted into this Slot.</param>
         /// <returns>Returns a SlotInsertionResult.</returns>
-        public override InsertionResult Insert ( PlayerItem attachment )
+        public override InsertionResult Insert ( PlayerItem barrel )
         {
-            if ( !IsValidPlayerItem ( attachment ) )
+            if ( !IsValidPlayerItem ( barrel ) )
             {
                 return new InsertionResult ( InsertionResult.Results.INVALID_TYPE );
             }
             if ( IsEmpty () )
             {
-                return base.Insert ( attachment );
+                return base.Insert ( barrel );
             }
             return new InsertionResult ( InsertionResult.Results.SLOT_FULL );
         }
@@ -42,18 +42,18 @@ namespace InventorySystem.Slots
             {
                 return false;
             }
-            return playerItem is Attachment;
+            return playerItem is Barrel;
         }
 
         public override string ToString ()
         {
             if ( PlayerItem != null )
             {
-                return $"Attachment Slot - {PlayerItem.Name}";
+                return $"Attachment Slot (Barrel) - {PlayerItem.Name}";
             }
             else
             {
-                return "Attachment Slot - Empty";
+                return "Attachment Slot (Barrel) - Empty";
             }
         }
     }

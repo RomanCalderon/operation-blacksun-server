@@ -4,32 +4,16 @@ namespace InventorySystem.Slots
 {
     public class WeaponSlot : Slot
     {
-        public override PlayerItem PlayerItem
-        {
-            get;
-            protected set;
-        }
-
-        protected override bool IsStackable
-        {
-            get;
-            set;
-        }
-
         #region Constructors
 
         public WeaponSlot ()
         {
             PlayerItem = null;
-            IsStackable = false;
-            StackSize = 0;
         }
 
         public WeaponSlot ( Weapon weapon )
         {
             PlayerItem = weapon;
-            IsStackable = false;
-            StackSize = 0;
         }
 
         #endregion

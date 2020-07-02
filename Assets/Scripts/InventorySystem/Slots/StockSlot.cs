@@ -2,36 +2,36 @@
 
 namespace InventorySystem.Slots
 {
-    public class AttachmentSlot : Slot
+    public class StockSlot : AttachmentSlot
     {
         #region Constructors
 
-        public AttachmentSlot ()
+        public StockSlot ()
         {
             PlayerItem = null;
         }
 
-        public AttachmentSlot ( Attachment attachment )
+        public StockSlot ( Stock stock )
         {
-            PlayerItem = attachment;
+            PlayerItem = stock;
         }
 
         #endregion
 
         /// <summary>
-        /// Inserts <paramref name="attachment"/> into this Slot.
+        /// Inserts <paramref name="stock"/> into this Slot.
         /// </summary>
-        /// <param name="attachment">The Attachment to be inserted into this Slot.</param>
+        /// <param name="stock">The Stock to be inserted into this Slot.</param>
         /// <returns>Returns a SlotInsertionResult.</returns>
-        public override InsertionResult Insert ( PlayerItem attachment )
+        public override InsertionResult Insert ( PlayerItem stock )
         {
-            if ( !IsValidPlayerItem ( attachment ) )
+            if ( !IsValidPlayerItem ( stock ) )
             {
                 return new InsertionResult ( InsertionResult.Results.INVALID_TYPE );
             }
             if ( IsEmpty () )
             {
-                return base.Insert ( attachment );
+                return base.Insert ( stock );
             }
             return new InsertionResult ( InsertionResult.Results.SLOT_FULL );
         }
@@ -42,18 +42,18 @@ namespace InventorySystem.Slots
             {
                 return false;
             }
-            return playerItem is Attachment;
+            return playerItem is Stock;
         }
 
         public override string ToString ()
         {
             if ( PlayerItem != null )
             {
-                return $"Attachment Slot - {PlayerItem.Name}";
+                return $"Attachment Slot (Stock) - {PlayerItem.Name}";
             }
             else
             {
-                return "Attachment Slot - Empty";
+                return "Attachment Slot (Stock) - Empty";
             }
         }
     }
