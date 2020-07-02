@@ -74,7 +74,12 @@ namespace InventorySystem.Slots
         /// <returns>Returns a SlotInsertionResult.</returns>
         public virtual InsertionResult Insert ( PlayerItem playerItem, int quantity )
         {
-            if ( playerItem == null || quantity <= 0 ) // playerItem is null or quantity is invalid
+            if ( !IsValidPlayerItem ( playerItem ) ) // Check if playerItem type is valid
+            {
+                // Return an error SlotInsertionResult
+                return new InsertionResult ( InsertionResult.Results.INVALID_TYPE );
+            }
+            if ( quantity <= 0 ) // Check if quantity value is valid
             {
                 // Return an error SlotInsertionResult
                 return new InsertionResult ( InsertionResult.Results.INSERTION_FAILED );
@@ -193,7 +198,7 @@ namespace InventorySystem.Slots
             }
             return new RemovalResult ( this, contents, removeAmount, RemovalResult.Results.SUCCESS );
         }
-        
+
         /// <summary>
         /// Indicates whether this Slot can allow <paramref name="playerItem"/>.
         /// </summary>
@@ -235,6 +240,15 @@ namespace InventorySystem.Slots
         public bool IsEmpty ()
         {
             return PlayerItem == null;
+        }
+        
+        protected virtual bool IsValidPlayerItem ( PlayerItem playerItem )
+        {
+            if ( playerItem == null )
+            {
+                return false;
+            }
+            return playerItem.GetType () != typeof ( Weapon );
         }
 
         /// <summary>

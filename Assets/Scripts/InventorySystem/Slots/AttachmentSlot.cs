@@ -2,7 +2,7 @@
 
 namespace InventorySystem.Slots
 {
-    public class WeaponSlot : Slot
+    public class AttachmentSlot : Slot
     {
         public override PlayerItem PlayerItem
         {
@@ -18,16 +18,16 @@ namespace InventorySystem.Slots
 
         #region Constructors
 
-        public WeaponSlot ()
+        public AttachmentSlot ()
         {
             PlayerItem = null;
             IsStackable = false;
             StackSize = 0;
         }
 
-        public WeaponSlot ( Weapon weapon )
+        public AttachmentSlot ( Attachment attachment )
         {
-            PlayerItem = weapon;
+            PlayerItem = attachment;
             IsStackable = false;
             StackSize = 0;
         }
@@ -35,19 +35,19 @@ namespace InventorySystem.Slots
         #endregion
 
         /// <summary>
-        /// Inserts <paramref name="weapon"/> into this Slot.
+        /// Inserts <paramref name="attachment"/> into this Slot.
         /// </summary>
-        /// <param name="weapon">The Weapon to be inserted into this Slot.</param>
+        /// <param name="attachment">The Attachment to be inserted into this Slot.</param>
         /// <returns>Returns a SlotInsertionResult.</returns>
-        public override InsertionResult Insert ( PlayerItem weapon )
+        public override InsertionResult Insert ( PlayerItem attachment )
         {
-            if ( !IsValidPlayerItem ( weapon ) )
+            if ( !IsValidPlayerItem ( attachment ) )
             {
                 return new InsertionResult ( InsertionResult.Results.INVALID_TYPE );
             }
             if ( IsEmpty () )
             {
-                return base.Insert ( weapon );
+                return base.Insert ( attachment );
             }
             return new InsertionResult ( InsertionResult.Results.SLOT_FULL );
         }
@@ -58,18 +58,18 @@ namespace InventorySystem.Slots
             {
                 return false;
             }
-            return playerItem.GetType () == typeof ( Weapon );
+            return playerItem is Attachment;
         }
 
         public override string ToString ()
         {
             if ( PlayerItem != null )
             {
-                return $"Weapon Slot - {PlayerItem.Name}";
+                return $"Attachment Slot - {PlayerItem.Name}";
             }
             else
             {
-                return "Weapon Slot - Empty";
+                return "Attachment Slot - Empty";
             }
         }
     }

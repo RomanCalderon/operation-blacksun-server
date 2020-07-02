@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: IronSights
   m_EditorClassIdentifier: 
   Id: 0
-  Name: 
-  StackSize: 1
+  Name: Ironsights
+  StackLimit: 1
   SightZoomStrength: 1
   PlayerZoomModifier: 1

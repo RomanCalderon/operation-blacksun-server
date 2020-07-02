@@ -147,11 +147,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 127369257}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0baf01e01110e734794dd33adbf56a7e, type: 3}
+  m_Script: {fileID: 11500000, guid: 2e10f1e2b445d3f429408c68cc5565f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_primaryWeapon: {fileID: 11400000, guid: 61109460dffeeaf469dddce79743a4bd, type: 2}
-  m_playerItem: {fileID: 11400000, guid: 789102ec94fcff24a8a50ea4dff6741a, type: 2}
+  m_weapon: {fileID: 11400000, guid: 61109460dffeeaf469dddce79743a4bd, type: 2}
+  m_attachment: {fileID: 11400000, guid: 2652fc1c0983b1943a7dd5526d80cd84, type: 2}
+  m_playerItem: {fileID: 11400000, guid: 74dfd6db20ba2e0489b00e96408e9592, type: 2}
 --- !u!4 &127369259
 Transform:
   m_ObjectHideFlags: 0
