@@ -5,14 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Assets.Scripts.InventorySystem
+namespace InventorySystem.PlayerItems
 {
-    [CreateAssetMenu ( fileName = "New Magazine", menuName = "PlayerItems/Attachments/Magazine", order = 1 )]
+    [CreateAssetMenu ( fileName = "New Magazine", menuName = "PlayerItems/Attachments/Magazine", order = 2 )]
     public class Magazine : Attachment
     {
-        [Header ( "Magazine" ), Min ( 0 )]
-        [Tooltip ( "The maximum amount of rounds this magazine can contain." )]
-        public int AmmoCapacity = 5;
+        [Header ( "Magazine" )]
+        [Tooltip ( "The maximum amount of rounds this magazine can contain." ), Min ( 0 )]
+        public int AmmoCapacity = 18;
         [Tooltip ( "The ammo caliber that this magazine is compatible with." )]
         public Ammunition.Calibers CompatibleAmmoCaliber;
     }

@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Assets.Scripts.InventorySystem
+namespace InventorySystem.PlayerItems
 {
-    [CreateAssetMenu ( fileName = "New Sight", menuName = "PlayerItems/Attachments/Sight", order = 2 )]
+    [CreateAssetMenu ( fileName = "New Sight", menuName = "PlayerItems/Attachments/Sight", order = 3 )]
     public class Sight : Attachment
     {
         [Header ( "Sight" )]

@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Assets.Scripts.InventorySystem
+namespace InventorySystem.PlayerItems
 {
-    [CreateAssetMenu ( fileName = "New Stock", menuName = "PlayerItems/Attachments/Stock", order = 3 )]
+    [CreateAssetMenu ( fileName = "New Stock", menuName = "PlayerItems/Attachments/Stock", order = 4 )]
     public class Stock : Attachment
     {
         [Header ( "Stock" )]

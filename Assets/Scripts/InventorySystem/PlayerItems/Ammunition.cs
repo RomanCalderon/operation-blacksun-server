@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Assets.Scripts.InventorySystem
+namespace InventorySystem.PlayerItems
 {
     /// <summary>
     /// A PlayerItem which defines the properties of an ammunition type.

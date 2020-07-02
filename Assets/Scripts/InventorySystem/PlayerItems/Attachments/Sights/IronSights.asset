@@ -9,10 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e66470dc60963cf4e8a9c0b8695f40b5, type: 3}
-  m_Name: 12Gauge
+  m_Script: {fileID: 11500000, guid: 79c3726c8396921478c9fec60b078d78, type: 3}
+  m_Name: IronSights
   m_EditorClassIdentifier: 
-  Id: 4
-  Name: 12 Gauge
+  Id: 0
+  Name: 
   StackSize: 1
-  Caliber: 4
+  SightZoomStrength: 1
+  PlayerZoomModifier: 1

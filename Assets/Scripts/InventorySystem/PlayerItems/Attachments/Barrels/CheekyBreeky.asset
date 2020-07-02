@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e66470dc60963cf4e8a9c0b8695f40b5, type: 3}
-  m_Name: 12Gauge
+  m_Script: {fileID: 11500000, guid: 02a387576f9ca3c4fbdeaf2329bbc068, type: 3}
+  m_Name: CheekyBreeky
   m_EditorClassIdentifier: 
-  Id: 4
-  Name: 12 Gauge
+  Id: 0
+  Name: Cheeky Breeky Comp
   StackSize: 1
-  Caliber: 4
+  BarrelType: 0

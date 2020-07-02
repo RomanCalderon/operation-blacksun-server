@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts.InventorySystem
+namespace InventorySystem.PlayerItems
 {
     /// <summary>
     /// The base class for constructing a PlayerItem ScriptableObject.
@@ -14,7 +14,7 @@ namespace Assets.Scripts.InventorySystem
         public int Id;
         [Tooltip ( "The name of this PlayerItem." )]
         public string Name = string.Empty;
-        [Tooltip ( "The maximum stacking capacity." ), Range (1, 256)]
+        [Tooltip ( "The maximum stacking capacity." ), Range ( 1, 256 )]
         public int StackSize = 1;
     }
 }
