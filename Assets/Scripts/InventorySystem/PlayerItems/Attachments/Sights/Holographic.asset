@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 1
   Name: Holographic
-  StackSize: 1
-  SightZoomStrength: 3
+  StackLimit: 1
+  SightZoomStrength: 1
   PlayerZoomModifier: 1.5

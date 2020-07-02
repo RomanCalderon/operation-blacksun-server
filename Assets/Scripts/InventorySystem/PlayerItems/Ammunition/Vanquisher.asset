@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 7
   Name: Vanquisher
-  MaxStackCapacity: 24
+  StackLimit: 24
   Caliber: 7

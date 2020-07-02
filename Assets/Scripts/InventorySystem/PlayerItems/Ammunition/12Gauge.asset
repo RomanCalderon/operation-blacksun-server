@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 4
   Name: 12 Gauge
-  StackSize: 1
+  StackLimit: 32
   Caliber: 4

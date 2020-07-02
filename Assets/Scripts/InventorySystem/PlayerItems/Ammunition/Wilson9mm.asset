@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 0
   Name: Wilson 9mm
-  MaxStackCapacity: 128
+  StackLimit: 256
   Caliber: 0

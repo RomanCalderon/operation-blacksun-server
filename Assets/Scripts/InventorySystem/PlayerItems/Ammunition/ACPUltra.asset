@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 1
   Name: ACP Ultra
-  MaxStackCapacity: 128
+  StackLimit: 256
   Caliber: 1

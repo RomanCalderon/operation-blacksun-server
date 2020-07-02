@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 2
   Name: 5.56 NATO
-  MaxStackCapacity: 128
+  StackLimit: 256
   Caliber: 2

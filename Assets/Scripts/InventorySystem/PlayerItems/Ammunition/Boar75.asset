@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 5
   Name: Boar 75
-  MaxStackCapacity: 32
+  StackLimit: 32
   Caliber: 5

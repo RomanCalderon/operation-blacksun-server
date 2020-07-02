@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b7b58d9153b0d743894e79d0f2c288b, type: 3}
-  m_Name: SMG-45
+  m_Name: P2020
   m_EditorClassIdentifier: 
-  Id: 0
-  Name: SMG-45
+  Id: 1
+  Name: P2020
   MaxStackSize: 1
-  WeaponType: 0
-  WeaponClass: 1
-  Caliber: 1
-  BaseDamage: 20
-  FireRate: 0.2
-  Magazine: {fileID: 11400000, guid: bbf7f2c1a34a25c408f59e077f77c0f9, type: 2}
+  WeaponType: 1
+  WeaponClass: 3
+  Caliber: 0
+  BaseDamage: 18
+  FireRate: 0.3
+  Magazine: {fileID: 0}

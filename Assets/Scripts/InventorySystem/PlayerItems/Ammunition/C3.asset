@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 6
   Name: C3
-  MaxStackCapacity: 32
+  StackLimit: 32
   Caliber: 6

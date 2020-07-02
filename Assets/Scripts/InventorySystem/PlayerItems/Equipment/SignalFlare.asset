@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 2
   Name: Signal Flare
+  StackLimit: 6
   EquipmentType: 1
