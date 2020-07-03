@@ -130,30 +130,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 127369259}
-  - component: {fileID: 127369258}
   m_Layer: 0
-  m_Name: Slots Test
+  m_Name: Inventory Test
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &127369258
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 127369257}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e10f1e2b445d3f429408c68cc5565f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_weapon: {fileID: 11400000, guid: 61109460dffeeaf469dddce79743a4bd, type: 2}
-  m_attachment: {fileID: 11400000, guid: 7d358ddffe23ab54482e5421910e4b56, type: 2}
-  m_playerItem: {fileID: 11400000, guid: 74dfd6db20ba2e0489b00e96408e9592, type: 2}
-  m_barrel: {fileID: 11400000, guid: 3900433c2cd9f6f45952cba95398c005, type: 2}
 --- !u!4 &127369259
 Transform:
   m_ObjectHideFlags: 0
