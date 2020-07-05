@@ -9,11 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 958620153157f5b4fb6d0efcb374bf3f, type: 3}
-  m_Name: Mag1
+  m_Script: {fileID: 11500000, guid: 02a387576f9ca3c4fbdeaf2329bbc068, type: 3}
+  m_Name: Silencer
   m_EditorClassIdentifier: 
-  Id: 0
-  Name: Mag1
-  StackSize: 1
-  AmmoCapacity: 30
-  CompatibleAmmoCaliber: 0
+  Id: 1
+  Name: Silencer
+  StackLimit: 1
+  BarrelType: 1
