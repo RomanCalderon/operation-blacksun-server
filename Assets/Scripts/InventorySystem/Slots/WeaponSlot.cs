@@ -1,7 +1,10 @@
-﻿using InventorySystem.PlayerItems;
+﻿using System;
+using InventorySystem.PlayerItems;
+using InventorySystem.Slots.Results;
 
 namespace InventorySystem.Slots
 {
+    [Serializable]
     public class WeaponSlot : Slot
     {
         #region Constructors
@@ -27,13 +30,13 @@ namespace InventorySystem.Slots
         {
             if ( !IsValidPlayerItem ( weapon ) )
             {
-                return new InsertionResult ( InsertionResult.Results.INVALID_TYPE );
+                return new InsertionResult ( weapon, InsertionResult.Results.INVALID_TYPE );
             }
             if ( IsEmpty () )
             {
                 return base.Insert ( weapon );
             }
-            return new InsertionResult ( InsertionResult.Results.SLOT_FULL );
+            return new InsertionResult ( weapon, InsertionResult.Results.SLOT_FULL );
         }
 
         protected override bool IsValidPlayerItem ( PlayerItem playerItem )
@@ -55,6 +58,11 @@ namespace InventorySystem.Slots
             {
                 return "Weapon Slot - Empty";
             }
+        }
+
+        public override void OnValidate ()
+        {
+            Name = ToString ();
         }
     }
 }

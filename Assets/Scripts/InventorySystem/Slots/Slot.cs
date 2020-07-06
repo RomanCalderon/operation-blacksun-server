@@ -1,10 +1,16 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using InventorySystem.PlayerItems;
+using InventorySystem.Slots.Results;
 
 namespace InventorySystem.Slots
 {
+    [Serializable]
     public class Slot
     {
+        [HideInInspector]
+        public string Name = "Slot";
+
         public virtual PlayerItem PlayerItem
         {
             get;
@@ -20,6 +26,7 @@ namespace InventorySystem.Slots
             get;
             set;
         }
+
 
         #region Constructors
 
@@ -74,15 +81,15 @@ namespace InventorySystem.Slots
             if ( !IsValidPlayerItem ( playerItem ) ) // Check if playerItem type is valid
             {
                 // Return an error SlotInsertionResult
-                return new InsertionResult ( InsertionResult.Results.INVALID_TYPE );
+                return new InsertionResult ( playerItem, InsertionResult.Results.INVALID_TYPE );
             }
             if ( quantity <= 0 ) // Check if quantity value is valid
             {
                 // Return an error SlotInsertionResult
-                return new InsertionResult ( InsertionResult.Results.INSERTION_FAILED );
+                return new InsertionResult ( playerItem, InsertionResult.Results.INSERTION_FAILED );
             }
 
-            if ( IsSlotAvailable ( playerItem ) ) // The Slot is available
+            if ( IsAvailable ( playerItem ) ) // The Slot is available
             {
                 if ( PlayerItem == null ) // If the slot is empty
                 {
@@ -102,10 +109,10 @@ namespace InventorySystem.Slots
                         StackSize += availableStackSpace;
 
                         // Return an overflow SlotInsertionResult
-                        return new InsertionResult ( overflow, InsertionResult.Results.OVERFLOW );
+                        return new InsertionResult ( playerItem, overflow );
                     }
                     // Return a slot full SlotInsertionResult
-                    return new InsertionResult ( InsertionResult.Results.SLOT_FULL );
+                    return new InsertionResult ( playerItem, InsertionResult.Results.SLOT_FULL );
                 }
                 else // Successful insertion
                 {
@@ -119,10 +126,10 @@ namespace InventorySystem.Slots
                     StackSize += quantity;
 
                     // Return a success SlotInsertionResult
-                    return new InsertionResult ( InsertionResult.Results.SUCCESS );
+                    return new InsertionResult ( playerItem, InsertionResult.Results.SUCCESS );
                 }
             }
-            return new InsertionResult ( InsertionResult.Results.INSERTION_FAILED );
+            return new InsertionResult ( playerItem, InsertionResult.Results.INSERTION_FAILED );
         }
 
         /// <summary>
@@ -203,7 +210,7 @@ namespace InventorySystem.Slots
         /// <returns>True if this Slot does not contain a PlayerItem.
         /// Otherwise, compares <paramref name="playerItem"/>'s id
         /// to this Slot's PlayerItem id.</returns>
-        public bool IsSlotAvailable ( PlayerItem playerItem )
+        public bool IsAvailable ( PlayerItem playerItem )
         {
             if ( playerItem == null ) // If playerItem is null
             {
@@ -214,7 +221,7 @@ namespace InventorySystem.Slots
             {
                 return true;
             }
-            return PlayerItem.Equals ( playerItem ); // Compare ids
+            return ( !IsFull () && PlayerItem.Equals ( playerItem ) ); // Check if there's room and compare ids
         }
 
         /// <summary>
@@ -238,7 +245,7 @@ namespace InventorySystem.Slots
         {
             return PlayerItem == null;
         }
-        
+
         protected virtual bool IsValidPlayerItem ( PlayerItem playerItem )
         {
             if ( playerItem == null )
@@ -258,13 +265,18 @@ namespace InventorySystem.Slots
             StackSize = 0;
         }
 
+        public virtual void OnValidate ()
+        {
+            Name = ToString ();
+        }
+
         #region Overrides
 
         public override string ToString ()
         {
             if ( PlayerItem != null )
             {
-                return $"Slot - {PlayerItem.Name} - {( IsStackable ? $"Stacks [{StackSize}/{PlayerItem.StackLimit}]" : "Not Stackable" )}";
+                return $"Slot - {PlayerItem.Name} - {( IsStackable ? $"[{StackSize}/{PlayerItem.StackLimit}]" : "Not Stackable" )}";
             }
             else
             {
@@ -273,96 +285,99 @@ namespace InventorySystem.Slots
         }
 
         #endregion
-        #endregion
-
-        #region Models
-
-        public class InsertionResult
-        {
-            public enum Results
-            {
-                SUCCESS,
-                SLOT_FULL,
-                OVERFLOW,
-                INSERTION_FAILED,
-                INVALID_TYPE
-            }
-
-            public Results Result { get; private set; }
-            public int OverflowAmount { get; private set; }
-
-            public InsertionResult ( Results result = Results.SUCCESS )
-            {
-                Result = result;
-                OverflowAmount = 0;
-            }
-
-            public InsertionResult ( int overflowAmount, Results result = Results.OVERFLOW )
-            {
-                Result = result;
-                OverflowAmount = overflowAmount;
-            }
-
-            public override string ToString ()
-            {
-                if ( Result == Results.OVERFLOW )
-                {
-                    return $"InsertionResult [{Result}] OverflowAmount [{OverflowAmount}]";
-                }
-                return $"InsertionResult [{Result}]";
-            }
-        }
-
-        public class RemovalResult
-        {
-            public enum Results
-            {
-                SUCCESS,
-                SLOT_EMPTY
-            }
-
-            /// <summary>
-            /// The result of the removal.
-            /// </summary>
-            public Results Result { get; private set; }
-            /// <summary>
-            /// The Slot that had its contents removed from.
-            /// </summary>
-            public Slot Origin { get; private set; }
-            /// <summary>
-            /// The PlayerItem stored in the slot.
-            /// </summary>
-            public PlayerItem Contents { get; private set; }
-            /// <summary>
-            /// The amount of PlayerItems removed from the slot.
-            /// </summary>
-            public int RemoveAmount { get; private set; }
-
-            public RemovalResult ( Slot slot, PlayerItem playerItem )
-            {
-                Origin = slot;
-                Contents = playerItem;
-                Result = ( playerItem == null ) ? Results.SLOT_EMPTY : Results.SUCCESS;
-            }
-
-            public RemovalResult ( Slot removalSlot, PlayerItem playerItem, int removalAmount, Results result )
-            {
-                Origin = removalSlot;
-                Contents = playerItem;
-                RemoveAmount = removalAmount;
-                Result = result;
-            }
-
-            public override string ToString ()
-            {
-                if ( Result == Results.SUCCESS )
-                {
-                    return $"RemovalResult [{Result}] Removed [{Contents.Name}] RemoveAmount [{RemoveAmount}]";
-                }
-                return $"RemovalResult [{Result}]";
-            }
-        }
 
         #endregion
+    }
+}
+
+namespace InventorySystem.Slots.Results
+{
+    public class InsertionResult
+    {
+        public enum Results
+        {
+            SUCCESS,
+            SLOT_FULL,
+            OVERFLOW,
+            INSERTION_FAILED,
+            INVALID_TYPE
+        }
+
+        public PlayerItem Contents { get; private set; }
+        public Results Result { get; private set; }
+        public int OverflowAmount { get; private set; }
+
+        public InsertionResult ( PlayerItem contents, Results result = Results.SUCCESS )
+        {
+            Contents = contents;
+            Result = result;
+            OverflowAmount = 0;
+        }
+
+        public InsertionResult ( PlayerItem contents, int overflowAmount )
+        {
+            Contents = contents;
+            OverflowAmount = overflowAmount;
+            Result = Results.OVERFLOW;
+        }
+
+        public override string ToString ()
+        {
+            if ( Result == Results.OVERFLOW )
+            {
+                return $"InsertionResult [{Result}] Contents [{Contents}] OverflowAmount [{OverflowAmount}]";
+            }
+            return $"InsertionResult [{Result}] Contents [{Contents}]";
+        }
+    }
+
+    public class RemovalResult
+    {
+        public enum Results
+        {
+            SUCCESS,
+            SLOT_EMPTY
+        }
+
+        /// <summary>
+        /// The result of the removal.
+        /// </summary>
+        public Results Result { get; private set; }
+        /// <summary>
+        /// The Slot that had its contents removed from.
+        /// </summary>
+        public Slot Origin { get; private set; }
+        /// <summary>
+        /// The PlayerItem stored in the slot.
+        /// </summary>
+        public PlayerItem Contents { get; private set; }
+        /// <summary>
+        /// The amount of PlayerItems removed from the slot.
+        /// </summary>
+        public int RemoveAmount { get; private set; }
+
+        public RemovalResult ( Slot slot, PlayerItem playerItem )
+        {
+            Origin = slot;
+            Contents = playerItem;
+            Result = ( playerItem == null ) ? Results.SLOT_EMPTY : Results.SUCCESS;
+        }
+
+        public RemovalResult ( Slot removalSlot, PlayerItem playerItem, int removalAmount, Results result )
+        {
+            Origin = removalSlot;
+            Contents = playerItem;
+            RemoveAmount = removalAmount;
+            Result = result;
+        }
+
+        public override string ToString ()
+        {
+            if ( Result == Results.SUCCESS )
+            {
+                return $"RemovalResult [{Result}] Removed [{Contents.Name}] RemoveAmount [{RemoveAmount}]";
+            }
+            return $"RemovalResult [{Result}]";
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using InventorySystem.PlayerItems;
+using InventorySystem.Slots.Results;
 
 namespace InventorySystem.Slots
 {
@@ -27,13 +28,13 @@ namespace InventorySystem.Slots
         {
             if ( !IsValidPlayerItem ( attachment ) )
             {
-                return new InsertionResult ( InsertionResult.Results.INVALID_TYPE );
+                return new InsertionResult ( attachment, InsertionResult.Results.INVALID_TYPE );
             }
             if ( IsEmpty () )
             {
                 return base.Insert ( attachment );
             }
-            return new InsertionResult ( InsertionResult.Results.SLOT_FULL );
+            return new InsertionResult ( attachment, InsertionResult.Results.SLOT_FULL );
         }
 
         protected override bool IsValidPlayerItem ( PlayerItem playerItem )

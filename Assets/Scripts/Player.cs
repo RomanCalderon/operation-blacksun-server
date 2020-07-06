@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using InventorySystem;
+using InventorySystem.Presets;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,8 +11,6 @@ public class Player : MonoBehaviour
     public string Username { get; private set; }
 
     private CharacterController m_controller;
-    [SerializeField]
-    private Rigidbody m_rigidbody = null;
     [SerializeField]
     private Transform m_shootOrigin = null;
     [SerializeField]
@@ -25,11 +25,16 @@ public class Player : MonoBehaviour
     private bool [] m_inputs;
     private float m_yVelocity = 0;
 
+    // Inventory
+    [SerializeField]
+    private Preset m_inventoryPreset = null;
+    [SerializeField]
+    private Inventory m_inventory = null;
+
 
     private void Awake ()
     {
         m_controller = GetComponent<CharacterController> ();
-        m_rigidbody = GetComponent<Rigidbody> ();
     }
 
     private void Start ()
@@ -46,6 +51,12 @@ public class Player : MonoBehaviour
         Health = m_maxHealth;
 
         m_inputs = new bool [ 5 ];
+        m_inventory = new Inventory ( m_inventoryPreset );
+    }
+
+    private void OnValidate ()
+    {
+        m_inventory.OnValidate ();
     }
 
     public void FixedUpdate ()
