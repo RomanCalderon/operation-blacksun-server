@@ -9,10 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02a387576f9ca3c4fbdeaf2329bbc068, type: 3}
-  m_Name: Silencer
+  m_Script: {fileID: 11500000, guid: 5b7b58d9153b0d743894e79d0f2c288b, type: 3}
+  m_Name: Gladiator
   m_EditorClassIdentifier: 
-  Id: 1
-  Name: Silencer
+  Id: gladiator
+  Name: Gladiator
   StackLimit: 1
-  BarrelType: 1
+  WeaponType: 1
+  WeaponClass: 3
+  Caliber: 0
+  BaseDamage: 18
+  FireRate: 0.2
+  Magazine: {fileID: 11400000, guid: 08ae076a907243d409e5aca62c7a8d25, type: 2}

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e66470dc60963cf4e8a9c0b8695f40b5, type: 3}
   m_Name: 12Gauge
   m_EditorClassIdentifier: 
-  Id: 4
+  Id: 12-gauge
   Name: 12 Gauge
   StackLimit: 32
   Caliber: 4

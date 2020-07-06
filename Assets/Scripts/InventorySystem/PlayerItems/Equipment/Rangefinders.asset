@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba920f7d50ef8844ba125b06b9bd42d0, type: 3}
   m_Name: Rangefinders
   m_EditorClassIdentifier: 
-  Id: 1
+  Id: rangefinder
   Name: Rangefinder
+  StackLimit: 1
   EquipmentType: 2

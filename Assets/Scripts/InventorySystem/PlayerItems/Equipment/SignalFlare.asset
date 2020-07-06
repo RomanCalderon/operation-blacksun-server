@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba920f7d50ef8844ba125b06b9bd42d0, type: 3}
   m_Name: SignalFlare
   m_EditorClassIdentifier: 
-  Id: 2
+  Id: signal-flare
   Name: Signal Flare
   StackLimit: 6
   EquipmentType: 1

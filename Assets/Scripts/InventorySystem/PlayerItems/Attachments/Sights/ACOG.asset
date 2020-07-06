@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79c3726c8396921478c9fec60b078d78, type: 3}
   m_Name: ACOG
   m_EditorClassIdentifier: 
-  Id: 2
+  Id: acog
   Name: ACOG
   StackLimit: 1
   SightZoomStrength: 3

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 958620153157f5b4fb6d0efcb374bf3f, type: 3}
   m_Name: 21Rnd-ACP
   m_EditorClassIdentifier: 
-  Id: 1
+  Id: 21-rnd-acp
   Name: 21 Rnd ACP
   StackLimit: 1
   AmmoCapacity: 21

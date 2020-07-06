@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e66470dc60963cf4e8a9c0b8695f40b5, type: 3}
   m_Name: Wilson9mm
   m_EditorClassIdentifier: 
-  Id: 0
+  Id: wilson-9mm
   Name: Wilson 9mm
   StackLimit: 256
   Caliber: 0

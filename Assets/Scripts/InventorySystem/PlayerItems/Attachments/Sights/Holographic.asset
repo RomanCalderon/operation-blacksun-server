@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79c3726c8396921478c9fec60b078d78, type: 3}
   m_Name: Holographic
   m_EditorClassIdentifier: 
-  Id: 1
+  Id: holographic
   Name: Holographic
   StackLimit: 1
   SightZoomStrength: 1

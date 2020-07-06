@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b7b58d9153b0d743894e79d0f2c288b, type: 3}
   m_Name: SMG-45
   m_EditorClassIdentifier: 
-  Id: 0
+  Id: smg-45
   Name: SMG-45
-  MaxStackSize: 1
+  StackLimit: 1
   WeaponType: 0
   WeaponClass: 1
   Caliber: 1

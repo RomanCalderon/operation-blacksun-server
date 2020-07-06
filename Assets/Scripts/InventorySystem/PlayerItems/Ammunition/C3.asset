@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e66470dc60963cf4e8a9c0b8695f40b5, type: 3}
   m_Name: C3
   m_EditorClassIdentifier: 
-  Id: 6
+  Id: c3
   Name: C3
   StackLimit: 32
   Caliber: 6

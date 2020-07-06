@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ab51bd43e6659447b0bba9b680dbba6, type: 3}
   m_Name: Standard
   m_EditorClassIdentifier: 
-  Id: 0
-  Name: Standard
+  Id: standard-stock
+  Name: Standard Stock
   StackLimit: 1
   RecoilReductionModifier: 0.2

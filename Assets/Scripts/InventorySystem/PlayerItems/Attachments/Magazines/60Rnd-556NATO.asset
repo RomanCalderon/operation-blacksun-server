@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 958620153157f5b4fb6d0efcb374bf3f, type: 3}
   m_Name: 60Rnd-556NATO
   m_EditorClassIdentifier: 
-  Id: 2
-  Name: 5.56 NATO 60 Rnd
+  Id: 60-rnd-556-nato
+  Name: 60 Rnd 5.56 NATO
   StackLimit: 1
   AmmoCapacity: 60
   CompatibleAmmoCaliber: 2

@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02a387576f9ca3c4fbdeaf2329bbc068, type: 3}
-  m_Name: CheekyBreeky
+  m_Name: SHUSH
   m_EditorClassIdentifier: 
-  Id: 0
-  Name: Cheeky Breeky Comp
-  StackSize: 1
-  BarrelType: 0
+  Id: s-hush
+  Name: S.HUSH
+  StackLimit: 1
+  BarrelType: 1

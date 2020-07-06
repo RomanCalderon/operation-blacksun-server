@@ -17,7 +17,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bbf7f2c1a34a25c408f59e077f77c0f9, type: 2}
   - {fileID: 11400000, guid: bbf7f2c1a34a25c408f59e077f77c0f9, type: 2}
   - {fileID: 11400000, guid: 08ae076a907243d409e5aca62c7a8d25, type: 2}
-  - {fileID: 0}
   BackpackItems:
   - PlayerItem: {fileID: 11400000, guid: 74dfd6db20ba2e0489b00e96408e9592, type: 2}
     Quantity: 256

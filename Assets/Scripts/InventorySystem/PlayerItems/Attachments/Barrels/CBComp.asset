@@ -9,15 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b7b58d9153b0d743894e79d0f2c288b, type: 3}
-  m_Name: P2020
+  m_Script: {fileID: 11500000, guid: 02a387576f9ca3c4fbdeaf2329bbc068, type: 3}
+  m_Name: CBComp
   m_EditorClassIdentifier: 
-  Id: 1
-  Name: P2020
-  MaxStackSize: 1
-  WeaponType: 1
-  WeaponClass: 3
-  Caliber: 0
-  BaseDamage: 18
-  FireRate: 0.3
-  Magazine: {fileID: 0}
+  Id: cb-comp
+  Name: CB Comp
+  StackLimit: 1
+  BarrelType: 0

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba920f7d50ef8844ba125b06b9bd42d0, type: 3}
   m_Name: SmokeGrenade
   m_EditorClassIdentifier: 
-  Id: 3
+  Id: smoke-grenade
   Name: Smoke Grenade
   StackLimit: 4
   EquipmentType: 1

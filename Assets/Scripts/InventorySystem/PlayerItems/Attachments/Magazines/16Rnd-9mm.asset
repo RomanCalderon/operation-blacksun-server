@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 958620153157f5b4fb6d0efcb374bf3f, type: 3}
   m_Name: 16Rnd-9mm
   m_EditorClassIdentifier: 
-  Id: 3
+  Id: 16-rnd-9mm
   Name: 16 Rnd 9mm
   StackLimit: 1
   AmmoCapacity: 16

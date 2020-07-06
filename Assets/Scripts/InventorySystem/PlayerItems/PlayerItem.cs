@@ -12,11 +12,13 @@ namespace InventorySystem.PlayerItems
     {
         [Header ( "General" )]
         [Tooltip ( "A unique identifier for this PlayerItem." )]
-        public int Id;
+        public string Id;
         [Tooltip ( "The name of this PlayerItem." )]
         public string Name = string.Empty;
         [Tooltip ( "The maximum stacking capacity. 1 = no stacking." ), Range ( 1, 256 )]
         public int StackLimit = 1;
+
+        #region Overrides
 
         public override bool Equals ( object other )
         {
@@ -36,5 +38,7 @@ namespace InventorySystem.PlayerItems
         {
             return Name;
         }
+
+        #endregion
     }
 }

@@ -76,7 +76,14 @@ namespace InventorySystem
             m_rigSlots = new Slot [ Constants.INVENTORY_RIG_SIZE ];
             for ( int i = 0; i < m_rigSlots.Length; i++ )
             {
-                m_rigSlots [ i ] = new Slot ( preset.RigItems [ i ] );
+                if ( i < preset.RigItems.Length )
+                {
+                    m_rigSlots [ i ] = new Slot ( preset.RigItems [ i ] );
+                }
+                else
+                {
+                    m_rigSlots [ i ] = new Slot ();
+                }
             }
 
             // Initialize Backpack slots
@@ -88,7 +95,7 @@ namespace InventorySystem
             // Add PlayerItems to the backpack
             foreach ( PlayerItemPreset playerItemPreset in preset.BackpackItems )
             {
-                AddToBackpack ( playerItemPreset.PlayerItem, playerItemPreset.Quantity );
+                Debug.Log ( AddToBackpackAny ( playerItemPreset.PlayerItem, playerItemPreset.Quantity ) );
             }
 
 
@@ -144,7 +151,7 @@ namespace InventorySystem
 
             return slot.Insert ( playerItem, quantity );
         }
-        
+
         /// <summary>
         /// Get the slot at <paramref name="index"/> in the rig.
         /// </summary>
