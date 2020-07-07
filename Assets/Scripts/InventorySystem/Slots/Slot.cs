@@ -17,10 +17,10 @@ namespace InventorySystem.Slots
             get;
             protected set;
         }
-        protected virtual bool IsStackable
+        public virtual bool IsStackable
         {
             get;
-            set;
+            protected set;
         }
         public int StackSize
         {
@@ -118,7 +118,7 @@ namespace InventorySystem.Slots
                         StackSize += availableStackSpace;
 
                         // Return an overflow SlotInsertionResult
-                        return new InsertionResult ( playerItem, overflow );
+                        return new InsertionResult ( this, overflow );
                     }
                     // Return a slot full SlotInsertionResult
                     return new InsertionResult ( playerItem, InsertionResult.Results.SLOT_FULL );
@@ -135,7 +135,7 @@ namespace InventorySystem.Slots
                     StackSize += quantity;
 
                     // Return a success SlotInsertionResult
-                    return new InsertionResult ( playerItem, InsertionResult.Results.SUCCESS );
+                    return new InsertionResult ( this, InsertionResult.Results.SUCCESS );
                 }
             }
             return new InsertionResult ( playerItem, InsertionResult.Results.INSERTION_FAILED );
@@ -344,20 +344,39 @@ namespace InventorySystem.Slots.Results
             INVALID_TYPE
         }
 
+        public Slot Slot { get; private set; }
         public PlayerItem Contents { get; private set; }
         public Results Result { get; private set; }
         public int OverflowAmount { get; private set; }
 
-        public InsertionResult ( PlayerItem contents, Results result = Results.SUCCESS )
+        
+        public InsertionResult ( Results result = Results.INSERTION_FAILED )
         {
-            Contents = contents;
+            Slot = null;
+            Contents = null;
             Result = result;
             OverflowAmount = 0;
         }
 
-        public InsertionResult ( PlayerItem contents, int overflowAmount )
+        public InsertionResult ( Slot slot, Results result = Results.SUCCESS )
         {
-            Contents = contents;
+            Slot = slot;
+            Contents = slot.PlayerItem;
+            Result = result;
+            OverflowAmount = 0;
+        }
+        
+        public InsertionResult ( PlayerItem playerItem, Results result = Results.INSERTION_FAILED )
+        {
+            Contents = playerItem;
+            Result = result;
+            OverflowAmount = 0;
+        }
+
+        public InsertionResult ( Slot slot, int overflowAmount )
+        {
+            Slot = slot;
+            Contents = slot.PlayerItem;
             OverflowAmount = overflowAmount;
             Result = Results.OVERFLOW;
         }

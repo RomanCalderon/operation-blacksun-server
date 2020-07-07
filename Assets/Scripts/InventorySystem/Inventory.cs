@@ -368,7 +368,7 @@ namespace InventorySystem
         {
             if ( playerItem == null || quantity <= 0 )
             {
-                return new InsertionResult ( null, InsertionResult.Results.INSERTION_FAILED );
+                return new InsertionResult ( InsertionResult.Results.INSERTION_FAILED );
             }
 
             Slot slot = null;
