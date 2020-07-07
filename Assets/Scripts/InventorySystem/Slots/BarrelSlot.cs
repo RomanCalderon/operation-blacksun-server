@@ -1,19 +1,23 @@
-﻿using InventorySystem.PlayerItems;
+﻿using System;
+using InventorySystem.PlayerItems;
 using InventorySystem.Slots.Results;
 
 namespace InventorySystem.Slots
 {
+    [Serializable]
     public class BarrelSlot : AttachmentSlot
     {
         #region Constructors
 
-        public BarrelSlot ()
+        public BarrelSlot ( string id )
         {
+            Id = id;
             PlayerItem = null;
         }
 
-        public BarrelSlot ( Barrel barrel )
+        public BarrelSlot ( string id, Barrel barrel )
         {
+            Id = id;
             PlayerItem = barrel;
         }
 

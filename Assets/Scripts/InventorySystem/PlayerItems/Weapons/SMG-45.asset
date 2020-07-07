@@ -20,4 +20,4 @@ MonoBehaviour:
   Caliber: 1
   BaseDamage: 20
   FireRate: 0.2
-  Magazine: {fileID: 11400000, guid: bbf7f2c1a34a25c408f59e077f77c0f9, type: 2}
+  Magazine: {fileID: 11400000, guid: 8abd58a58c11ddb4d9d54379eb6b5b35, type: 2}

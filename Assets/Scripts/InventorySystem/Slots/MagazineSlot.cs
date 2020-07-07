@@ -1,19 +1,23 @@
-﻿using InventorySystem.PlayerItems;
+﻿using System;
+using InventorySystem.PlayerItems;
 using InventorySystem.Slots.Results;
 
 namespace InventorySystem.Slots
 {
+    [Serializable]
     public class MagazineSlot : AttachmentSlot
     {
         #region Constructors
 
-        public MagazineSlot ()
+        public MagazineSlot ( string id )
         {
+            Id = id;
             PlayerItem = null;
         }
 
-        public MagazineSlot ( Magazine magazine )
+        public MagazineSlot ( string id, Magazine magazine )
         {
+            Id = id;
             PlayerItem = magazine;
         }
 

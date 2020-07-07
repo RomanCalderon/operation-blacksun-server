@@ -51,7 +51,16 @@ public class Player : MonoBehaviour
         Health = m_maxHealth;
 
         m_inputs = new bool [ 5 ];
-        m_inventory = new Inventory ( m_inventoryPreset );
+        m_inventory = new Inventory ( this, m_inventoryPreset );
+    }
+
+    public void SendInitializedInventory ()
+    {
+        if ( m_inventory == null )
+        {
+            return;
+        }
+        m_inventory.SendInitializedInventory ();
     }
 
     private void OnValidate ()

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using InventorySystem;
 
 public class ServerSend
 {
@@ -171,6 +172,21 @@ public class ServerSend
             SendTCPDataToAll ( _packet );
         }
     }
+
+    public static void PlayerUpdateInventorySlot ( int _playerId, string _slotId, string _playerItemId, int _quantity )
+    {
+        using ( Packet _packet = new Packet ( ( int ) ServerPackets.playerUpdateInventorySlot ) )
+        {
+            _packet.Write ( _playerId );
+
+            _packet.Write ( _slotId );
+            _packet.Write ( _playerItemId );
+            _packet.Write ( _quantity );
+
+            SendTCPData ( _playerId, _packet );
+        }
+    }
+
     #endregion
 
     #endregion

@@ -1,19 +1,23 @@
-﻿using InventorySystem.PlayerItems;
+﻿using System;
+using InventorySystem.PlayerItems;
 using InventorySystem.Slots.Results;
 
 namespace InventorySystem.Slots
 {
+    [Serializable]
     public class SightSlot : AttachmentSlot
     {
         #region Constructors
 
-        public SightSlot ()
+        public SightSlot ( string id )
         {
+            Id = id;
             PlayerItem = null;
         }
 
-        public SightSlot ( Sight sight )
+        public SightSlot ( string id, Sight sight )
         {
+            Id = id;
             PlayerItem = sight;
         }
 

@@ -13,13 +13,15 @@ MonoBehaviour:
   m_Name: Assault_Preset
   m_EditorClassIdentifier: 
   RigItems:
-  - {fileID: 11400000, guid: bbf7f2c1a34a25c408f59e077f77c0f9, type: 2}
-  - {fileID: 11400000, guid: bbf7f2c1a34a25c408f59e077f77c0f9, type: 2}
-  - {fileID: 11400000, guid: bbf7f2c1a34a25c408f59e077f77c0f9, type: 2}
+  - {fileID: 11400000, guid: 8abd58a58c11ddb4d9d54379eb6b5b35, type: 2}
+  - {fileID: 11400000, guid: 8abd58a58c11ddb4d9d54379eb6b5b35, type: 2}
+  - {fileID: 11400000, guid: 8abd58a58c11ddb4d9d54379eb6b5b35, type: 2}
   - {fileID: 11400000, guid: 08ae076a907243d409e5aca62c7a8d25, type: 2}
   BackpackItems:
-  - PlayerItem: {fileID: 11400000, guid: 74dfd6db20ba2e0489b00e96408e9592, type: 2}
+  - PlayerItem: {fileID: 11400000, guid: 879dfc462633c8d47aaa88faaf4e47f5, type: 2}
     Quantity: 256
+  - PlayerItem: {fileID: 11400000, guid: 74dfd6db20ba2e0489b00e96408e9592, type: 2}
+    Quantity: 128
   - PlayerItem: {fileID: 11400000, guid: de0d343f2e922ff41960bd9d515cda6d, type: 2}
     Quantity: 2
   - PlayerItem: {fileID: 11400000, guid: fc8be0ee5e325ca4eb9a5c9013da0b53, type: 2}
@@ -30,7 +32,7 @@ MonoBehaviour:
     Weapon: {fileID: 11400000, guid: 61109460dffeeaf469dddce79743a4bd, type: 2}
     Barrel: {fileID: 11400000, guid: 56f1a4ac4a8f32147b3b3117bc427cab, type: 2}
     Sight: {fileID: 11400000, guid: db1c7f23f5010324b8124f9a96468aa5, type: 2}
-    Magazine: {fileID: 11400000, guid: bbf7f2c1a34a25c408f59e077f77c0f9, type: 2}
+    Magazine: {fileID: 11400000, guid: 8abd58a58c11ddb4d9d54379eb6b5b35, type: 2}
     Stock: {fileID: 11400000, guid: 5b4c7ed734b6542499a1e56a7fe4eca0, type: 2}
   SecondaryWeapon:
     Weapon: {fileID: 11400000, guid: 4c574b0b4a581d44a9449e88ddc9ecc7, type: 2}

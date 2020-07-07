@@ -10,6 +10,7 @@ namespace InventorySystem.Slots
     {
         [HideInInspector]
         public string Name = "Slot";
+        public string Id { get; protected set; }
 
         public virtual PlayerItem PlayerItem
         {
@@ -21,10 +22,10 @@ namespace InventorySystem.Slots
             get;
             set;
         }
-        protected int StackSize
+        public int StackSize
         {
             get;
-            set;
+            protected set;
         }
 
 
@@ -32,13 +33,20 @@ namespace InventorySystem.Slots
 
         public Slot ()
         {
+            Id = "unassigned";
+        }
+
+        public Slot ( string id )
+        {
+            Id = id;
             PlayerItem = null;
             IsStackable = false;
             StackSize = 0;
         }
 
-        public Slot ( PlayerItem playerItem )
+        public Slot ( string id, PlayerItem playerItem )
         {
+            Id = id;
             if ( playerItem != null )
             {
                 IsStackable = playerItem.StackLimit > 1;
@@ -47,8 +55,9 @@ namespace InventorySystem.Slots
             Insert ( playerItem );
         }
 
-        public Slot ( PlayerItem playerItem, int quantity )
+        public Slot ( string id, PlayerItem playerItem, int quantity )
         {
+            Id = id;
             if ( playerItem != null )
             {
                 IsStackable = playerItem.StackLimit > 1;
@@ -252,7 +261,39 @@ namespace InventorySystem.Slots
             {
                 return false;
             }
-            return playerItem.GetType () != typeof ( Weapon );
+
+            // Weapon slot
+            if ( this is WeaponSlot )
+            {
+                return playerItem is Weapon;
+            }
+            // Attachment slot
+            if ( this is AttachmentSlot )
+            {
+                return playerItem is Attachment;
+            }
+            // Barrel slot
+            if ( this is BarrelSlot )
+            {
+                return playerItem is Barrel;
+            }
+            // Sight slot
+            if ( this is SightSlot )
+            {
+                return playerItem is Sight;
+            }
+            // Magazine slot
+            if ( this is MagazineSlot )
+            {
+                return playerItem is Magazine;
+            }
+            // Stock slot
+            if ( this is StockSlot )
+            {
+                return playerItem is Stock;
+            }
+            // Slot
+            return !( playerItem is Weapon );
         }
 
         /// <summary>

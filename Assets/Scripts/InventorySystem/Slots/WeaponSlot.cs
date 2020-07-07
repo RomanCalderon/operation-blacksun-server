@@ -9,13 +9,15 @@ namespace InventorySystem.Slots
     {
         #region Constructors
 
-        public WeaponSlot ()
+        public WeaponSlot ( string id )
         {
+            Id = id;
             PlayerItem = null;
         }
 
-        public WeaponSlot ( Weapon weapon )
+        public WeaponSlot ( string id, Weapon weapon )
         {
+            Id = id;
             PlayerItem = weapon;
         }
 
@@ -45,7 +47,7 @@ namespace InventorySystem.Slots
             {
                 return false;
             }
-            return playerItem.GetType () == typeof ( Weapon );
+            return playerItem is Weapon;
         }
 
         public override string ToString ()

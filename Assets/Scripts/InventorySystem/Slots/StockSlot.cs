@@ -1,19 +1,23 @@
-﻿using InventorySystem.PlayerItems;
+﻿using System;
+using InventorySystem.PlayerItems;
 using InventorySystem.Slots.Results;
 
 namespace InventorySystem.Slots
 {
+    [Serializable]
     public class StockSlot : AttachmentSlot
     {
         #region Constructors
 
-        public StockSlot ()
+        public StockSlot ( string id )
         {
+            Id = id;
             PlayerItem = null;
         }
 
-        public StockSlot ( Stock stock )
+        public StockSlot ( string id, Stock stock )
         {
+            Id = id;
             PlayerItem = stock;
         }
 

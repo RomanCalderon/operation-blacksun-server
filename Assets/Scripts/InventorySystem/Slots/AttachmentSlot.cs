@@ -9,11 +9,18 @@ namespace InventorySystem.Slots
 
         public AttachmentSlot ()
         {
+
+        }
+
+        public AttachmentSlot ( string id )
+        {
+            Id = id;
             PlayerItem = null;
         }
 
-        public AttachmentSlot ( Attachment attachment )
+        public AttachmentSlot ( string id, Attachment attachment )
         {
+            Id = id;
             PlayerItem = attachment;
         }
 

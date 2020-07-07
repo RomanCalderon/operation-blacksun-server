@@ -1,76 +1,67 @@
 ﻿using System;
+using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 using InventorySystem.Presets;
 using InventorySystem.Slots;
 using InventorySystem.Slots.Results;
 using InventorySystem.PlayerItems;
-using System.Linq;
 
 namespace InventorySystem
 {
     [Serializable]
     public class Inventory
     {
+        private Player m_player;
+
         // Rig
         [SerializeField]
         private Slot [] m_rigSlots;
-
         // Backpack
         [SerializeField]
         private Slot [] m_backpackSlots;
+        // Primary weapon
+        [SerializeField]
+        private WeaponSlots m_primaryWeaponSlots;
+        // Secondary weapon
+        [SerializeField]
+        private WeaponSlots m_secondaryWeaponSlots;
 
-        // Primary weapon and attachment slots
-        [SerializeField]
-        private WeaponSlot m_primaryWeaponSlot;
-        [SerializeField]
-        private BarrelSlot m_primaryBarrelSlot;
-        [SerializeField]
-        private SightSlot m_primarySightSlot;
-        [SerializeField]
-        private MagazineSlot m_primaryMagazineSlot;
-        [SerializeField]
-        private StockSlot m_primaryStockSlot;
-
-        // Secondary weapon and attachment slots
-        [SerializeField]
-        private WeaponSlot m_secondaryWeaponSlot;
-        [SerializeField]
-        private BarrelSlot m_secondaryBarrelSlot;
-        [SerializeField]
-        private SightSlot m_secondarySightSlot;
-        [SerializeField]
-        private MagazineSlot m_secondaryMagazineSlot;
-        [SerializeField]
-        private StockSlot m_secondaryStockSlot;
 
         #region Constructors
 
-        public Inventory ()
+        public Inventory ( Player player )
         {
+            m_player = player;
+
+            // Initialize Rig slots
             m_rigSlots = new Slot [ Constants.INVENTORY_RIG_SIZE ];
+            for ( int i = 0; i < m_rigSlots.Length; i++ )
+            {
+                m_rigSlots [ i ] = new Slot ( "rig-" + i );
+            }
+
+            // Initialize Backpack slots
             m_backpackSlots = new Slot [ Constants.INVENTORY_BACKPACK_SIZE ];
+            for ( int i = 0; i < m_backpackSlots.Length; i++ )
+            {
+                m_backpackSlots [ i ] = new Slot ( "backpack-" + i );
+            }
 
-            m_primaryWeaponSlot = null;
-            m_primaryBarrelSlot = null;
-            m_primarySightSlot = null;
-            m_primaryMagazineSlot = null;
-            m_primaryStockSlot = null;
-
-            m_secondaryWeaponSlot = null;
-            m_secondaryBarrelSlot = null;
-            m_secondarySightSlot = null;
-            m_secondaryMagazineSlot = null;
-            m_secondaryStockSlot = null;
+            m_primaryWeaponSlots = new WeaponSlots ( "primary-weapon", "primary-barrel", "primary-sight", "primary-magazine", "primary-stock" );
+            m_secondaryWeaponSlots = new WeaponSlots ( "secondary-weapon", "secondary-barrel", "secondary-sight", "secondary-magazine", "secondary-stock" );
 
             OnValidate ();
         }
 
-        public Inventory ( Preset preset )
+        public Inventory ( Player player, Preset preset )
         {
             if ( preset == null )
             {
                 return;
             }
+
+            m_player = player;
 
             // Initialize Rig slots
             m_rigSlots = new Slot [ Constants.INVENTORY_RIG_SIZE ];
@@ -78,49 +69,231 @@ namespace InventorySystem
             {
                 if ( i < preset.RigItems.Length )
                 {
-                    m_rigSlots [ i ] = new Slot ( preset.RigItems [ i ] );
+                    m_rigSlots [ i ] = new Slot ( "rig-" + i, preset.RigItems [ i ] );
                 }
                 else
                 {
-                    m_rigSlots [ i ] = new Slot ();
+                    m_rigSlots [ i ] = new Slot ( "rig-" + i );
                 }
             }
-
             // Initialize Backpack slots
             m_backpackSlots = new Slot [ Constants.INVENTORY_BACKPACK_SIZE ];
             for ( int i = 0; i < m_backpackSlots.Length; i++ )
             {
-                m_backpackSlots [ i ] = new Slot ();
+                m_backpackSlots [ i ] = new Slot ( "backpack-" + i );
             }
             // Add PlayerItems to the backpack
             foreach ( PlayerItemPreset playerItemPreset in preset.BackpackItems )
             {
-                Debug.Log ( AddToBackpackAny ( playerItemPreset.PlayerItem, playerItemPreset.Quantity ) );
+                AddToBackpackAny ( playerItemPreset.PlayerItem, playerItemPreset.Quantity );
+                //Debug.Log ( AddToBackpackAny ( playerItemPreset.PlayerItem, playerItemPreset.Quantity ) );
             }
 
-
             // Primary weapon
-            m_primaryWeaponSlot = new WeaponSlot ( preset.PrimaryWeapon.Weapon );
-            m_primaryBarrelSlot = new BarrelSlot ( preset.PrimaryWeapon.Barrel );
-            m_primarySightSlot = new SightSlot ( preset.PrimaryWeapon.Sight );
-            m_primaryMagazineSlot = new MagazineSlot ( preset.PrimaryWeapon.Magazine );
-            m_primaryStockSlot = new StockSlot ( preset.PrimaryWeapon.Stock );
+            m_primaryWeaponSlots = new WeaponSlots ( "primary-weapon", "primary-barrel", "primary-sight", "primary-magazine", "primary-stock",
+                preset.PrimaryWeapon.Weapon, preset.PrimaryWeapon.Barrel, preset.PrimaryWeapon.Sight, preset.PrimaryWeapon.Magazine, preset.PrimaryWeapon.Stock );
 
             // Secondary weapon
-            m_secondaryWeaponSlot = new WeaponSlot ( preset.SecondaryWeapon.Weapon );
-            m_secondaryBarrelSlot = new BarrelSlot ( preset.SecondaryWeapon.Barrel );
-            m_secondarySightSlot = new SightSlot ( preset.SecondaryWeapon.Sight );
-            m_secondaryMagazineSlot = new MagazineSlot ( preset.SecondaryWeapon.Magazine );
-            m_secondaryStockSlot = new StockSlot ( preset.SecondaryWeapon.Stock );
+            m_secondaryWeaponSlots = new WeaponSlots ( "secondary-weapon", "secondary-barrel", "secondary-sight", "secondary-magazine", "secondary-stock",
+                preset.SecondaryWeapon.Weapon, preset.SecondaryWeapon.Barrel, preset.SecondaryWeapon.Sight, preset.SecondaryWeapon.Magazine, preset.SecondaryWeapon.Stock );
 
             OnValidate ();
         }
 
         #endregion
 
+        #region ServerSends
+
+        /// <summary>
+        /// Sends via TCP the entire inventory (slots) to this clients' player.
+        /// </summary>
+        public void SendInitializedInventory ()
+        {
+            // Rig slots
+            for ( int i = 0; i < m_rigSlots.Length; i++ )
+            {
+                if ( !m_rigSlots [ i ].IsEmpty () )
+                {
+                    string slotId = m_rigSlots [ i ].Id;
+                    string playerItemId = m_rigSlots [ i ].PlayerItem.Id;
+                    int quantity = m_rigSlots [ i ].StackSize;
+                    ServerSend.PlayerUpdateInventorySlot ( m_player.Id, slotId, playerItemId, quantity );
+                }
+            }
+            // Backpack slots
+            for ( int i = 0; i < m_backpackSlots.Length; i++ )
+            {
+                if ( !m_backpackSlots [ i ].IsEmpty () )
+                {
+                    string slotId = m_backpackSlots [ i ].Id;
+                    string playerItemId = m_backpackSlots [ i ].PlayerItem.Id;
+                    int quantity = m_backpackSlots [ i ].StackSize;
+                    ServerSend.PlayerUpdateInventorySlot ( m_player.Id, slotId, playerItemId, quantity );
+                }
+            }
+            // Primary weapon slots
+            if ( m_primaryWeaponSlots != null )
+            {
+                if ( m_primaryWeaponSlots.WeaponSlot != null )
+                {
+                    if ( m_primaryWeaponSlots.WeaponSlot.PlayerItem != null )
+                    {
+                        string slotId = m_primaryWeaponSlots.WeaponSlot.Id;
+                        string playerItemId = m_primaryWeaponSlots.WeaponSlot.PlayerItem.Id;
+                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, slotId, playerItemId, 1 );
+                    }
+                }
+                if ( m_primaryWeaponSlots.BarrelSlot != null )
+                {
+                    if ( m_primaryWeaponSlots.BarrelSlot.PlayerItem != null )
+                    {
+                        string slotId = m_primaryWeaponSlots.BarrelSlot.Id;
+                        string playerItemId = m_primaryWeaponSlots.BarrelSlot.PlayerItem.Id;
+                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, slotId, playerItemId, 1 );
+                    }
+                }
+                if ( m_primaryWeaponSlots.SightSlot != null )
+                {
+                    if ( m_primaryWeaponSlots.SightSlot.PlayerItem != null )
+                    {
+                        string slotId = m_primaryWeaponSlots.SightSlot.Id;
+                        string playerItemId = m_primaryWeaponSlots.SightSlot.PlayerItem.Id;
+                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, slotId, playerItemId, 1 );
+                    }
+                }
+                if ( m_primaryWeaponSlots.MagazineSlot != null )
+                {
+                    if ( m_primaryWeaponSlots.MagazineSlot.PlayerItem != null )
+                    {
+                        string slotId = m_primaryWeaponSlots.MagazineSlot.Id;
+                        string playerItemId = m_primaryWeaponSlots.MagazineSlot.PlayerItem.Id;
+                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, slotId, playerItemId, 1 );
+                    }
+                }
+                if ( m_primaryWeaponSlots.StockSlot != null )
+                {
+                    if ( m_primaryWeaponSlots.StockSlot.PlayerItem != null )
+                    {
+                        string slotId = m_primaryWeaponSlots.StockSlot.Id;
+                        string playerItemId = m_primaryWeaponSlots.StockSlot.PlayerItem.Id;
+                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, slotId, playerItemId, 1 );
+                    }
+                }
+            }
+            // Secondary weapon slots
+            if ( m_secondaryWeaponSlots != null )
+            {
+                if ( m_secondaryWeaponSlots.WeaponSlot != null )
+                {
+                    if ( m_secondaryWeaponSlots.WeaponSlot.PlayerItem != null )
+                    {
+                        string slotId = m_secondaryWeaponSlots.WeaponSlot.Id;
+                        string playerItemId = m_secondaryWeaponSlots.WeaponSlot.PlayerItem.Id;
+                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, slotId, playerItemId, 1 );
+                    }
+                }
+                if ( m_secondaryWeaponSlots.BarrelSlot != null )
+                {
+                    if ( m_secondaryWeaponSlots.BarrelSlot.PlayerItem != null )
+                    {
+                        string slotId = m_secondaryWeaponSlots.BarrelSlot.Id;
+                        string playerItemId = m_secondaryWeaponSlots.BarrelSlot.PlayerItem.Id;
+                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, slotId, playerItemId, 1 );
+                    }
+                }
+                if ( m_secondaryWeaponSlots.SightSlot != null )
+                {
+                    if ( m_secondaryWeaponSlots.SightSlot.PlayerItem != null )
+                    {
+                        string slotId = m_secondaryWeaponSlots.SightSlot.Id;
+                        string playerItemId = m_secondaryWeaponSlots.SightSlot.PlayerItem.Id;
+                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, slotId, playerItemId, 1 );
+                    }
+                }
+                if ( m_secondaryWeaponSlots.MagazineSlot != null )
+                {
+                    if ( m_secondaryWeaponSlots.MagazineSlot.PlayerItem != null )
+                    {
+                        string slotId = m_secondaryWeaponSlots.MagazineSlot.Id;
+                        string playerItemId = m_secondaryWeaponSlots.MagazineSlot.PlayerItem.Id;
+                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, slotId, playerItemId, 1 );
+                    }
+                }
+                if ( m_secondaryWeaponSlots.StockSlot != null )
+                {
+                    if ( m_secondaryWeaponSlots.StockSlot.PlayerItem != null )
+                    {
+                        string slotId = m_secondaryWeaponSlots.StockSlot.Id;
+                        string playerItemId = m_secondaryWeaponSlots.StockSlot.PlayerItem.Id;
+                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, slotId, playerItemId, 1 );
+                    }
+                }
+            }
+        }
+
+        #endregion
+
         #region Slot access
 
+        /// <summary>
+        /// Get the slot with ID <paramref name="slotId"/>.
+        /// </summary>
+        /// <param name="slotId">The ID of the slot.</param>
+        /// <returns>The Slot with ID <paramref name="slotId"/>.</returns>
+        public Slot GetSlot ( string slotId )
+        {
+            // Search rig
+            for ( int i = 0; i < m_rigSlots.Length; i++ )
+            {
+                if ( m_rigSlots [ i ].Id == slotId )
+                {
+                    return m_rigSlots [ i ];
+                }
+            }
+
+            // Search backpack
+            for ( int i = 0; i < m_backpackSlots.Length; i++ )
+            {
+                if ( m_backpackSlots [ i ].Id == slotId )
+                {
+                    return m_backpackSlots [ i ];
+                }
+            }
+
+            // Search primary weapon slots
+            if ( m_primaryWeaponSlots.ContainsSlot ( slotId ) )
+            {
+                return m_primaryWeaponSlots.GetSlot ( slotId );
+            }
+
+            // Search secondary weapon slots
+            if ( m_secondaryWeaponSlots.ContainsSlot ( slotId ) )
+            {
+                return m_secondaryWeaponSlots.GetSlot ( slotId );
+            }
+
+            return null;
+        }
+
         #region Rig
+
+        /// <summary>
+        /// Gets all occupied rig slot ids.
+        /// </summary>
+        /// <returns></returns>
+        public List<string> GetOccupiedSlotsRig ()
+        {
+            List<string> ids = new List<string> ();
+
+            for ( int i = 0; i < m_rigSlots.Length; i++ )
+            {
+                if ( !m_rigSlots [ i ].IsEmpty () )
+                {
+                    ids.Add ( m_rigSlots [ i ].Id );
+                }
+            }
+            return ids;
+        }
 
         /// <summary>
         /// Add one instance of <paramref name="playerItem"/> into slot <paramref name="slotIndex"/>.
@@ -166,6 +339,24 @@ namespace InventorySystem
         #endregion
 
         #region Backpack
+
+        /// <summary>
+        /// Gets all occupied backpack slot ids.
+        /// </summary>
+        /// <returns></returns>
+        public List<string> GetOccupiedSlotsBackpack ()
+        {
+            List<string> ids = new List<string> ();
+
+            for ( int i = 0; i < m_backpackSlots.Length; i++ )
+            {
+                if ( !m_backpackSlots [ i ].IsEmpty () )
+                {
+                    ids.Add ( m_backpackSlots [ i ].Id );
+                }
+            }
+            return ids;
+        }
 
         /// <summary>
         /// Add <paramref name="quantity"/> amount of <paramref name="playerItem"/> into any available backpack slot or slots.
@@ -237,7 +428,7 @@ namespace InventorySystem
         /// <returns>The Slot at <paramref name="index"/> in the backpack.</returns>
         public Slot GetFromBackpack ( int index )
         {
-            index = Mathf.Clamp ( index, 0, m_rigSlots.Length - 1 );
+            index = Mathf.Clamp ( index, 0, m_backpackSlots.Length - 1 );
             return m_backpackSlots [ index ];
         }
 
@@ -269,48 +460,140 @@ namespace InventorySystem
             }
 
             // Primary weapon and attachment slots
-            if ( m_primaryWeaponSlot != null )
+            if ( m_primaryWeaponSlots != null )
             {
-                m_primaryWeaponSlot.OnValidate ();
-            }
-            if ( m_primaryBarrelSlot != null )
-            {
-                m_primaryBarrelSlot.OnValidate ();
-            }
-            if ( m_primarySightSlot != null )
-            {
-                m_primarySightSlot.OnValidate ();
-            }
-            if ( m_primaryMagazineSlot != null )
-            {
-                m_primaryMagazineSlot.OnValidate ();
-            }
-            if ( m_primaryStockSlot != null )
-            {
-                m_primaryStockSlot.OnValidate ();
+                if ( m_primaryWeaponSlots.WeaponSlot != null )
+                {
+                    m_primaryWeaponSlots.WeaponSlot.OnValidate ();
+                }
+                if ( m_primaryWeaponSlots.BarrelSlot != null )
+                {
+                    m_primaryWeaponSlots.BarrelSlot.OnValidate ();
+                }
+                if ( m_primaryWeaponSlots.SightSlot != null )
+                {
+                    m_primaryWeaponSlots.SightSlot.OnValidate ();
+                }
+                if ( m_primaryWeaponSlots.MagazineSlot != null )
+                {
+                    m_primaryWeaponSlots.MagazineSlot.OnValidate ();
+                }
+                if ( m_primaryWeaponSlots.StockSlot != null )
+                {
+                    m_primaryWeaponSlots.StockSlot.OnValidate ();
+                }
             }
 
             // Secondary weapon and attachment slots
-            if ( m_secondaryWeaponSlot != null )
+            if ( m_secondaryWeaponSlots != null )
             {
-                m_secondaryWeaponSlot.OnValidate ();
-            }
-            if ( m_secondaryBarrelSlot != null )
-            {
-                m_secondaryBarrelSlot.OnValidate ();
-            }
-            if ( m_secondarySightSlot != null )
-            {
-                m_secondarySightSlot.OnValidate ();
-            }
-            if ( m_secondaryMagazineSlot != null )
-            {
-                m_secondaryMagazineSlot.OnValidate ();
-            }
-            if ( m_secondaryStockSlot != null )
-            {
-                m_secondaryStockSlot.OnValidate ();
+                if ( m_secondaryWeaponSlots.WeaponSlot != null )
+                {
+                    m_secondaryWeaponSlots.WeaponSlot.OnValidate ();
+                }
+                if ( m_secondaryWeaponSlots.BarrelSlot != null )
+                {
+                    m_secondaryWeaponSlots.BarrelSlot.OnValidate ();
+                }
+                if ( m_secondaryWeaponSlots.SightSlot != null )
+                {
+                    m_secondaryWeaponSlots.SightSlot.OnValidate ();
+                }
+                if ( m_secondaryWeaponSlots.MagazineSlot != null )
+                {
+                    m_secondaryWeaponSlots.MagazineSlot.OnValidate ();
+                }
+                if ( m_secondaryWeaponSlots.StockSlot != null )
+                {
+                    m_secondaryWeaponSlots.StockSlot.OnValidate ();
+                }
             }
         }
+
+        #region Models
+
+        /// <summary>
+        /// Weapon and attachment slots.
+        /// </summary>
+        [Serializable]
+        public class WeaponSlots
+        {
+            public WeaponSlot WeaponSlot;
+            public BarrelSlot BarrelSlot;
+            public SightSlot SightSlot;
+            public MagazineSlot MagazineSlot;
+            public StockSlot StockSlot;
+
+            public WeaponSlots ( string weaponSlotId, string barrelSlotId, string sightSlotId, string magazineSlotId, string stockSlotId )
+            {
+                WeaponSlot = new WeaponSlot ( weaponSlotId );
+                BarrelSlot = new BarrelSlot ( barrelSlotId );
+                SightSlot = new SightSlot ( sightSlotId );
+                MagazineSlot = new MagazineSlot ( magazineSlotId );
+                StockSlot = new StockSlot ( stockSlotId );
+            }
+
+            public WeaponSlots ( string weaponSlotId, string barrelSlotId, string sightSlotId, string magazineSlotId, string stockSlotId,
+                Weapon weapon, Barrel barrel, Sight sight, Magazine magazine, Stock stock )
+            {
+                WeaponSlot = new WeaponSlot ( weaponSlotId, weapon );
+                BarrelSlot = new BarrelSlot ( barrelSlotId, barrel );
+                SightSlot = new SightSlot ( sightSlotId, sight );
+                MagazineSlot = new MagazineSlot ( magazineSlotId, magazine );
+                StockSlot = new StockSlot ( stockSlotId, stock );
+            }
+
+            public bool ContainsSlot ( string slotId )
+            {
+                if ( WeaponSlot.Id == slotId )
+                {
+                    return true;
+                }
+                if ( BarrelSlot.Id == slotId )
+                {
+                    return true;
+                }
+                if ( SightSlot.Id == slotId )
+                {
+                    return true;
+                }
+                if ( MagazineSlot.Id == slotId )
+                {
+                    return true;
+                }
+                if ( StockSlot.Id == slotId )
+                {
+                    return true;
+                }
+                return false;
+            }
+
+            public Slot GetSlot ( string slotId )
+            {
+                if ( WeaponSlot.Id == slotId )
+                {
+                    return WeaponSlot;
+                }
+                if ( BarrelSlot.Id == slotId )
+                {
+                    return BarrelSlot;
+                }
+                if ( SightSlot.Id == slotId )
+                {
+                    return SightSlot;
+                }
+                if ( MagazineSlot.Id == slotId )
+                {
+                    return MagazineSlot;
+                }
+                if ( StockSlot.Id == slotId )
+                {
+                    return StockSlot;
+                }
+                return null;
+            }
+        }
+
+        #endregion
     }
 }

@@ -130,6 +130,7 @@ public class Server
             { (int)ClientPackets.welcomeReceived, ServerHandle.WelcomeReceived },
             { (int)ClientPackets.ping, ServerHandle.Ping },
             { (int)ClientPackets.spawnPlayer, ServerHandle.SpawnPlayer },
+            { (int)ClientPackets.playerReady, ServerHandle.PlayerReady },
             { (int)ClientPackets.playerMovement, ServerHandle.PlayerMovement },
             { (int)ClientPackets.playerShoot, ServerHandle.PlayerShoot }
         };

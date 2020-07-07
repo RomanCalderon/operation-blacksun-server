@@ -16,7 +16,8 @@ public enum ServerPackets
     playerMovementVector,
     playerDisconnected,
     playerHealth,
-    playerRespawned
+    playerRespawned,
+    playerUpdateInventorySlot
 }
 
 /// <summary>Sent from client to server.</summary>
@@ -25,6 +26,7 @@ public enum ClientPackets
     welcomeReceived = 1,
     ping,
     spawnPlayer,
+    playerReady,
     playerMovement,
     playerShoot
 }

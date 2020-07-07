@@ -48,6 +48,20 @@ public class ServerHandle
         }
     }
 
+    public static void PlayerReady ( int _fromClient, Packet _packet )
+    {
+        int _clientIdCheck = _packet.ReadInt ();
+
+        if ( _fromClient != _clientIdCheck )
+        {
+            Debug.Log ( $"Player [{_fromClient}] has assumed the wrong client ID ({_clientIdCheck})!" );
+        }
+        else
+        {
+            Server.clients [ _fromClient ].player.SendInitializedInventory ();
+        }
+    }
+
     public static void PlayerMovement ( int _fromClient, Packet _packet )
     {
         bool [] _inputs = new bool [ _packet.ReadInt () ];
