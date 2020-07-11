@@ -51,14 +51,32 @@ MonoBehaviour:
   m_moveSpeed: 4
   m_jumpSpeed: 5
   m_maxHealth: 100
-  m_inventoryPreset: {fileID: 11400000, guid: 4b35af7fcc28bd341a448c70a278f312, type: 2}
+  m_inventoryPreset: {fileID: 11400000, guid: 51bc0d62c2679d44197c0f08bc6ab4aa, type: 2}
   m_inventory:
     m_rigSlots: []
     m_backpackSlots: []
-    m_primaryWeaponSlot:
-      Name: Weapon Slot - Empty
-    m_secondaryWeaponSlot:
-      Name: Weapon Slot - Empty
+    m_primaryWeaponSlots:
+      WeaponSlot:
+        Name: Weapon Slot - Empty
+      BarrelSlot:
+        Name: Attachment Slot (Barrel) - Empty
+      SightSlot:
+        Name: Attachment Slot (Sight) - Empty
+      MagazineSlot:
+        Name: Attachment Slot (Magazine) - Empty
+      StockSlot:
+        Name: Attachment Slot (Stock) - Empty
+    m_secondaryWeaponSlots:
+      WeaponSlot:
+        Name: Weapon Slot - Empty
+      BarrelSlot:
+        Name: Attachment Slot (Barrel) - Empty
+      SightSlot:
+        Name: Attachment Slot (Sight) - Empty
+      MagazineSlot:
+        Name: Attachment Slot (Magazine) - Empty
+      StockSlot:
+        Name: Attachment Slot (Stock) - Empty
 --- !u!143 &7354411244000219092
 CharacterController:
   m_ObjectHideFlags: 0

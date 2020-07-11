@@ -7,16 +7,16 @@ namespace InventorySystem.Presets
     [CreateAssetMenu ( fileName = "New Inventory Preset", menuName = "Inventory/Preset" )]
     public class Preset : ScriptableObject
     {
-        // Rig
-        public PlayerItem [] RigItems = null;
+        [Header ( "Rig" )]
+        public PlayerItemPreset [] RigItems = null;
 
-        // Backpack
+        [Header ( "Backpack" )]
         public PlayerItemPreset [] BackpackItems = null;
 
-        // Primary weapon
+        [Header ( "Primary Weapon" )]
         public WeaponPreset PrimaryWeapon;
 
-        // Secondary weapon
+        [Header ( "Secondary Weapon" )]
         public WeaponPreset SecondaryWeapon;
     }
 

@@ -69,7 +69,7 @@ namespace InventorySystem
             {
                 if ( i < preset.RigItems.Length )
                 {
-                    m_rigSlots [ i ] = new Slot ( "rig-" + i, preset.RigItems [ i ] );
+                    m_rigSlots [ i ] = new Slot ( "rig-" + i, preset.RigItems [ i ].PlayerItem );
                 }
                 else
                 {

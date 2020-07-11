@@ -12,13 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b7b58d9153b0d743894e79d0f2c288b, type: 3}
   m_Name: Eveningstar
   m_EditorClassIdentifier: 
-  Id: 
-  Name: 
+  Id: eveningstar
+  Name: Eveningstar
   StackLimit: 1
-  Image: {fileID: 0}
   WeaponType: 0
-  WeaponClass: 0
-  Caliber: 0
-  BaseDamage: 20
-  FireRate: 0.2
-  Magazine: {fileID: 0}
+  WeaponClass: 4
+  Caliber: 6
+  BaseDamage: 110
+  FireRate: 1
+  FireMode: 0
