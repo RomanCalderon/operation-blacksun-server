@@ -27,11 +27,7 @@ namespace InventorySystem.PlayerItems
 
         public override int GetHashCode ()
         {
-            int hashCode = -1488479220;
-            hashCode = hashCode * -1521134295 + base.GetHashCode ();
-            hashCode = hashCode * -1521134295 + Id.GetHashCode ();
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode ( Name );
-            return hashCode;
+            return base.GetHashCode ();
         }
 
         public override string ToString ()

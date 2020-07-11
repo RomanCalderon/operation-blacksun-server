@@ -38,6 +38,12 @@ namespace InventorySystem.PlayerItems
             Sniper
         }
 
+        public enum FireModes
+        {
+            SemiAuto,
+            FullAuto
+        }
+
         [Header ( "Weapon" )]
         [Tooltip ( "Defines which type of weapon slot this weapon is compatible with." )]
         public WeaponTypes WeaponType;
@@ -49,7 +55,7 @@ namespace InventorySystem.PlayerItems
         public int BaseDamage = 20;
         [Tooltip ( "The weapon's rate of fire in seconds." ), Min ( 0 )]
         public float FireRate = 0.2f;
-        [Tooltip ( "The magazine that defines this weapon's ammo capacity." )]
-        public Magazine Magazine = null;
+        [Tooltip ( "The weapon's firing mode." )]
+        public FireModes FireMode = FireModes.SemiAuto;
     }
 }

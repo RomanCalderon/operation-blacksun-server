@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b7b58d9153b0d743894e79d0f2c288b, type: 3}
+  m_Name: Eveningstar
+  m_EditorClassIdentifier: 
+  Id: 
+  Name: 
+  StackLimit: 1
+  Image: {fileID: 0}
+  WeaponType: 0
+  WeaponClass: 0
+  Caliber: 0
+  BaseDamage: 20
+  FireRate: 0.2
+  Magazine: {fileID: 0}
