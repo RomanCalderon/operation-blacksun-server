@@ -28,7 +28,8 @@ public enum ClientPackets
     spawnPlayer,
     playerReady,
     playerMovement,
-    playerShoot
+    playerShoot,
+    playerTransferSlotContents
 }
 
 public class Packet : IDisposable

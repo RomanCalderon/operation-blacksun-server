@@ -80,4 +80,26 @@ public class ServerHandle
 
         Server.clients [ _fromClient ].player.Shoot ( _shootDirection );
     }
+
+    public static void PlayerTransferSlotContents ( int _fromClient, Packet _packet )
+    {
+        string fromSlotId = _packet.ReadString ();
+        string toSlotId = _packet.ReadString ();
+        int transferMode = _packet.ReadInt ();
+
+        switch ( transferMode )
+        {
+            case 0: // Transfer ALL
+                Server.clients [ _fromClient ].player.Inventory.TransferContentsAll ( fromSlotId, toSlotId );
+                break;
+            case 1: // Transfer ONE
+                Server.clients [ _fromClient ].player.Inventory.TransferContentsSingle ( fromSlotId, toSlotId );
+                break;
+            case 2: // Transfer HALF
+                Server.clients [ _fromClient ].player.Inventory.TransferContentsHalf ( fromSlotId, toSlotId );
+                break;
+            default:
+                break;
+        }
+    }
 }

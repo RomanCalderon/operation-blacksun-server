@@ -28,8 +28,7 @@ public class Player : MonoBehaviour
     // Inventory
     [SerializeField]
     private Preset m_inventoryPreset = null;
-    [SerializeField]
-    private Inventory m_inventory = null;
+    public Inventory Inventory { get; private set; } = null;
 
 
     private void Awake ()
@@ -51,21 +50,24 @@ public class Player : MonoBehaviour
         Health = m_maxHealth;
 
         m_inputs = new bool [ 5 ];
-        m_inventory = new Inventory ( this, m_inventoryPreset );
+        Inventory = new Inventory ( this, m_inventoryPreset );
     }
 
     public void SendInitializedInventory ()
     {
-        if ( m_inventory == null )
+        if ( Inventory == null )
         {
             return;
         }
-        m_inventory.SendInitializedInventory ();
+        Inventory.SendInitializedInventory ();
     }
 
     private void OnValidate ()
     {
-        m_inventory.OnValidate ();
+        if ( Inventory != null )
+        {
+            Inventory.OnValidate ();
+        }
     }
 
     public void FixedUpdate ()

@@ -12,7 +12,7 @@ namespace InventorySystem
     [Serializable]
     public class Inventory
     {
-        private Player m_player;
+        private readonly Player m_player;
 
         // Rig
         [SerializeField]
@@ -69,7 +69,7 @@ namespace InventorySystem
             {
                 if ( i < preset.RigItems.Length )
                 {
-                    m_rigSlots [ i ] = new Slot ( "rig-" + i, preset.RigItems [ i ].PlayerItem );
+                    m_rigSlots [ i ] = new Slot ( "rig-" + i, preset.RigItems [ i ].PlayerItem, preset.RigItems [ i ].Quantity );
                 }
                 else
                 {
@@ -275,6 +275,178 @@ namespace InventorySystem
             return null;
         }
 
+        public void TransferContentsAll ( string fromSlotId, string toSlotId )
+        {
+            if ( string.IsNullOrEmpty ( fromSlotId ) || string.IsNullOrEmpty ( toSlotId ) )
+            {
+                Debug.Assert ( !string.IsNullOrEmpty ( fromSlotId ), "fromSlotId is null or empty." );
+                Debug.Assert ( !string.IsNullOrEmpty ( toSlotId ), "toSlotId is null or empty." );
+                return;
+            }
+            Slot fromSlot = GetSlot ( fromSlotId );
+            Slot toSlot = GetSlot ( toSlotId );
+            if ( fromSlot == null || toSlot == null )
+            {
+                Debug.Assert ( fromSlot != null, "fromSlot is null." );
+                Debug.Assert ( toSlot != null, "toSlot is null." );
+                return;
+            }
+
+            PlayerItem playerItem = fromSlot.PlayerItem;
+            int quantity = fromSlot.StackSize;
+            if ( playerItem != null )
+            {
+                // Remove the PlayerItem from the fromSlot
+                RemovalResult removalResult = fromSlot.RemoveAll ();
+                switch ( removalResult.Result )
+                {
+                    case RemovalResult.Results.SUCCESS:
+                        break;
+                    case RemovalResult.Results.SLOT_EMPTY:
+                        Debug.LogError ( "fromSlot is empty." );
+                        return;
+                    default:
+                        Debug.LogError ( $"Unknown RemovalResult [{removalResult.Result}]" );
+                        return;
+                }
+
+                InsertionResult insertionResult = toSlot.Insert ( playerItem, quantity );
+                switch ( insertionResult.Result )
+                {
+                    case InsertionResult.Results.SUCCESS:
+                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, toSlot.Id, playerItem.Id, toSlot.StackSize ); // toSlot
+                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, string.Empty, 0 ); // fromSlot
+                        break;
+                    case InsertionResult.Results.SLOT_FULL:
+                        Debug.Log ( "Slot full" );
+                        break;
+                    case InsertionResult.Results.OVERFLOW:
+                        Debug.Log ( "Overflow" );
+                        break;
+                    case InsertionResult.Results.INSERTION_FAILED:
+                        Debug.Log ( "Insertion failed" );
+                        fromSlot.Insert ( playerItem, removalResult.RemoveAmount );
+                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize );
+                        return;
+                    case InsertionResult.Results.INVALID_TYPE:
+                        Debug.Log ( "Invalid type" );
+                        fromSlot.Insert ( playerItem, removalResult.RemoveAmount );
+                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize );
+                        return;
+                    default:
+                        break;
+                }
+            }
+            OnValidate ();
+        }
+
+        public void TransferContentsSingle ( string fromSlotId, string toSlotId )
+        {
+            if ( string.IsNullOrEmpty ( fromSlotId ) || string.IsNullOrEmpty ( toSlotId ) )
+            {
+                Debug.Assert ( !string.IsNullOrEmpty ( fromSlotId ), "fromSlotId is null or empty." );
+                Debug.Assert ( !string.IsNullOrEmpty ( toSlotId ), "toSlotId is null or empty." );
+                return;
+            }
+            Slot fromSlot = GetSlot ( fromSlotId );
+            Slot toSlot = GetSlot ( toSlotId );
+            if ( fromSlot == null || toSlot == null )
+            {
+                Debug.Assert ( fromSlot != null, "fromSlot is null." );
+                Debug.Assert ( toSlot != null, "toSlot is null." );
+                return;
+            }
+
+            PlayerItem playerItem = fromSlot.PlayerItem;
+            if ( playerItem != null )
+            {
+                // Remove the PlayerItem from the fromSlot
+                RemovalResult removalResult = fromSlot.Remove ();
+                switch ( removalResult.Result )
+                {
+                    case RemovalResult.Results.SUCCESS:
+                        break;
+                    case RemovalResult.Results.SLOT_EMPTY:
+                        Debug.LogError ( "fromSlot is empty." );
+                        return;
+                    default:
+                        Debug.LogError ( $"Unknown RemovalResult [{removalResult.Result}]" );
+                        return;
+                }
+
+                // Insert the PlayerItem into the toSlot
+                InsertionResult insertionResult = toSlot.Insert ( playerItem );
+                switch ( insertionResult.Result )
+                {
+                    case InsertionResult.Results.SUCCESS:
+                        string fromSlotPlayerItemId = fromSlot.PlayerItem ? fromSlot.PlayerItem.Id : string.Empty;
+                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, toSlot.Id, toSlot.PlayerItem.Id, toSlot.StackSize ); // toSlot
+                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, fromSlotPlayerItemId, fromSlot.StackSize ); // fromSlot
+                        break;
+                    case InsertionResult.Results.SLOT_FULL:
+                        Debug.Log ( "Slot full" );
+                        break;
+                    case InsertionResult.Results.OVERFLOW:
+                        Debug.Log ( "Overflow" );
+                        break;
+                    case InsertionResult.Results.INSERTION_FAILED:
+                        Debug.Log ( "Insertion failed" );
+                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize );
+                        return;
+                    case InsertionResult.Results.INVALID_TYPE:
+                        Debug.Log ( "Invalid type" );
+                        return;
+                    default:
+                        Debug.LogError ( $"Unknown InsertionResult [{insertionResult.Result}]" );
+                        return;
+                }
+            }
+            OnValidate ();
+        }
+
+        public void TransferContentsHalf ( string fromSlotId, string toSlotId )
+        {
+            throw new NotImplementedException ( "TransferContentsHalf() not implemented" );
+
+            if ( string.IsNullOrEmpty ( fromSlotId ) || string.IsNullOrEmpty ( toSlotId ) )
+            {
+                Debug.Assert ( !string.IsNullOrEmpty ( fromSlotId ), "fromSlotId is null or empty." );
+                Debug.Assert ( !string.IsNullOrEmpty ( toSlotId ), "toSlotId is null or empty." );
+                return;
+            }
+            Slot fromSlot = GetSlot ( fromSlotId );
+            Slot toSlot = GetSlot ( toSlotId );
+            if ( fromSlot == null || toSlot == null )
+            {
+                Debug.Assert ( fromSlot != null, "fromSlot is null." );
+                Debug.Assert ( toSlot != null, "toSlot is null." );
+                return;
+            }
+
+            PlayerItem playerItem = fromSlot.PlayerItem;
+            int quantity = Mathf.CeilToInt ( fromSlot.StackSize / 2f );
+            if ( playerItem != null && quantity > 0 )
+            {
+                InsertionResult insertionResult = toSlot.Insert ( playerItem, quantity );
+                switch ( insertionResult.Result )
+                {
+                    case InsertionResult.Results.SUCCESS:
+                        break;
+                    case InsertionResult.Results.SLOT_FULL:
+                        break;
+                    case InsertionResult.Results.OVERFLOW:
+                        break;
+                    case InsertionResult.Results.INSERTION_FAILED:
+                        break;
+                    case InsertionResult.Results.INVALID_TYPE:
+                        break;
+                    default:
+                        break;
+                }
+            }
+            OnValidate ();
+        }
+
         #region Rig
 
         /// <summary>
@@ -296,26 +468,15 @@ namespace InventorySystem
         }
 
         /// <summary>
-        /// Add one instance of <paramref name="playerItem"/> into slot <paramref name="slotIndex"/>.
-        /// </summary>
-        /// <param name="playerItem">The PlayerItem to add to a rig slot.</param>
-        /// <param name="slotIndex">The rig slot index.</param>
-        /// <returns>An InsertionResult for this operation.</returns>
-        public InsertionResult AddToRig ( PlayerItem playerItem, int slotIndex )
-        {
-            return AddToRig ( playerItem, 1, slotIndex );
-        }
-
-        /// <summary>
         /// Add <paramref name="quantity"/> amount of <paramref name="playerItem"/> into slot <paramref name="slotIndex"/>.
         /// </summary>
         /// <param name="playerItem">The PlayerItem to add to a rig slot.</param>
         /// <param name="quantity">The amount of items to add.</param>
         /// <param name="slotIndex">The rig slot index.</param>
         /// <returns>An InsertionResult for this operation.</returns>
-        public InsertionResult AddToRig ( PlayerItem playerItem, int quantity, int slotIndex )
+        public InsertionResult AddToRig ( PlayerItem playerItem, int quantity = 1 )
         {
-            if ( slotIndex < 0 || slotIndex >= m_rigSlots.Length || playerItem == null || quantity <= 0 )
+            if ( playerItem == null || quantity <= 0 )
             {
                 return new InsertionResult ( playerItem, InsertionResult.Results.INSERTION_FAILED );
             }
@@ -392,32 +553,24 @@ namespace InventorySystem
         }
 
         /// <summary>
-        /// Add one instance of <paramref name="playerItem"/> into slot <paramref name="slotIndex"/>.
-        /// </summary>
-        /// <param name="playerItem">The PlayerItem to add to a backpack slot.</param>
-        /// <param name="slotIndex">The backpack slot index.</param>
-        /// <returns>An InsertionResult for this operation.</returns>
-        public InsertionResult AddToBackpack ( PlayerItem playerItem, int slotIndex )
-        {
-            return AddToBackpack ( playerItem, 1, slotIndex );
-        }
-
-        /// <summary>
         /// Add <paramref name="quantity"/> amount of <paramref name="playerItem"/> into slot <paramref name="slotIndex"/>.
         /// </summary>
         /// <param name="playerItem">The PlayerItem to add to a backpack slot.</param>
         /// <param name="quantity">The amount of items to add.</param>
         /// <param name="slotIndex">The backpack slot index.</param>
         /// <returns>An InsertionResult for this operation.</returns>
-        public InsertionResult AddToBackpack ( PlayerItem playerItem, int quantity, int slotIndex )
+        public InsertionResult AddToBackpack ( PlayerItem playerItem, int quantity = 1 )
         {
-            if ( slotIndex < 0 || slotIndex >= m_rigSlots.Length || playerItem == null || quantity <= 0 )
+            if ( playerItem == null || quantity <= 0 )
             {
                 return new InsertionResult ( playerItem, InsertionResult.Results.INSERTION_FAILED );
             }
-
             Slot slot = m_backpackSlots.FirstOrDefault ( s => s.IsAvailable ( playerItem ) );
 
+            if ( slot == null ) // No slots available
+            {
+                return new InsertionResult ( InsertionResult.Results.INSERTION_FAILED );
+            }
             return slot.Insert ( playerItem, quantity );
         }
 
