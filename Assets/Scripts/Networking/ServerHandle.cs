@@ -58,7 +58,10 @@ public class ServerHandle
         }
         else
         {
-            Server.clients [ _fromClient ].player.SendInitializedInventory ();
+            if ( Server.clients [ _fromClient ].player != null )
+            {
+                Server.clients [ _fromClient ].player.SendInitializedInventory ();
+            }
         }
     }
 

@@ -191,14 +191,14 @@ public class Client
 
     public void ConnectPlayer ()
     {
-        // Send all virtual players to the new virtual player
+        // Send all connected players to the new connected player
         foreach ( Client _client in Server.clients.Values )
         {
             if ( !string.IsNullOrEmpty ( _client.username ) )
             {
                 if ( _client.id != id )
                 {
-                    ServerSend.ConnectPlayer ( id, _client.id, _client.username );
+                    ServerSend.ConnectPlayer ( id, _client.id, _client.username ); // To new player
                 }
             }
         }
@@ -210,17 +210,17 @@ public class Client
             {
                 if ( _client.id != id )
                 {
-                    ServerSend.SpawnPlayer ( id, _client.player );
+                    ServerSend.SpawnPlayer ( id, _client.player ); // To new player
                 }
             }
         }
 
-        // Send the new virtual player to all virtual players (including himself)
+        // Send the new connected player to all connected players (including himself)
         foreach ( Client _client in Server.clients.Values )
         {
             if ( !string.IsNullOrEmpty ( _client.username ) )
             {
-                ServerSend.ConnectPlayer ( _client.id, id, username );
+                ServerSend.ConnectPlayer ( _client.id, id, username ); // To all players
             }
         }
     }
@@ -237,7 +237,7 @@ public class Client
         {
             if ( !string.IsNullOrEmpty ( _client.username ) )
             {
-                ServerSend.SpawnPlayer ( _client.id, player );
+                ServerSend.SpawnPlayer ( _client.id, player ); // To all players
             }
         }
     }
