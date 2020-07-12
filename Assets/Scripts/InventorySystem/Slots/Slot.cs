@@ -230,7 +230,7 @@ namespace InventorySystem.Slots
             {
                 return true;
             }
-            return ( !IsFull () && PlayerItem.Equals ( playerItem ) ); // Check if there's room and compare ids
+            return ( PlayerItem.Equals ( playerItem ) ); // Check if there's room and compare ids
         }
 
         /// <summary>
