@@ -514,9 +514,12 @@ namespace InventorySystem
             Debug.Log ( $"reductionAmount [{reductionAmount}]" );
             while ( itemsReduced < reductionAmount )
             {
+                if (slotQueue.Count() == 0)
+                {
+                    break;
+                }
                 Slot currentSlot = slotQueue.Dequeue ();
                 int amountToRemove = reductionAmount - itemsReduced;
-                int amountRemoved = Mathf.Min ( currentSlot.StackSize, amountToRemove );
                 RemovalResult result = currentSlot.Remove ( amountToRemove );
                 if ( result.Result == RemovalResult.Results.SUCCESS )
                 {
