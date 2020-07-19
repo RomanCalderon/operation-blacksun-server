@@ -19,6 +19,10 @@ namespace InventorySystem.Slots
         {
             Id = id;
             PlayerItem = barrel;
+            if ( PlayerItem != null )
+            {
+                StackSize = 1;
+            }
         }
 
         #endregion

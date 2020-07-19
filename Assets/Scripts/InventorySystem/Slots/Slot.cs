@@ -125,12 +125,6 @@ namespace InventorySystem.Slots
                 }
                 else // Successful insertion
                 {
-                    // Check if this slot is empty
-                    if ( PlayerItem == null )
-                    {
-                        PlayerItem = playerItem;
-                    }
-
                     // Increase the slot stack volume by the new quantity
                     StackSize += quantity;
 
@@ -138,7 +132,7 @@ namespace InventorySystem.Slots
                     return new InsertionResult ( this, InsertionResult.Results.SUCCESS );
                 }
             }
-            return new InsertionResult ( playerItem, InsertionResult.Results.INSERTION_FAILED );
+            return new InsertionResult ( playerItem, InsertionResult.Results.SLOT_FULL );
         }
 
         /// <summary>

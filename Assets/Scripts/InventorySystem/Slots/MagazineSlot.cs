@@ -19,6 +19,10 @@ namespace InventorySystem.Slots
         {
             Id = id;
             PlayerItem = magazine;
+            if ( PlayerItem != null )
+            {
+                StackSize = 1;
+            }
         }
 
         #endregion

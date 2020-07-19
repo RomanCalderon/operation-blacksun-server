@@ -22,6 +22,10 @@ namespace InventorySystem.Slots
         {
             Id = id;
             PlayerItem = attachment;
+            if ( attachment != null )
+            {
+                StackSize = 1;
+            }
         }
 
         #endregion

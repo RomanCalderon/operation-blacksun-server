@@ -273,8 +273,13 @@ namespace InventorySystem
                         ServerSend.PlayerUpdateInventorySlot ( m_player.Id, toSlot.Id, playerItem.Id, toSlot.StackSize ); // toSlot
                         ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, string.Empty, 0 ); // fromSlot
                         break;
-                    case InsertionResult.Results.SLOT_FULL:
+                    case InsertionResult.Results.SLOT_FULL: // Swap
                         Debug.Log ( "Slot full" );
+                        Debug.Log ( fromSlot.Insert ( toSlot.PlayerItem, toSlot.StackSize ) );
+                        toSlot.Clear ();
+                        Debug.Log ( toSlot.Insert ( playerItem, removalResult.RemoveAmount ) );
+                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize ); // fromSlot
+                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, toSlot.Id, toSlot.PlayerItem.Id, toSlot.StackSize ); // toSlot
                         break;
                     case InsertionResult.Results.OVERFLOW:
                         Debug.Log ( $"Overflow - OverflowAmount [{insertionResult.OverflowAmount}]" );
@@ -284,7 +289,9 @@ namespace InventorySystem
                         break;
                     case InsertionResult.Results.INSERTION_FAILED:
                         Debug.Log ( "Insertion failed" );
-                        fromSlot.Insert ( playerItem, removalResult.RemoveAmount );
+                        Debug.Log ( $"playerItem [{playerItem}]" );
+                        Debug.Log ( $"removalResult.RemoveAmount [{removalResult.RemoveAmount}]" );
+                        Debug.Log ( fromSlot.Insert ( playerItem, removalResult.RemoveAmount ) );
                         ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize ); // fromSlot
                         return;
                     case InsertionResult.Results.INVALID_TYPE:
@@ -342,6 +349,8 @@ namespace InventorySystem
                         break;
                     case InsertionResult.Results.SLOT_FULL:
                         Debug.Log ( "Slot full" );
+                        fromSlot.Insert ( playerItem, removalResult.RemoveAmount );
+                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize ); // fromSlot
                         break;
                     case InsertionResult.Results.OVERFLOW:
                         fromSlot.Insert ( playerItem, insertionResult.OverflowAmount );
@@ -409,6 +418,8 @@ namespace InventorySystem
                         break;
                     case InsertionResult.Results.SLOT_FULL:
                         Debug.Log ( "Slot full" );
+                        fromSlot.Insert ( playerItem, removalResult.RemoveAmount );
+                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize ); // fromSlot
                         break;
                     case InsertionResult.Results.OVERFLOW:
                         Debug.Log ( $"Overflow - OverflowAmount [{insertionResult.OverflowAmount}]" );
@@ -514,7 +525,7 @@ namespace InventorySystem
             Debug.Log ( $"reductionAmount [{reductionAmount}]" );
             while ( itemsReduced < reductionAmount )
             {
-                if (slotQueue.Count() == 0)
+                if ( slotQueue.Count () == 0 )
                 {
                     break;
                 }
