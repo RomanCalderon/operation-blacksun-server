@@ -6,6 +6,8 @@ using InventorySystem.Presets;
 using InventorySystem.Slots;
 using InventorySystem.Slots.Results;
 using InventorySystem.PlayerItems;
+using System.Reflection;
+using System.CodeDom;
 
 namespace InventorySystem
 {
@@ -86,7 +88,6 @@ namespace InventorySystem
             foreach ( PlayerItemPreset playerItemPreset in preset.BackpackItems )
             {
                 AddToBackpackAny ( playerItemPreset.PlayerItem, playerItemPreset.Quantity );
-                //Debug.Log ( AddToBackpackAny ( playerItemPreset.PlayerItem, playerItemPreset.Quantity ) );
             }
 
             // Primary weapon
@@ -263,7 +264,7 @@ namespace InventorySystem
                         Debug.LogError ( $"Unknown RemovalResult [{removalResult.Result}]" );
                         return;
                 }
-                
+
                 int transferQuantity = removalResult.RemoveAmount;
                 InsertionResult insertionResult = toSlot.Insert ( playerItem, transferQuantity ); // Insertion
                 switch ( insertionResult.Result )
@@ -349,12 +350,12 @@ namespace InventorySystem
                         break;
                     case InsertionResult.Results.INSERTION_FAILED:
                         fromSlot.Insert ( playerItem, removalResult.RemoveAmount );
-                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize );
+                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize ); // fromSlot
                         return;
                     case InsertionResult.Results.INVALID_TYPE:
                         Debug.Log ( "Invalid type" );
                         fromSlot.Insert ( playerItem, removalResult.RemoveAmount );
-                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize );
+                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize ); // fromSlot
                         return;
                     default:
                         Debug.LogError ( $"Unknown InsertionResult [{insertionResult.Result}]" );
@@ -418,12 +419,12 @@ namespace InventorySystem
                     case InsertionResult.Results.INSERTION_FAILED:
                         Debug.Log ( "Insertion failed" );
                         fromSlot.Insert ( playerItem, removalResult.RemoveAmount );
-                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize );
+                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize ); // fromSlot
                         return;
                     case InsertionResult.Results.INVALID_TYPE:
                         Debug.Log ( "Invalid type" );
                         fromSlot.Insert ( playerItem, removalResult.RemoveAmount );
-                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize );
+                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize ); // fromSlot
                         return;
                     default:
                         Debug.LogError ( $"Unknown InsertionResult [{insertionResult.Result}]" );
@@ -432,7 +433,6 @@ namespace InventorySystem
             }
             OnValidate ();
         }
-
 
         #endregion
 
@@ -476,6 +476,62 @@ namespace InventorySystem
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Reduces <paramref name="playerItemId"/> by <paramref name="reductionAmount"/> from the inventory.
+        /// </summary>
+        public void ReduceItem ( string playerItemId, int reductionAmount )
+        {
+            if ( string.IsNullOrEmpty ( playerItemId ) || reductionAmount <= 0 )
+            {
+                return;
+            }
+
+            // Keep track of amount of items reduced from slots
+            int itemsReduced = 0;
+
+            // Get all slots that contain PlayerItem with matching IDs
+            List<Slot> slots = new List<Slot> ();
+            slots.AddRange ( m_rigSlots.Where ( s => s.PlayerItem && s.PlayerItem.Id == playerItemId ) );
+            slots.AddRange ( m_backpackSlots.Where ( s => s.PlayerItem && s.PlayerItem.Id == playerItemId ) );
+            slots.AddRange ( m_primaryWeaponSlots.GetSlotsWithItem ( playerItemId ) );
+            slots.AddRange ( m_secondaryWeaponSlots.GetSlotsWithItem ( playerItemId ) );
+
+            // Sort the slots by stack size
+            slots.Sort ( delegate ( Slot a, Slot b )
+             {
+                 if ( a.PlayerItem == null && b.PlayerItem == null ) return 0;
+                 else if ( a.PlayerItem == null ) return -1;
+                 else if ( b.PlayerItem == null ) return 1;
+                 else return a.StackSize.CompareTo ( b.StackSize );
+             } );
+
+            // Create a queue
+            Queue<Slot> slotQueue = new Queue<Slot> ( slots );
+            List<Slot> affectedSlots = new List<Slot> ();
+
+            Debug.Log ( $"reductionAmount [{reductionAmount}]" );
+            while ( itemsReduced < reductionAmount )
+            {
+                Slot currentSlot = slotQueue.Dequeue ();
+                int amountToRemove = reductionAmount - itemsReduced;
+                int amountRemoved = Mathf.Min ( currentSlot.StackSize, amountToRemove );
+                RemovalResult result = currentSlot.Remove ( amountToRemove );
+                if ( result.Result == RemovalResult.Results.SUCCESS )
+                {
+                    itemsReduced += result.RemoveAmount;
+                    affectedSlots.Add ( currentSlot );
+                }
+            }
+
+            // ServerSend the affected slots
+            foreach ( Slot slot in affectedSlots )
+            {
+                // ID of slot's PlayerItem (empty if null)
+                string itemId = slot.PlayerItem == null ? string.Empty : playerItemId;
+                ServerSend.PlayerUpdateInventorySlot ( m_player.Id, slot.Id, itemId, slot.StackSize );
+            }
         }
 
         #region Rig
@@ -775,6 +831,34 @@ namespace InventorySystem
                     return StockSlot;
                 }
                 return null;
+            }
+
+            public List<Slot> GetSlotsWithItem ( string playerItemId )
+            {
+                List<Slot> slots = new List<Slot> ();
+
+                if ( WeaponSlot.PlayerItem && WeaponSlot.PlayerItem.Id == playerItemId )
+                {
+                    slots.Add ( WeaponSlot );
+                }
+                if ( BarrelSlot.PlayerItem && BarrelSlot.PlayerItem.Id == playerItemId )
+                {
+                    slots.Add ( BarrelSlot );
+                }
+                if ( SightSlot.PlayerItem && SightSlot.PlayerItem.Id == playerItemId )
+                {
+                    slots.Add ( SightSlot );
+                }
+                if ( MagazineSlot.PlayerItem && MagazineSlot.PlayerItem.Id == playerItemId )
+                {
+                    slots.Add ( MagazineSlot );
+                }
+                if ( StockSlot.PlayerItem && StockSlot.PlayerItem.Id == playerItemId )
+                {
+                    slots.Add ( StockSlot );
+                }
+
+                return slots;
             }
         }
 

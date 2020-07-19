@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using InventorySystem.PlayerItems;
 using InventorySystem.Slots.Results;
 
@@ -36,9 +37,16 @@ namespace InventorySystem.Slots
             }
             if ( IsEmpty () )
             {
-                return base.Insert ( weapon );
+                PlayerItem = weapon;
+                StackSize = 1;
+                return new InsertionResult ( weapon, InsertionResult.Results.SUCCESS );
             }
             return new InsertionResult ( weapon, InsertionResult.Results.SLOT_FULL );
+        }
+
+        public override InsertionResult Insert ( PlayerItem playerItem, int quantity )
+        {
+            return Insert ( playerItem );
         }
 
         protected override bool IsValidPlayerItem ( PlayerItem playerItem )
@@ -54,11 +62,11 @@ namespace InventorySystem.Slots
         {
             if ( PlayerItem != null )
             {
-                return $"Weapon Slot - {PlayerItem.Name}";
+                return $"Weapon Slot [{Id}] - {PlayerItem.Name}";
             }
             else
             {
-                return "Weapon Slot - Empty";
+                return $"Weapon Slot [{Id}] - Empty";
             }
         }
 

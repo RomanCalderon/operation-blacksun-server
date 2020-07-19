@@ -133,7 +133,8 @@ public class Server
             { (int)ClientPackets.playerReady, ServerHandle.PlayerReady },
             { (int)ClientPackets.playerMovement, ServerHandle.PlayerMovement },
             { (int)ClientPackets.playerShoot, ServerHandle.PlayerShoot },
-            { (int)ClientPackets.playerTransferSlotContents, ServerHandle.PlayerTransferSlotContents }
+            { (int)ClientPackets.playerTransferSlotContents, ServerHandle.PlayerTransferSlotContents },
+            { (int)ClientPackets.playerInventoryReduceItem, ServerHandle.PlayerInventoryReduceItem }
         };
         Debug.Log ( "Initialized packets." );
     }

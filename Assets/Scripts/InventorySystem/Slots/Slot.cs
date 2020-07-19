@@ -317,11 +317,11 @@ namespace InventorySystem.Slots
         {
             if ( PlayerItem != null )
             {
-                return $"Slot - {PlayerItem.Name} - {( IsStackable ? $"[{StackSize}/{PlayerItem.StackLimit}]" : "Not Stackable" )}";
+                return $"Slot [{Id}] - {PlayerItem.Name} - {( IsStackable ? $"[{StackSize}/{PlayerItem.StackLimit}]" : "Not Stackable" )}";
             }
             else
             {
-                return "Slot - Empty";
+                return $"Slot [{Id}] - Empty";
             }
         }
 
@@ -349,7 +349,7 @@ namespace InventorySystem.Slots.Results
         public Results Result { get; private set; }
         public int OverflowAmount { get; private set; }
 
-        
+
         public InsertionResult ( Results result = Results.INSERTION_FAILED )
         {
             Slot = null;
@@ -365,7 +365,7 @@ namespace InventorySystem.Slots.Results
             Result = result;
             OverflowAmount = 0;
         }
-        
+
         public InsertionResult ( PlayerItem playerItem, Results result = Results.INSERTION_FAILED )
         {
             Contents = playerItem;

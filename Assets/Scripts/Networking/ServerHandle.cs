@@ -105,4 +105,12 @@ public class ServerHandle
                 break;
         }
     }
+
+    public static void PlayerInventoryReduceItem ( int _fromClient, Packet _packet )
+    {
+        string playerItemId = _packet.ReadString ();
+        int reductionAmount = _packet.ReadInt ();
+
+        Server.clients [ _fromClient ].player.Inventory.ReduceItem ( playerItemId, reductionAmount );
+    }
 }

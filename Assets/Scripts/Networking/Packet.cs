@@ -29,7 +29,8 @@ public enum ClientPackets
     playerReady,
     playerMovement,
     playerShoot,
-    playerTransferSlotContents
+    playerTransferSlotContents,
+    playerInventoryReduceItem
 }
 
 public class Packet : IDisposable

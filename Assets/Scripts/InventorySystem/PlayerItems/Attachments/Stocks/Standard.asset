@@ -15,4 +15,4 @@ MonoBehaviour:
   Id: standard-stock
   Name: Standard Stock
   StackLimit: 1
-  RecoilReductionModifier: 0.2
+  RecoilReductionModifier: 0.1
