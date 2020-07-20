@@ -127,13 +127,13 @@ public class Player : MonoBehaviour
         transform.rotation = _rotation;
     }
 
-    public void Shoot ( Vector3 _viewDirection )
+    public void Shoot ( Vector3 _viewDirection, float _damage )
     {
-        if ( Physics.Raycast ( m_shootOrigin.position, _viewDirection, out RaycastHit _hit, 25f ) )
+        if ( Physics.Raycast ( m_shootOrigin.position, _viewDirection, out RaycastHit _hit, 500f ) )
         {
             if ( _hit.collider.CompareTag ( "Player" ) )
             {
-                _hit.collider.GetComponent<Player> ().TakeDamage ( 25f );
+                _hit.collider.GetComponent<Player> ().TakeDamage ( _damage );
             }
         }
     }

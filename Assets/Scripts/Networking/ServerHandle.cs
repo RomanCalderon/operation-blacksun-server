@@ -80,8 +80,9 @@ public class ServerHandle
     public static void PlayerShoot ( int _fromClient, Packet _packet )
     {
         Vector3 _shootDirection = _packet.ReadVector3 ();
+        float _damage = _packet.ReadFloat ();
 
-        Server.clients [ _fromClient ].player.Shoot ( _shootDirection );
+        Server.clients [ _fromClient ].player.Shoot ( _shootDirection, _damage );
     }
 
     public static void PlayerTransferSlotContents ( int _fromClient, Packet _packet )
