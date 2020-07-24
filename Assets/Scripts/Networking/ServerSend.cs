@@ -108,25 +108,25 @@ public class ServerSend
         }
     }
 
-    public static void PlayerPosition ( Player _player )
+    public static void PlayerPosition ( int _playerId, Vector3 _position )
     {
         using ( Packet _packet = new Packet ( ( int ) ServerPackets.playerPosition ) )
         {
-            _packet.Write ( _player.Id );
-            _packet.Write ( _player.transform.position );
+            _packet.Write ( _playerId );
+            _packet.Write ( _position );
 
             SendUDPDataToAll ( _packet );
         }
     }
 
-    public static void PlayerRotation ( Player _player )
+    public static void PlayerRotation ( int _playerId, Quaternion _rotation )
     {
         using ( Packet _packet = new Packet ( ( int ) ServerPackets.playerRotation ) )
         {
-            _packet.Write ( _player.Id );
-            _packet.Write ( _player.transform.rotation );
+            _packet.Write ( _playerId );
+            _packet.Write ( _rotation );
 
-            SendUDPDataToAll ( _player.Id, _packet );
+            SendUDPDataToAll ( _playerId, _packet );
         }
     }
 
@@ -152,22 +152,22 @@ public class ServerSend
         }
     }
 
-    public static void PlayerHealth ( Player _player )
+    public static void PlayerHealth ( int _playerId, float _health )
     {
         using ( Packet _packet = new Packet ( ( int ) ServerPackets.playerHealth ) )
         {
-            _packet.Write ( _player.Id );
-            _packet.Write ( _player.Health );
+            _packet.Write ( _playerId );
+            _packet.Write ( _health );
 
             SendTCPDataToAll ( _packet );
         }
     }
 
-    public static void PlayerRespawned ( Player _player )
+    public static void PlayerRespawned ( int _playerId )
     {
         using ( Packet _packet = new Packet ( ( int ) ServerPackets.playerRespawned ) )
         {
-            _packet.Write ( _player.Id );
+            _packet.Write ( _playerId );
 
             SendTCPDataToAll ( _packet );
         }

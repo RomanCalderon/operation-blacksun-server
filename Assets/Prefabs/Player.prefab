@@ -52,31 +52,6 @@ MonoBehaviour:
   m_jumpSpeed: 5
   m_maxHealth: 100
   m_inventoryPreset: {fileID: 11400000, guid: 51bc0d62c2679d44197c0f08bc6ab4aa, type: 2}
-  m_inventory:
-    m_rigSlots: []
-    m_backpackSlots: []
-    m_primaryWeaponSlots:
-      WeaponSlot:
-        Name: Weapon Slot - Empty
-      BarrelSlot:
-        Name: Attachment Slot (Barrel) - Empty
-      SightSlot:
-        Name: Attachment Slot (Sight) - Empty
-      MagazineSlot:
-        Name: Attachment Slot (Magazine) - Empty
-      StockSlot:
-        Name: Attachment Slot (Stock) - Empty
-    m_secondaryWeaponSlots:
-      WeaponSlot:
-        Name: Weapon Slot - Empty
-      BarrelSlot:
-        Name: Attachment Slot (Barrel) - Empty
-      SightSlot:
-        Name: Attachment Slot (Sight) - Empty
-      MagazineSlot:
-        Name: Attachment Slot (Magazine) - Empty
-      StockSlot:
-        Name: Attachment Slot (Stock) - Empty
 --- !u!143 &7354411244000219092
 CharacterController:
   m_ObjectHideFlags: 0
@@ -183,7 +158,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: d67fe52e3225b5543b3dcf3f83c4af5b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

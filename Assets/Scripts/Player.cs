@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float m_maxHealth = 100f;
     public float Health { get; private set; }
+    public bool IsDead { get { return Health == 0; } }
     private bool [] m_inputs;
     private float m_yVelocity = 0;
 
@@ -53,6 +54,17 @@ public class Player : MonoBehaviour
         Inventory = new Inventory ( this, m_inventoryPreset );
     }
 
+    /// <summary>
+    /// Use when the player is being respawned.
+    /// </summary>
+    private void Reinitialize ()
+    {
+        Health = m_maxHealth;
+        m_controller.enabled = true;
+        Inventory = new Inventory ( this, m_inventoryPreset );
+        Inventory.SendInitializedInventory ();
+    }
+
     public void SendInitializedInventory ()
     {
         if ( Inventory == null )
@@ -72,7 +84,7 @@ public class Player : MonoBehaviour
 
     public void FixedUpdate ()
     {
-        if ( Health <= 0f )
+        if ( IsDead )
         {
             return;
         }
@@ -116,8 +128,8 @@ public class Player : MonoBehaviour
         _moveDirection.y = m_yVelocity;
         m_controller.Move ( _moveDirection );
 
-        ServerSend.PlayerPosition ( this );
-        ServerSend.PlayerRotation ( this );
+        ServerSend.PlayerPosition ( Id, transform.position );
+        ServerSend.PlayerRotation ( Id, transform.rotation );
         ServerSend.PlayerMovementVector ( this, _inputDirection );
     }
 
@@ -140,30 +152,36 @@ public class Player : MonoBehaviour
 
     public void TakeDamage ( float _damage )
     {
-        if ( Health <= 0f )
+        if ( IsDead )
         {
             return;
         }
 
         Health -= _damage;
+        Health = Mathf.Max ( 0, Health );
+        ServerSend.PlayerHealth ( Id, Health );
+
         if ( Health <= 0 )
         {
-            Health = 0f;
             m_controller.enabled = false;
-            transform.position = new Vector3 ( 0f, 25f, 0f );
-            ServerSend.PlayerPosition ( this );
-            StartCoroutine ( Respawn () );
+            StartCoroutine ( DeathSequence () );
         }
-
-        ServerSend.PlayerHealth ( this );
     }
 
-    private IEnumerator Respawn ()
+    private IEnumerator DeathSequence ()
     {
+        yield return new WaitForSeconds ( 0.1f );
+
+        Transform respawnPoint = RespawnPointManager.Instance.GetRandomPoint ();
+        transform.position = respawnPoint.position;
+        transform.rotation = respawnPoint.rotation;
+        ServerSend.PlayerPosition ( Id, transform.position );
+        ServerSend.PlayerRotation ( Id, transform.rotation );
+
+        // RESPAWN
         yield return new WaitForSeconds ( Constants.PLAYER_RESPAWN_DELAY );
 
-        Health = m_maxHealth;
-        m_controller.enabled = true;
-        ServerSend.PlayerRespawned ( this );
+        Reinitialize ();
+        ServerSend.PlayerRespawned ( Id );
     }
 }
