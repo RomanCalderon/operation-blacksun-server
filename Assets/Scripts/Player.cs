@@ -139,10 +139,16 @@ public class Player : MonoBehaviour
         transform.rotation = _rotation;
     }
 
-    public void Shoot ( Vector3 _viewDirection, float _damage )
+    public void Shoot ( Vector3 _shootDirection, float _damage, string _gunshotClip, float _gunshotVolume, float _minDistance, float _maxDistance )
     {
-        if ( Physics.Raycast ( m_shootOrigin.position, _viewDirection, out RaycastHit _hit, 500f ) )
+        // Shoot audio
+        ServerSend.PlayAudioClip ( Id, _gunshotClip, _gunshotVolume, transform.position, _minDistance, _maxDistance );
+
+        if ( Physics.Raycast ( m_shootOrigin.position, _shootDirection, out RaycastHit _hit, 500f ) )
         {
+            // Debug hit test
+            ServerSend.SpawnHitObject ( Id, 5, _hit.point, _hit.normal );
+
             if ( _hit.collider.CompareTag ( "Player" ) )
             {
                 _hit.collider.GetComponent<Player> ().TakeDamage ( _damage );

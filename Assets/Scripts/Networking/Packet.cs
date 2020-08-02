@@ -17,7 +17,9 @@ public enum ServerPackets
     playerDisconnected,
     playerHealth,
     playerRespawned,
-    playerUpdateInventorySlot
+    playerUpdateInventorySlot,
+    spawnHitObject,
+    playAudioClip
 }
 
 /// <summary>Sent from client to server.</summary>

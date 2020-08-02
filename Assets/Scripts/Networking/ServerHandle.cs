@@ -81,8 +81,12 @@ public class ServerHandle
     {
         Vector3 _shootDirection = _packet.ReadVector3 ();
         float _damage = _packet.ReadFloat ();
+        string _gunshotClip = _packet.ReadString ();
+        float _gunshotVolume = _packet.ReadFloat ();
+        float _minDistance = _packet.ReadFloat ();
+        float _maxDistance = _packet.ReadFloat ();
 
-        Server.clients [ _fromClient ].player.Shoot ( _shootDirection, _damage );
+        Server.clients [ _fromClient ].player.Shoot ( _shootDirection, _damage, _gunshotClip, _gunshotVolume, _minDistance, _maxDistance );
     }
 
     public static void PlayerTransferSlotContents ( int _fromClient, Packet _packet )
