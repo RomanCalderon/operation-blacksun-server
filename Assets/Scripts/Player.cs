@@ -146,8 +146,8 @@ public class Player : MonoBehaviour
 
         if ( Physics.Raycast ( m_shootOrigin.position, _shootDirection, out RaycastHit _hit, 500f ) )
         {
-            // Debug hit test
-            ServerSend.SpawnHitObject ( Id, 5, _hit.point, _hit.normal );
+            // Metal (5) hit test
+            ServerSend.SpawnHitObject ( Id, 10, _hit.point, _hit.normal );
 
             if ( _hit.collider.CompareTag ( "Player" ) )
             {
