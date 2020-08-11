@@ -187,11 +187,10 @@ public class ServerSend
         }
     }
 
-    public static void SpawnHitObject ( int _playerId, int _hitType, Vector3 _hitPosition, Vector3 _hitNormal )
+    public static void SpawnHitObject ( int _hitType, Vector3 _hitPosition, Vector3 _hitNormal )
     {
         using ( Packet _packet = new Packet ( ( int ) ServerPackets.spawnHitObject ) )
         {
-            _packet.Write ( _playerId );
             _packet.Write ( _hitType );
             _packet.Write ( _hitPosition );
             _packet.Write ( _hitNormal );

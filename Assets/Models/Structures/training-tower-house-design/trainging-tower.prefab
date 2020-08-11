@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6812794768707316872}
   m_Layer: 0
   m_Name: gartentor part.041
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 2714081687285415602}
   m_Layer: 0
   m_Name: gartentor part.350
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -202,7 +202,7 @@ GameObject:
   - component: {fileID: 1254562170162804054}
   m_Layer: 0
   m_Name: gartentor part.314
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -297,7 +297,7 @@ GameObject:
   - component: {fileID: 9162196011261911770}
   m_Layer: 0
   m_Name: gartentor part.026
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -391,7 +391,7 @@ GameObject:
   - component: {fileID: 3450175099941617256}
   m_Layer: 0
   m_Name: Cube.013
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -486,7 +486,7 @@ GameObject:
   - component: {fileID: 1145672290265836654}
   m_Layer: 0
   m_Name: gartentor part.273
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -581,7 +581,7 @@ GameObject:
   - component: {fileID: 5866465372899808315}
   m_Layer: 0
   m_Name: gartentor part.294
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -676,7 +676,7 @@ GameObject:
   - component: {fileID: 4678080892549604076}
   m_Layer: 0
   m_Name: gartentor part.036
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -771,7 +771,7 @@ GameObject:
   - component: {fileID: 5249005201640464426}
   m_Layer: 0
   m_Name: gartentor part.105
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -865,7 +865,7 @@ GameObject:
   - component: {fileID: 1646965966808270083}
   m_Layer: 0
   m_Name: gartentor part.097
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -960,7 +960,7 @@ GameObject:
   - component: {fileID: 6682604541258211485}
   m_Layer: 0
   m_Name: gartentor part.009
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1055,7 +1055,7 @@ GameObject:
   - component: {fileID: 2953701571026457345}
   m_Layer: 0
   m_Name: gartentor part.107
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1150,7 +1150,7 @@ GameObject:
   - component: {fileID: 4531730265182054414}
   m_Layer: 0
   m_Name: gartentor part.371
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1245,7 +1245,7 @@ GameObject:
   - component: {fileID: 7553220179404437939}
   m_Layer: 0
   m_Name: gartentor part.348
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1340,7 +1340,7 @@ GameObject:
   - component: {fileID: 7973645712324214907}
   m_Layer: 0
   m_Name: gartentor part.304
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1435,7 +1435,7 @@ GameObject:
   - component: {fileID: 2274839174233366422}
   m_Layer: 0
   m_Name: gartentor part.110
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1529,7 +1529,7 @@ GameObject:
   - component: {fileID: 5576390587336272099}
   m_Layer: 0
   m_Name: gartentor part.369
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1624,7 +1624,7 @@ GameObject:
   - component: {fileID: 6697657231559961693}
   m_Layer: 0
   m_Name: gartentor part.296
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1750,7 +1750,7 @@ Transform:
   - {fileID: 4839995860052466710}
   - {fileID: 5035370393755982225}
   m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 29
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &485209483297171994
 GameObject:
@@ -1766,7 +1766,7 @@ GameObject:
   - component: {fileID: 3138124867853515855}
   m_Layer: 0
   m_Name: Cube.002
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1861,7 +1861,7 @@ GameObject:
   - component: {fileID: 152984131175962837}
   m_Layer: 0
   m_Name: gartentor part.021
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1956,7 +1956,7 @@ GameObject:
   - component: {fileID: 5601533547540997129}
   m_Layer: 0
   m_Name: gartentor part.322
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2051,7 +2051,7 @@ GameObject:
   - component: {fileID: 7721974327598327424}
   m_Layer: 0
   m_Name: Cube.012
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2146,7 +2146,7 @@ GameObject:
   - component: {fileID: 1423681126971517442}
   m_Layer: 0
   m_Name: gartentor part.377 (1)
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2240,7 +2240,7 @@ GameObject:
   - component: {fileID: 6207513119884652293}
   m_Layer: 0
   m_Name: gartentor part.047
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2334,7 +2334,7 @@ GameObject:
   - component: {fileID: 37242722238902094}
   m_Layer: 0
   m_Name: gartentor part.324
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2429,7 +2429,7 @@ GameObject:
   - component: {fileID: 3868946574686244027}
   m_Layer: 0
   m_Name: gartentor part.008
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2524,7 +2524,7 @@ GameObject:
   - component: {fileID: 5102050698369797110}
   m_Layer: 0
   m_Name: gartentor part.368
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2619,7 +2619,7 @@ GameObject:
   - component: {fileID: 6582425475322333631}
   m_Layer: 0
   m_Name: Cube.031
-  m_TagString: Untagged
+  m_TagString: Glass
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2631,12 +2631,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 879945566827488849}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -4.1764483, y: 3.143425, z: -3.9301314}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
+  m_LocalPosition: {x: -4.176449, y: 3.143425, z: -3.930132}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 18
+  m_Father: {fileID: 6296815526429071122}
+  m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8564075747226765651
 MeshFilter:
@@ -2664,7 +2664,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1eae092b54646ad4db715e1393dd41ca, type: 2}
+  - {fileID: 2100000, guid: 83993b9736c0bcb4986c5bbbfd1e2a49, type: 2}
   - {fileID: 2100000, guid: 6d8974bcd76b12f44ad465707c597f73, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -2714,7 +2714,7 @@ GameObject:
   - component: {fileID: 4041310446209950312}
   m_Layer: 0
   m_Name: gartentor part.307
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2809,7 +2809,7 @@ GameObject:
   - component: {fileID: 7384035491610484768}
   m_Layer: 0
   m_Name: gartentor part.290
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2904,7 +2904,7 @@ GameObject:
   - component: {fileID: 1303011439232706331}
   m_Layer: 0
   m_Name: gartentor part.293
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2999,7 +2999,7 @@ GameObject:
   - component: {fileID: 8861625879797121471}
   m_Layer: 0
   m_Name: Cube.007
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3094,7 +3094,7 @@ GameObject:
   - component: {fileID: 6944352134428892887}
   m_Layer: 0
   m_Name: gartentor part.032
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3189,7 +3189,7 @@ GameObject:
   - component: {fileID: 5613466337350700889}
   m_Layer: 0
   m_Name: Plane
-  m_TagString: Untagged
+  m_TagString: Concrete
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3206,7 +3206,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 44
+  m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6628754660741166548
 MeshFilter:
@@ -3284,7 +3284,7 @@ GameObject:
   - component: {fileID: 5583354428241555615}
   m_Layer: 0
   m_Name: gartentor part.318
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3364,36 +3364,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -5038980637325821904, guid: 8ba6c2464c1bd9b438898839f1d65849, type: 3}
---- !u!1 &1147388578163364488
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6965205864636873448}
-  m_Layer: 0
-  m_Name: Empty.013
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6965205864636873448
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1147388578163364488}
-  m_LocalRotation: {x: 0.7071068, y: -0.000000053385072, z: -0.7071067, w: -0.000000053385083}
-  m_LocalPosition: {x: -0.80799717, y: 13.2396555, z: 0.10514441}
-  m_LocalScale: {x: 1.857, y: 1.595, z: 1.595}
-  m_Children: []
-  m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 37
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1247723718525151479
 GameObject:
   m_ObjectHideFlags: 0
@@ -3408,7 +3378,7 @@ GameObject:
   - component: {fileID: 1282703157451491733}
   m_Layer: 0
   m_Name: gartentor part.378 (1)
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3502,7 +3472,7 @@ GameObject:
   - component: {fileID: 6018987995046428579}
   m_Layer: 0
   m_Name: Cube.008
-  m_TagString: Untagged
+  m_TagString: Glass
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3514,12 +3484,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1259422682862194352}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 1.5900822, y: 9.726786, z: 0.06865447}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
+  m_LocalPosition: {x: 1.5900822, y: 9.726786, z: 0.068655014}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 4
+  m_Father: {fileID: 6296815526429071122}
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7900960895281948439
 MeshFilter:
@@ -3597,7 +3567,7 @@ GameObject:
   - component: {fileID: 3847873541079219226}
   m_Layer: 0
   m_Name: gartentor part.100
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3692,7 +3662,7 @@ GameObject:
   - component: {fileID: 1682393332608278441}
   m_Layer: 0
   m_Name: gartentor part.298
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3787,7 +3757,7 @@ GameObject:
   - component: {fileID: 2165627834363854445}
   m_Layer: 0
   m_Name: gartentor part.098
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3882,7 +3852,7 @@ GameObject:
   - component: {fileID: 5385567663858455717}
   m_Layer: 0
   m_Name: gartentor part.405
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3991,24 +3961,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6296815526429071122}
-  - {fileID: 621154922703863399}
-  - {fileID: 7038340652439452642}
-  - {fileID: 5440246662774768586}
-  - {fileID: 2477341762396515732}
-  - {fileID: 7714071078626065266}
-  - {fileID: 1874346143618827715}
-  - {fileID: 6719346785677215347}
-  - {fileID: 9104518106612706517}
   - {fileID: 2382434171258006472}
-  - {fileID: 3305423716771771937}
-  - {fileID: 4919167208022068363}
-  - {fileID: 642654989727809799}
-  - {fileID: 861613973030699501}
-  - {fileID: 3000072058474250721}
-  - {fileID: 2055637506729761562}
-  - {fileID: 7600557286612387723}
-  - {fileID: 217164399103574260}
-  - {fileID: 7248433383249118415}
   - {fileID: 583364141242664287}
   - {fileID: 3911146551963076147}
   - {fileID: 8759173582263970653}
@@ -4024,16 +3977,12 @@ Transform:
   - {fileID: 2517355829927260969}
   - {fileID: 4674596350764158822}
   - {fileID: 3938657212974872353}
-  - {fileID: 2071982186325595798}
   - {fileID: 1208513669075940920}
   - {fileID: 937672012325304627}
-  - {fileID: 6965205864636873448}
   - {fileID: 583883635944216137}
   - {fileID: 5512388949980697681}
   - {fileID: 9138869736077186148}
   - {fileID: 4161189690309436979}
-  - {fileID: 2275623067903722109}
-  - {fileID: 4023715050135339856}
   - {fileID: 5731392101921684796}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -4052,7 +4001,7 @@ GameObject:
   - component: {fileID: 8726528184791871968}
   m_Layer: 0
   m_Name: gartentor part.411
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4146,7 +4095,7 @@ GameObject:
   - component: {fileID: 1556975008912446590}
   m_Layer: 0
   m_Name: gartentor part.359
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4241,7 +4190,7 @@ GameObject:
   - component: {fileID: 8648156244681069414}
   m_Layer: 0
   m_Name: gartentor part.381 (1)
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4335,7 +4284,7 @@ GameObject:
   - component: {fileID: 7859073354160781293}
   m_Layer: 0
   m_Name: gartentor part.416
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4460,7 +4409,7 @@ Transform:
   - {fileID: 1834988237882996039}
   - {fileID: 7568890747275743370}
   m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 39
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1439486809203395941
 GameObject:
@@ -4476,7 +4425,7 @@ GameObject:
   - component: {fileID: 961082344836587707}
   m_Layer: 0
   m_Name: gartentor part.329
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4570,7 +4519,7 @@ GameObject:
   - component: {fileID: 7700053174534332661}
   m_Layer: 0
   m_Name: gartentor part.406
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4665,7 +4614,7 @@ GameObject:
   - component: {fileID: 2073447317888771137}
   m_Layer: 0
   m_Name: gartentor part.279
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4760,7 +4709,7 @@ GameObject:
   - component: {fileID: 337381294838777287}
   m_Layer: 0
   m_Name: gartentor part.331
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4855,7 +4804,7 @@ GameObject:
   - component: {fileID: 6245334483890037043}
   m_Layer: 0
   m_Name: gartentor part.286
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4949,7 +4898,7 @@ GameObject:
   - component: {fileID: 5394806086765711454}
   m_Layer: 0
   m_Name: gartentor part.310
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5044,7 +4993,7 @@ GameObject:
   - component: {fileID: 6414188304207083356}
   m_Layer: 0
   m_Name: gartentor part.345
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5139,7 +5088,7 @@ GameObject:
   - component: {fileID: 2968510121936060933}
   m_Layer: 0
   m_Name: gartentor part.277
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5234,7 +5183,7 @@ GameObject:
   - component: {fileID: 6708984233843403504}
   m_Layer: 0
   m_Name: gartentor part.433
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5328,7 +5277,7 @@ GameObject:
   - component: {fileID: 7213180545245637287}
   m_Layer: 0
   m_Name: gartentor part.281
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5422,7 +5371,7 @@ GameObject:
   - component: {fileID: 4263371394056122053}
   m_Layer: 0
   m_Name: Cube.005
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5517,7 +5466,7 @@ GameObject:
   - component: {fileID: 8047330069619934259}
   m_Layer: 0
   m_Name: gartentor part.388
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5612,7 +5561,7 @@ GameObject:
   - component: {fileID: 1382169151441602548}
   m_Layer: 0
   m_Name: gartentor part.023
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5707,7 +5656,7 @@ GameObject:
   - component: {fileID: 2967460903517502161}
   m_Layer: 0
   m_Name: gartentor part.285
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5801,7 +5750,7 @@ GameObject:
   - component: {fileID: 638091108876082262}
   m_Layer: 0
   m_Name: Cube.003
-  m_TagString: Untagged
+  m_TagString: Glass
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5813,12 +5762,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1745617615221380310}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -0.66589344, y: 9.726786, z: 0.06865447}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
+  m_LocalPosition: {x: -0.66589355, y: 9.726786, z: 0.068655014}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 3
+  m_Father: {fileID: 6296815526429071122}
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1302304951121652586
 MeshFilter:
@@ -5896,7 +5845,7 @@ GameObject:
   - component: {fileID: 1930329563302400698}
   m_Layer: 0
   m_Name: gartentor part.375
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5991,7 +5940,7 @@ GameObject:
   - component: {fileID: 8994680936259517043}
   m_Layer: 0
   m_Name: gartentor part.442
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6086,7 +6035,7 @@ GameObject:
   - component: {fileID: 6666289855703275304}
   m_Layer: 0
   m_Name: gartentor part.363
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6181,7 +6130,7 @@ GameObject:
   - component: {fileID: 9016531408667676538}
   m_Layer: 0
   m_Name: gartentor part.044
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6276,7 +6225,7 @@ GameObject:
   - component: {fileID: 817979046025619111}
   m_Layer: 0
   m_Name: gartentor part.012
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6371,7 +6320,7 @@ GameObject:
   - component: {fileID: 8967572150031417223}
   m_Layer: 0
   m_Name: gartentor part.099
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6497,7 +6446,7 @@ Transform:
   - {fileID: 4767721004993502392}
   - {fileID: 6651947111302743466}
   m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 36
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2182354086560533104
 GameObject:
@@ -6513,7 +6462,7 @@ GameObject:
   - component: {fileID: 4770465121655398703}
   m_Layer: 0
   m_Name: gartentor part.415
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6607,7 +6556,7 @@ GameObject:
   - component: {fileID: 6791154316858410260}
   m_Layer: 0
   m_Name: Cube.029
-  m_TagString: Untagged
+  m_TagString: Glass
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6619,12 +6568,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2209139558730762008}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -4.957712, y: 6.5439034, z: -3.9301314}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
+  m_LocalPosition: {x: -4.9577103, y: 6.5439034, z: -3.930132}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 16
+  m_Father: {fileID: 6296815526429071122}
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &9017467662489220879
 MeshFilter:
@@ -6652,7 +6601,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1eae092b54646ad4db715e1393dd41ca, type: 2}
+  - {fileID: 2100000, guid: 83993b9736c0bcb4986c5bbbfd1e2a49, type: 2}
   - {fileID: 2100000, guid: 6d8974bcd76b12f44ad465707c597f73, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -6702,7 +6651,7 @@ GameObject:
   - component: {fileID: 5305266156678854256}
   m_Layer: 0
   m_Name: Cube.020
-  m_TagString: Untagged
+  m_TagString: Glass
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6714,12 +6663,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2224077069512988886}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -2.3275723, y: 6.39451, z: 1.9296936}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
+  m_LocalPosition: {x: -2.3275719, y: 6.39451, z: 1.9296951}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 7
+  m_Father: {fileID: 6296815526429071122}
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4548235426226749780
 MeshFilter:
@@ -6797,7 +6746,7 @@ GameObject:
   - component: {fileID: 7441576744099190829}
   m_Layer: 0
   m_Name: gartentor part.024
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6983,7 +6932,7 @@ GameObject:
   - component: {fileID: 7317558071036466899}
   m_Layer: 0
   m_Name: gartentor part.099
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7078,7 +7027,7 @@ GameObject:
   - component: {fileID: 9008533137396110509}
   m_Layer: 0
   m_Name: gartentor part.025
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7172,7 +7121,7 @@ GameObject:
   - component: {fileID: 5481010863102524680}
   m_Layer: 0
   m_Name: gartentor part.401
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7267,7 +7216,7 @@ GameObject:
   - component: {fileID: 479334717671284965}
   m_Layer: 0
   m_Name: Cube.001
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7361,7 +7310,7 @@ GameObject:
   - component: {fileID: 9117982760559909112}
   m_Layer: 0
   m_Name: gartentor part.015
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7456,7 +7405,7 @@ GameObject:
   - component: {fileID: 7724269082947889927}
   m_Layer: 0
   m_Name: Cube.034
-  m_TagString: Untagged
+  m_TagString: Tiles
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7473,7 +7422,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 21
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4844006390628912299
 MeshFilter:
@@ -7550,7 +7499,7 @@ GameObject:
   - component: {fileID: 8828441355984440572}
   m_Layer: 0
   m_Name: gartentor part.446
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7645,7 +7594,7 @@ GameObject:
   - component: {fileID: 2530799167384910355}
   m_Layer: 0
   m_Name: gartentor part.421
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7740,7 +7689,7 @@ GameObject:
   - component: {fileID: 5421284285627487590}
   m_Layer: 0
   m_Name: gartentor part.019
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7835,7 +7784,7 @@ GameObject:
   - component: {fileID: 5222662876196959737}
   m_Layer: 0
   m_Name: gartentor part.376 (1)
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7960,7 +7909,7 @@ Transform:
   - {fileID: 7808986048554349919}
   - {fileID: 6343767537470555168}
   m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 30
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2532429124946891211
 GameObject:
@@ -7976,7 +7925,7 @@ GameObject:
   - component: {fileID: 8431377733429361339}
   m_Layer: 0
   m_Name: gartentor part.429
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8070,7 +8019,7 @@ GameObject:
   - component: {fileID: 2050849387603823054}
   m_Layer: 0
   m_Name: gartentor part.100
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8165,7 +8114,7 @@ GameObject:
   - component: {fileID: 4185011730629152893}
   m_Layer: 0
   m_Name: gartentor part.395
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8259,7 +8208,7 @@ GameObject:
   - component: {fileID: 5725893656455447198}
   m_Layer: 0
   m_Name: gartentor part.417
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8385,7 +8334,7 @@ Transform:
   - {fileID: 4607393232350048150}
   - {fileID: 1766523909217630450}
   m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 28
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2597785798976704405
 GameObject:
@@ -8401,7 +8350,7 @@ GameObject:
   - component: {fileID: 7888337364486868135}
   m_Layer: 0
   m_Name: gartentor part.098
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8482,36 +8431,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 5406238095846393529, guid: 8ba6c2464c1bd9b438898839f1d65849, type: 3}
---- !u!1 &2619184425339626283
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2071982186325595798}
-  m_Layer: 0
-  m_Name: Empty.010
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2071982186325595798
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2619184425339626283}
-  m_LocalRotation: {x: -0.000000053385072, y: 0.7071068, z: 0.70710677, w: 0.00000005338508}
-  m_LocalPosition: {x: -0.9183731, y: 8.972841, z: -3.2116172}
-  m_LocalScale: {x: 1.528, y: 0.313, z: 0.313}
-  m_Children: []
-  m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 34
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2622069482146327547
 GameObject:
   m_ObjectHideFlags: 0
@@ -8526,7 +8445,7 @@ GameObject:
   - component: {fileID: 3721789925144459416}
   m_Layer: 0
   m_Name: gartentor part.020
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8620,7 +8539,7 @@ GameObject:
   - component: {fileID: 2901113539754656170}
   m_Layer: 0
   m_Name: gartentor part.341
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8715,7 +8634,7 @@ GameObject:
   - component: {fileID: 5924722870046526305}
   m_Layer: 0
   m_Name: gartentor part.399
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8809,7 +8728,7 @@ GameObject:
   - component: {fileID: 358939911673349939}
   m_Layer: 0
   m_Name: gartentor part.319
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8903,7 +8822,7 @@ GameObject:
   - component: {fileID: 3155360581609236622}
   m_Layer: 0
   m_Name: gartentor part.436
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8997,7 +8916,7 @@ GameObject:
   - component: {fileID: 6440178773656093173}
   m_Layer: 0
   m_Name: gartentor part.309
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9092,7 +9011,7 @@ GameObject:
   - component: {fileID: 6641753053237846266}
   m_Layer: 0
   m_Name: gartentor part.334
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9186,7 +9105,7 @@ GameObject:
   - component: {fileID: 7034829908594780185}
   m_Layer: 0
   m_Name: gartentor part.443
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9281,7 +9200,7 @@ GameObject:
   - component: {fileID: 8377658726320817106}
   m_Layer: 0
   m_Name: gartentor part.420
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9376,7 +9295,7 @@ GameObject:
   - component: {fileID: 6312684499533035070}
   m_Layer: 0
   m_Name: Cube.022
-  m_TagString: Untagged
+  m_TagString: Glass
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9393,7 +9312,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 9
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7161091825487154008
 MeshFilter:
@@ -9470,7 +9389,7 @@ GameObject:
   - component: {fileID: 7631214035765631948}
   m_Layer: 0
   m_Name: gartentor part.106
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9565,7 +9484,7 @@ GameObject:
   - component: {fileID: 5551583633920266679}
   m_Layer: 0
   m_Name: gartentor part.001
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9659,7 +9578,7 @@ GameObject:
   - component: {fileID: 5014871671370621629}
   m_Layer: 0
   m_Name: gartentor part.424
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9754,7 +9673,7 @@ GameObject:
   - component: {fileID: 6155267900949621844}
   m_Layer: 0
   m_Name: gartentor part.300
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9849,7 +9768,7 @@ GameObject:
   - component: {fileID: 5733779028289515083}
   m_Layer: 0
   m_Name: gartentor part.430
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9943,7 +9862,7 @@ GameObject:
   - component: {fileID: 5588841014410919154}
   m_Layer: 0
   m_Name: gartentor part.380
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10037,7 +9956,7 @@ GameObject:
   - component: {fileID: 5827070238490774257}
   m_Layer: 0
   m_Name: gartentor part.308
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10132,7 +10051,7 @@ GameObject:
   - component: {fileID: 3574108669658456245}
   m_Layer: 0
   m_Name: Cube.035
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10149,7 +10068,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 22
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1103450809036924091
 MeshFilter:
@@ -10226,7 +10145,7 @@ GameObject:
   - component: {fileID: 7097696288419994095}
   m_Layer: 0
   m_Name: gartentor part.111
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10320,7 +10239,7 @@ GameObject:
   - component: {fileID: 1438949528428291494}
   m_Layer: 0
   m_Name: gartentor part.384
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10414,7 +10333,7 @@ GameObject:
   - component: {fileID: 2372011131339529542}
   m_Layer: 0
   m_Name: gartentor part.108
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10509,7 +10428,7 @@ GameObject:
   - component: {fileID: 2087510534196737527}
   m_Layer: 0
   m_Name: gartentor part.439
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10604,7 +10523,7 @@ GameObject:
   - component: {fileID: 4890991143289018900}
   m_Layer: 0
   m_Name: gartentor part.422
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10699,7 +10618,7 @@ GameObject:
   - component: {fileID: 7852115775814982809}
   m_Layer: 0
   m_Name: gartentor part.029
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10793,7 +10712,7 @@ GameObject:
   - component: {fileID: 2505440577698191717}
   m_Layer: 0
   m_Name: gartentor part.274
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10888,7 +10807,7 @@ GameObject:
   - component: {fileID: 7079133301785760413}
   m_Layer: 0
   m_Name: gartentor part.007
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10969,36 +10888,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -8001555728493845035, guid: 8ba6c2464c1bd9b438898839f1d65849, type: 3}
---- !u!1 &3165744169529477249
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4023715050135339856}
-  m_Layer: 0
-  m_Name: Hemi.001
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4023715050135339856
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3165744169529477249}
-  m_LocalRotation: {x: 0.03434476, y: -0.005497169, z: -0.259429, w: 0.96513563}
-  m_LocalPosition: {x: 5.434988, y: 8.773732, z: -11.633437}
-  m_LocalScale: {x: 1, y: 0.99999994, z: 0.99999994}
-  m_Children: []
-  m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 43
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3230821508146796719
 GameObject:
   m_ObjectHideFlags: 0
@@ -11013,7 +10902,7 @@ GameObject:
   - component: {fileID: 2323689499882217671}
   m_Layer: 0
   m_Name: gartentor part.000
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11107,7 +10996,7 @@ GameObject:
   - component: {fileID: 5972517854018666912}
   m_Layer: 0
   m_Name: gartentor part.400
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11201,7 +11090,7 @@ GameObject:
   - component: {fileID: 7285545226313500200}
   m_Layer: 0
   m_Name: gartentor part.385
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11296,7 +11185,7 @@ GameObject:
   - component: {fileID: 225274518283277001}
   m_Layer: 0
   m_Name: gartentor part.428
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11391,7 +11280,7 @@ GameObject:
   - component: {fileID: 2749353009078745740}
   m_Layer: 0
   m_Name: gartentor part.352
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11486,7 +11375,7 @@ GameObject:
   - component: {fileID: 4121740577346037305}
   m_Layer: 0
   m_Name: gartentor part.110
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11580,7 +11469,7 @@ GameObject:
   - component: {fileID: 3446415155526481871}
   m_Layer: 0
   m_Name: gartentor part.102
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11675,7 +11564,7 @@ GameObject:
   - component: {fileID: 7439539511881807266}
   m_Layer: 0
   m_Name: gartentor part.367
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11769,7 +11658,7 @@ GameObject:
   - component: {fileID: 1472507217151574412}
   m_Layer: 0
   m_Name: gartentor part.353
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11864,7 +11753,7 @@ GameObject:
   - component: {fileID: 4699644156177200178}
   m_Layer: 0
   m_Name: gartentor part.276
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11959,7 +11848,7 @@ GameObject:
   - component: {fileID: 3523582566493745427}
   m_Layer: 0
   m_Name: gartentor part.302
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12053,7 +11942,7 @@ GameObject:
   - component: {fileID: 1933664423342127646}
   m_Layer: 0
   m_Name: gartentor part.042
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12148,7 +12037,7 @@ GameObject:
   - component: {fileID: 2224138319287329453}
   m_Layer: 0
   m_Name: gartentor part.379
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12335,7 +12224,7 @@ GameObject:
   - component: {fileID: 721977785416114366}
   m_Layer: 0
   m_Name: Cube.011
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12429,7 +12318,7 @@ GameObject:
   - component: {fileID: 4189299060906567595}
   m_Layer: 0
   m_Name: gartentor part.101
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12616,7 +12505,7 @@ GameObject:
   - component: {fileID: 5813459520916027411}
   m_Layer: 0
   m_Name: gartentor part.372
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12711,7 +12600,7 @@ GameObject:
   - component: {fileID: 6602427312639411587}
   m_Layer: 0
   m_Name: gartentor part.364
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12806,7 +12695,7 @@ GameObject:
   - component: {fileID: 2964200227261946654}
   m_Layer: 0
   m_Name: gartentor part.382 (1)
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12900,7 +12789,7 @@ GameObject:
   - component: {fileID: 8826498326190992643}
   m_Layer: 0
   m_Name: gartentor part.306
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12995,7 +12884,7 @@ GameObject:
   - component: {fileID: 6020433798798261881}
   m_Layer: 0
   m_Name: gartentor part.362
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13090,7 +12979,7 @@ GameObject:
   - component: {fileID: 4789471114827474601}
   m_Layer: 0
   m_Name: gartentor part.103
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13185,7 +13074,7 @@ GameObject:
   - component: {fileID: 1242800882629672318}
   m_Layer: 0
   m_Name: gartentor part.003
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13280,7 +13169,7 @@ GameObject:
   - component: {fileID: 6632463610936080955}
   m_Layer: 0
   m_Name: gartentor part.336
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13375,7 +13264,7 @@ GameObject:
   - component: {fileID: 8110935972213304304}
   m_Layer: 0
   m_Name: gartentor part.445
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13469,7 +13358,7 @@ GameObject:
   - component: {fileID: 5270577396549349686}
   m_Layer: 0
   m_Name: Cube.014
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13564,7 +13453,7 @@ GameObject:
   - component: {fileID: 7921027512564208375}
   m_Layer: 0
   m_Name: Cube.026
-  m_TagString: Untagged
+  m_TagString: Glass
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13576,12 +13465,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4211858346204496298}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -4.824931, y: 6.4799438, z: 4.0098295}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
+  m_LocalPosition: {x: -4.824932, y: 6.479944, z: 4.0098305}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 13
+  m_Father: {fileID: 6296815526429071122}
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4076171280617016358
 MeshFilter:
@@ -13609,7 +13498,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1eae092b54646ad4db715e1393dd41ca, type: 2}
+  - {fileID: 2100000, guid: 83993b9736c0bcb4986c5bbbfd1e2a49, type: 2}
   - {fileID: 2100000, guid: 6d8974bcd76b12f44ad465707c597f73, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -13659,7 +13548,7 @@ GameObject:
   - component: {fileID: 8286402727124174545}
   m_Layer: 0
   m_Name: gartentor part.011
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13754,7 +13643,7 @@ GameObject:
   - component: {fileID: 4438109508614822842}
   m_Layer: 0
   m_Name: Cube.030
-  m_TagString: Untagged
+  m_TagString: Glass
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13766,12 +13655,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4257676267565320718}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 3.0368655, y: 6.553802, z: 3.9776053}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
+  m_LocalPosition: {x: 3.0368652, y: 6.5538025, z: 3.977604}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 17
+  m_Father: {fileID: 6296815526429071122}
+  m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5991511354434008822
 MeshFilter:
@@ -13799,7 +13688,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1eae092b54646ad4db715e1393dd41ca, type: 2}
+  - {fileID: 2100000, guid: 83993b9736c0bcb4986c5bbbfd1e2a49, type: 2}
   - {fileID: 2100000, guid: 6d8974bcd76b12f44ad465707c597f73, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -13849,7 +13738,7 @@ GameObject:
   - component: {fileID: 4948173889700233013}
   m_Layer: 0
   m_Name: gartentor part.409
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13944,7 +13833,7 @@ GameObject:
   - component: {fileID: 8447211560840654013}
   m_Layer: 0
   m_Name: Cube.036
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13961,7 +13850,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 23
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1277941169965637538
 MeshFilter:
@@ -14038,7 +13927,7 @@ GameObject:
   - component: {fileID: 1835707254837092514}
   m_Layer: 0
   m_Name: gartentor part.339
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14133,7 +14022,7 @@ GameObject:
   - component: {fileID: 267290836205212629}
   m_Layer: 0
   m_Name: gartentor part.355
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14228,7 +14117,7 @@ GameObject:
   - component: {fileID: 4133049477764582739}
   m_Layer: 0
   m_Name: gartentor part.321
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14323,7 +14212,7 @@ GameObject:
   - component: {fileID: 1012228945001398909}
   m_Layer: 0
   m_Name: gartentor part.102
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14418,7 +14307,7 @@ GameObject:
   - component: {fileID: 9136097955126718633}
   m_Layer: 0
   m_Name: gartentor part.283
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14513,7 +14402,7 @@ GameObject:
   - component: {fileID: 2857803896467235919}
   m_Layer: 0
   m_Name: gartentor part.365
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14608,7 +14497,7 @@ GameObject:
   - component: {fileID: 8905034622314574538}
   m_Layer: 0
   m_Name: gartentor part.022
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14703,7 +14592,7 @@ GameObject:
   - component: {fileID: 1823865527765420648}
   m_Layer: 0
   m_Name: gartentor part.030
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14797,7 +14686,7 @@ GameObject:
   - component: {fileID: 8904895943224122240}
   m_Layer: 0
   m_Name: gartentor part.349
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14892,7 +14781,7 @@ GameObject:
   - component: {fileID: 9051291722737745089}
   m_Layer: 0
   m_Name: Cube.016
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14986,7 +14875,7 @@ GameObject:
   - component: {fileID: 1014521440496592741}
   m_Layer: 0
   m_Name: gartentor part.103
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15081,7 +14970,7 @@ GameObject:
   - component: {fileID: 1300345564825084256}
   m_Layer: 0
   m_Name: gartentor part.037
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15176,7 +15065,7 @@ GameObject:
   - component: {fileID: 868449276931790159}
   m_Layer: 0
   m_Name: gartentor part.412
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15271,7 +15160,7 @@ GameObject:
   - component: {fileID: 2311107784721134640}
   m_Layer: 0
   m_Name: gartentor part.328
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15366,7 +15255,7 @@ GameObject:
   - component: {fileID: 3286872744124985207}
   m_Layer: 0
   m_Name: gartentor part.393
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15461,7 +15350,7 @@ GameObject:
   - component: {fileID: 4454055795879015345}
   m_Layer: 0
   m_Name: gartentor part.101
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15556,7 +15445,7 @@ GameObject:
   - component: {fileID: 8154741212013247848}
   m_Layer: 0
   m_Name: gartentor part.104
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15651,7 +15540,7 @@ GameObject:
   - component: {fileID: 3325331483101618143}
   m_Layer: 0
   m_Name: gartentor part.344
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15746,7 +15635,7 @@ GameObject:
   - component: {fileID: 6920222616572289310}
   m_Layer: 0
   m_Name: gartentor part.288
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15841,7 +15730,7 @@ GameObject:
   - component: {fileID: 7331179314340476108}
   m_Layer: 0
   m_Name: gartentor part.297
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15935,7 +15824,7 @@ GameObject:
   - component: {fileID: 5818521715267982103}
   m_Layer: 0
   m_Name: gartentor part.278
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16030,7 +15919,7 @@ GameObject:
   - component: {fileID: 35004572984800517}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Glass
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16042,12 +15931,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4875888246767468330}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -2.5365117, y: 9.726786, z: 0.06865447}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
+  m_LocalPosition: {x: -2.5365105, y: 9.726786, z: 0.068655014}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 1
+  m_Father: {fileID: 6296815526429071122}
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1328402822564505129
 MeshFilter:
@@ -16125,7 +16014,7 @@ GameObject:
   - component: {fileID: 8821659244990918977}
   m_Layer: 0
   m_Name: gartentor part.447
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16220,7 +16109,7 @@ GameObject:
   - component: {fileID: 5591013701281907243}
   m_Layer: 0
   m_Name: gartentor part.045
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16314,7 +16203,7 @@ GameObject:
   - component: {fileID: 5011506602682362331}
   m_Layer: 0
   m_Name: gartentor part.379 (1)
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16408,7 +16297,7 @@ GameObject:
   - component: {fileID: 3965094726059194791}
   m_Layer: 0
   m_Name: gartentor part.423
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16503,7 +16392,7 @@ GameObject:
   - component: {fileID: 6574090744507929459}
   m_Layer: 0
   m_Name: gartentor part.392
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16629,7 +16518,7 @@ Transform:
   - {fileID: 6356073564703856898}
   - {fileID: 8052564336102743023}
   m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 41
+  m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5057613926078469672
 GameObject:
@@ -16645,7 +16534,7 @@ GameObject:
   - component: {fileID: 4010442622697538920}
   m_Layer: 0
   m_Name: gartentor part.313
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16739,7 +16628,7 @@ GameObject:
   - component: {fileID: 7031028227813766931}
   m_Layer: 0
   m_Name: gartentor part.435
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16834,7 +16723,7 @@ GameObject:
   - component: {fileID: 2914994774065778891}
   m_Layer: 0
   m_Name: gartentor part.396
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16929,7 +16818,7 @@ GameObject:
   - component: {fileID: 1395262851561979497}
   m_Layer: 0
   m_Name: gartentor part.418
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17024,7 +16913,7 @@ GameObject:
   - component: {fileID: 5258585879629746451}
   m_Layer: 0
   m_Name: gartentor part.391
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17119,7 +17008,7 @@ GameObject:
   - component: {fileID: 72989889760575973}
   m_Layer: 0
   m_Name: Cube.019
-  m_TagString: Untagged
+  m_TagString: Glass
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17131,12 +17020,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5210104909637015392}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -2.3275723, y: 6.429766, z: -1.2190124}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
+  m_LocalPosition: {x: -2.3275719, y: 6.4297657, z: -1.2190132}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 6
+  m_Father: {fileID: 6296815526429071122}
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &578941772048129536
 MeshFilter:
@@ -17214,7 +17103,7 @@ GameObject:
   - component: {fileID: 2823177933568348959}
   m_Layer: 0
   m_Name: gartentor part.311
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17295,100 +17184,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 6439350606316091229, guid: 8ba6c2464c1bd9b438898839f1d65849, type: 3}
---- !u!1 &5257084593980590035
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7038340652439452642}
-  - component: {fileID: 3086380643920601811}
-  - component: {fileID: 8249894316518068519}
-  - component: {fileID: 433594992820150049}
-  m_Layer: 0
-  m_Name: Cube.000
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &7038340652439452642
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5257084593980590035}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -0.8809601, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &3086380643920601811
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5257084593980590035}
-  m_Mesh: {fileID: -5611087096184871397, guid: 8ba6c2464c1bd9b438898839f1d65849, type: 3}
---- !u!23 &8249894316518068519
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5257084593980590035}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: b0c9a6733109e2046903952a465788aa, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!64 &433594992820150049
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5257084593980590035}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -5611087096184871397, guid: 8ba6c2464c1bd9b438898839f1d65849, type: 3}
 --- !u!1 &5298161979219850881
 GameObject:
   m_ObjectHideFlags: 0
@@ -17403,7 +17198,7 @@ GameObject:
   - component: {fileID: 5083916246365593629}
   m_Layer: 0
   m_Name: gartentor part.370
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17498,7 +17293,7 @@ GameObject:
   - component: {fileID: 5642550538187681057}
   m_Layer: 0
   m_Name: gartentor part.317
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17593,7 +17388,7 @@ GameObject:
   - component: {fileID: 5805692570202058536}
   m_Layer: 0
   m_Name: gartentor part.444
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17687,7 +17482,7 @@ GameObject:
   - component: {fileID: 3129805318382293285}
   m_Layer: 0
   m_Name: gartentor part.108
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17782,7 +17577,7 @@ GameObject:
   - component: {fileID: 1903295601647071339}
   m_Layer: 0
   m_Name: gartentor part.301
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17877,7 +17672,7 @@ GameObject:
   - component: {fileID: 2770353654908659027}
   m_Layer: 0
   m_Name: gartentor part.376
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17972,7 +17767,7 @@ GameObject:
   - component: {fileID: 4738463576032410099}
   m_Layer: 0
   m_Name: gartentor part.028
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18066,7 +17861,7 @@ GameObject:
   - component: {fileID: 3824691847550111034}
   m_Layer: 0
   m_Name: gartentor part.332
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18161,7 +17956,7 @@ GameObject:
   - component: {fileID: 7000590492639024249}
   m_Layer: 0
   m_Name: gartentor part.438
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18256,7 +18051,7 @@ GameObject:
   - component: {fileID: 58945451051951723}
   m_Layer: 0
   m_Name: Cube.015
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18350,7 +18145,7 @@ GameObject:
   - component: {fileID: 6138670978313045959}
   m_Layer: 0
   m_Name: gartentor part.315
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18445,7 +18240,7 @@ GameObject:
   - component: {fileID: 2132516830443255577}
   m_Layer: 0
   m_Name: Cube.006
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18540,7 +18335,7 @@ GameObject:
   - component: {fileID: 5706919983740461478}
   m_Layer: 0
   m_Name: gartentor part.387
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18635,7 +18430,7 @@ GameObject:
   - component: {fileID: 963976385247956156}
   m_Layer: 0
   m_Name: gartentor part.035
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18730,7 +18525,7 @@ GameObject:
   - component: {fileID: 241247973930849775}
   m_Layer: 0
   m_Name: gartentor part.366
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18824,7 +18619,7 @@ GameObject:
   - component: {fileID: 297029555966348653}
   m_Layer: 0
   m_Name: gartentor part.002
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18919,7 +18714,7 @@ GameObject:
   - component: {fileID: 4422191434742442512}
   m_Layer: 0
   m_Name: gartentor part.340
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19045,37 +18840,7 @@ Transform:
   - {fileID: 8610458055708231691}
   - {fileID: 8756479275767067163}
   m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 27
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &5693715824283305592
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2275623067903722109}
-  m_Layer: 0
-  m_Name: Hemi
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2275623067903722109
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5693715824283305592}
-  m_LocalRotation: {x: -0.19959226, y: 0.011152113, z: -0.17491564, w: 0.9640763}
-  m_LocalPosition: {x: 9.926722, y: 17.417065, z: -11.221927}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 42
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5706981862588720830
 GameObject:
@@ -19122,7 +18887,7 @@ Transform:
   - {fileID: 1522641894505358041}
   - {fileID: 7540065860384433190}
   m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 32
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5716933733020301623
 GameObject:
@@ -19138,7 +18903,7 @@ GameObject:
   - component: {fileID: 6624557221998091282}
   m_Layer: 0
   m_Name: gartentor part.419
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19233,7 +18998,7 @@ GameObject:
   - component: {fileID: 1491557906882420593}
   m_Layer: 0
   m_Name: gartentor part.287
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19327,7 +19092,7 @@ GameObject:
   - component: {fileID: 6939758375455759650}
   m_Layer: 0
   m_Name: Cube.024
-  m_TagString: Untagged
+  m_TagString: Glass
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19339,12 +19104,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5762792577455947999}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0.8622792, y: 6.39451, z: 0.29372132}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
+  m_LocalPosition: {x: 0.8622799, y: 6.39451, z: 0.29372215}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 11
+  m_Father: {fileID: 6296815526429071122}
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2660800869641336269
 MeshFilter:
@@ -19372,7 +19137,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1eae092b54646ad4db715e1393dd41ca, type: 2}
+  - {fileID: 2100000, guid: 83993b9736c0bcb4986c5bbbfd1e2a49, type: 2}
   - {fileID: 2100000, guid: 6d8974bcd76b12f44ad465707c597f73, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -19422,7 +19187,7 @@ GameObject:
   - component: {fileID: 4503505101789206456}
   m_Layer: 0
   m_Name: gartentor part.432
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19516,7 +19281,7 @@ GameObject:
   - component: {fileID: 4793412518806194406}
   m_Layer: 0
   m_Name: gartentor part.097
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19611,7 +19376,7 @@ GameObject:
   - component: {fileID: 1321067574995809452}
   m_Layer: 0
   m_Name: gartentor part.303
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19705,7 +19470,7 @@ GameObject:
   - component: {fileID: 1468403588488940341}
   m_Layer: 0
   m_Name: gartentor part.398
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19799,7 +19564,7 @@ GameObject:
   - component: {fileID: 4469535922512003374}
   m_Layer: 0
   m_Name: gartentor part.351
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19893,7 +19658,7 @@ GameObject:
   - component: {fileID: 4837072945247503345}
   m_Layer: 0
   m_Name: gartentor part.327
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19988,7 +19753,7 @@ GameObject:
   - component: {fileID: 2694731317593636497}
   m_Layer: 0
   m_Name: Cube.006
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -20175,7 +19940,7 @@ GameObject:
   - component: {fileID: 3141839971961525004}
   m_Layer: 0
   m_Name: gartentor part.104
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -20270,7 +20035,7 @@ GameObject:
   - component: {fileID: 7632244262805866835}
   m_Layer: 0
   m_Name: gartentor part.017
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -20365,7 +20130,7 @@ GameObject:
   - component: {fileID: 8364328431510586225}
   m_Layer: 0
   m_Name: gartentor part.291
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -20460,7 +20225,7 @@ GameObject:
   - component: {fileID: 506724088598765492}
   m_Layer: 0
   m_Name: gartentor part.383
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -20554,7 +20319,7 @@ GameObject:
   - component: {fileID: 38063759057111439}
   m_Layer: 0
   m_Name: gartentor part.337
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -20741,7 +20506,7 @@ GameObject:
   - component: {fileID: 4093827825788540114}
   m_Layer: 0
   m_Name: gartentor part.343
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -20835,7 +20600,7 @@ GameObject:
   - component: {fileID: 2663421833138984708}
   m_Layer: 0
   m_Name: gartentor part.378
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -21022,7 +20787,7 @@ GameObject:
   - component: {fileID: 5825488063547136441}
   m_Layer: 0
   m_Name: Cube.021
-  m_TagString: Untagged
+  m_TagString: Glass
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -21034,12 +20799,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6258311529386968705}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -3.1151044, y: 3.0639014, z: 0.5016527}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
+  m_LocalPosition: {x: -3.1151047, y: 3.0639014, z: 0.50165176}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 8
+  m_Father: {fileID: 6296815526429071122}
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7855419064035054430
 MeshFilter:
@@ -21117,7 +20882,7 @@ GameObject:
   - component: {fileID: 3004555830788379085}
   m_Layer: 0
   m_Name: gartentor part.356
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -21212,7 +20977,7 @@ GameObject:
   - component: {fileID: 7485440235978047190}
   m_Layer: 0
   m_Name: gartentor part.342
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -21307,7 +21072,7 @@ GameObject:
   - component: {fileID: 5367036600587647329}
   m_Layer: 0
   m_Name: gartentor part.377
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -21402,7 +21167,7 @@ GameObject:
   - component: {fileID: 7083826846086072910}
   m_Layer: 0
   m_Name: gartentor part.390
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -21497,7 +21262,7 @@ GameObject:
   - component: {fileID: 5990004207009376827}
   m_Layer: 0
   m_Name: gartentor part.289
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -21592,7 +21357,7 @@ GameObject:
   - component: {fileID: 8025643616689869661}
   m_Layer: 0
   m_Name: gartentor part.333
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -21687,7 +21452,7 @@ GameObject:
   - component: {fileID: 1895683818986329352}
   m_Layer: 0
   m_Name: gartentor part.414
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -21781,7 +21546,7 @@ GameObject:
   - component: {fileID: 2703493690204846765}
   m_Layer: 0
   m_Name: gartentor part.107
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -21876,7 +21641,7 @@ GameObject:
   - component: {fileID: 6522804862432347348}
   m_Layer: 0
   m_Name: gartentor part.408
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -21971,7 +21736,7 @@ GameObject:
   - component: {fileID: 563032213958210635}
   m_Layer: 0
   m_Name: Cube.017
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -22066,7 +21831,7 @@ GameObject:
   - component: {fileID: 3878384096023443654}
   m_Layer: 0
   m_Name: gartentor part.046
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -22160,7 +21925,7 @@ GameObject:
   - component: {fileID: 242646783399951452}
   m_Layer: 0
   m_Name: gartentor part.361
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -22255,7 +22020,7 @@ GameObject:
   - component: {fileID: 942676590730103512}
   m_Layer: 0
   m_Name: gartentor part.382
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -22349,7 +22114,7 @@ GameObject:
   - component: {fileID: 3520200308081276900}
   m_Layer: 0
   m_Name: gartentor part.413
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -22443,7 +22208,7 @@ GameObject:
   - component: {fileID: 2049884215500740167}
   m_Layer: 0
   m_Name: gartentor part.394
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -22538,7 +22303,7 @@ GameObject:
   - component: {fileID: 6253158608573493096}
   m_Layer: 0
   m_Name: gartentor part.106
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -22633,7 +22398,7 @@ GameObject:
   - component: {fileID: 3475901756399364849}
   m_Layer: 0
   m_Name: gartentor part.389
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -22728,7 +22493,7 @@ GameObject:
   - component: {fileID: 3843425398907655458}
   m_Layer: 0
   m_Name: gartentor part.282
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -22823,7 +22588,7 @@ GameObject:
   - component: {fileID: 1239956528718776163}
   m_Layer: 0
   m_Name: gartentor part.005
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -22918,7 +22683,7 @@ GameObject:
   - component: {fileID: 5302647860490206333}
   m_Layer: 0
   m_Name: gartentor part.010
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -23013,7 +22778,7 @@ GameObject:
   - component: {fileID: 9115052106560444482}
   m_Layer: 0
   m_Name: gartentor part.346
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -23108,7 +22873,7 @@ GameObject:
   - component: {fileID: 7831072737042392398}
   m_Layer: 0
   m_Name: gartentor part.380 (1)
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -23202,7 +22967,7 @@ GameObject:
   - component: {fileID: 8002139077517056457}
   m_Layer: 0
   m_Name: gartentor part.427
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -23296,7 +23061,7 @@ GameObject:
   - component: {fileID: 1106133396313657031}
   m_Layer: 0
   m_Name: Cube.023
-  m_TagString: Untagged
+  m_TagString: Glass
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -23308,12 +23073,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6957300744579932961}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0.44841528, y: 3.0639014, z: -0.4736109}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
+  m_LocalPosition: {x: 0.44841576, y: 3.0639014, z: -0.47361183}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 10
+  m_Father: {fileID: 6296815526429071122}
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2040880498252943709
 MeshFilter:
@@ -23391,7 +23156,7 @@ GameObject:
   - component: {fileID: 6336241088058132365}
   m_Layer: 0
   m_Name: gartentor part.425
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -23485,7 +23250,7 @@ GameObject:
   - component: {fileID: 5589804644903843946}
   m_Layer: 0
   m_Name: gartentor part.402
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -23601,6 +23366,22 @@ Transform:
   - {fileID: 468578253932045713}
   - {fileID: 4420732665086013654}
   - {fileID: 7294443168045377410}
+  - {fileID: 621154922703863399}
+  - {fileID: 5440246662774768586}
+  - {fileID: 2477341762396515732}
+  - {fileID: 7714071078626065266}
+  - {fileID: 1874346143618827715}
+  - {fileID: 6719346785677215347}
+  - {fileID: 9104518106612706517}
+  - {fileID: 3305423716771771937}
+  - {fileID: 4919167208022068363}
+  - {fileID: 642654989727809799}
+  - {fileID: 861613973030699501}
+  - {fileID: 3000072058474250721}
+  - {fileID: 2055637506729761562}
+  - {fileID: 7600557286612387723}
+  - {fileID: 217164399103574260}
+  - {fileID: 7248433383249118415}
   m_Father: {fileID: 2623781133547783689}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -23618,7 +23399,7 @@ GameObject:
   - component: {fileID: 9166766846084863702}
   m_Layer: 0
   m_Name: gartentor part.374
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -23713,7 +23494,7 @@ GameObject:
   - component: {fileID: 3002397614704193295}
   m_Layer: 0
   m_Name: gartentor part.109
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -23807,7 +23588,7 @@ GameObject:
   - component: {fileID: 3594828250725747967}
   m_Layer: 0
   m_Name: gartentor part.373
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -23902,7 +23683,7 @@ GameObject:
   - component: {fileID: 5004960066192550768}
   m_Layer: 0
   m_Name: gartentor part.096
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -23997,7 +23778,7 @@ GameObject:
   - component: {fileID: 302163813330678947}
   m_Layer: 0
   m_Name: gartentor part.004
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -24092,7 +23873,7 @@ GameObject:
   - component: {fileID: 8044393042781463525}
   m_Layer: 0
   m_Name: gartentor part.299
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -24187,7 +23968,7 @@ GameObject:
   - component: {fileID: 923700354147475252}
   m_Layer: 0
   m_Name: gartentor part.013
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -24282,7 +24063,7 @@ GameObject:
   - component: {fileID: 3899789521145650083}
   m_Layer: 0
   m_Name: Cube.028
-  m_TagString: Untagged
+  m_TagString: Glass
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -24294,12 +24075,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7242420946933967296}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -4.957712, y: 9.846407, z: -3.9301314}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
+  m_LocalPosition: {x: -4.9577103, y: 9.846407, z: -3.930132}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 15
+  m_Father: {fileID: 6296815526429071122}
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1647990940482588284
 MeshFilter:
@@ -24327,7 +24108,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1eae092b54646ad4db715e1393dd41ca, type: 2}
+  - {fileID: 2100000, guid: 83993b9736c0bcb4986c5bbbfd1e2a49, type: 2}
   - {fileID: 2100000, guid: 6d8974bcd76b12f44ad465707c597f73, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -24377,7 +24158,7 @@ GameObject:
   - component: {fileID: 4582820860826349547}
   m_Layer: 0
   m_Name: gartentor part.312
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -24472,7 +24253,7 @@ GameObject:
   - component: {fileID: 3447562553647093842}
   m_Layer: 0
   m_Name: Cube.009
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -24566,7 +24347,7 @@ GameObject:
   - component: {fileID: 6463612700069902630}
   m_Layer: 0
   m_Name: gartentor part.031
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -24844,7 +24625,7 @@ GameObject:
   - component: {fileID: 7701120884678757423}
   m_Layer: 0
   m_Name: gartentor part.034
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -24939,7 +24720,7 @@ GameObject:
   - component: {fileID: 8356593758576890477}
   m_Layer: 0
   m_Name: gartentor part.347
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -25034,7 +24815,7 @@ GameObject:
   - component: {fileID: 4393716927305822367}
   m_Layer: 0
   m_Name: gartentor part.096
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -25160,7 +24941,7 @@ Transform:
   - {fileID: 1486918042197141346}
   - {fileID: 8125290231661036120}
   m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 24
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7684339517341908987
 GameObject:
@@ -25176,7 +24957,7 @@ GameObject:
   - component: {fileID: 643741208948558608}
   m_Layer: 0
   m_Name: gartentor part.383 (1)
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -25270,7 +25051,7 @@ GameObject:
   - component: {fileID: 270742240677158985}
   m_Layer: 0
   m_Name: gartentor part.426
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -25365,7 +25146,7 @@ GameObject:
   - component: {fileID: 4793215985778830819}
   m_Layer: 0
   m_Name: gartentor part.105
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -25459,7 +25240,7 @@ GameObject:
   - component: {fileID: 3252338428091951992}
   m_Layer: 0
   m_Name: gartentor part.325
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -25593,7 +25374,7 @@ Transform:
   - {fileID: 2938731583597911826}
   - {fileID: 6779718768603683579}
   m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 40
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7787043938742329284
 GameObject:
@@ -25609,7 +25390,7 @@ GameObject:
   - component: {fileID: 822989893125984929}
   m_Layer: 0
   m_Name: gartentor part.335
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -25703,7 +25484,7 @@ GameObject:
   - component: {fileID: 8842764944750182753}
   m_Layer: 0
   m_Name: gartentor part.386
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -25798,7 +25579,7 @@ GameObject:
   - component: {fileID: 6015672635903817560}
   m_Layer: 0
   m_Name: Cube.025
-  m_TagString: Untagged
+  m_TagString: Glass
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -25810,12 +25591,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7849337753981034048}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -4.2786274, y: 3.1347833, z: 4.0098295}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
+  m_LocalPosition: {x: -4.2786255, y: 3.1347833, z: 4.0098305}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 12
+  m_Father: {fileID: 6296815526429071122}
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2076794442152416977
 MeshFilter:
@@ -25843,7 +25624,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1eae092b54646ad4db715e1393dd41ca, type: 2}
+  - {fileID: 2100000, guid: 83993b9736c0bcb4986c5bbbfd1e2a49, type: 2}
   - {fileID: 2100000, guid: 6d8974bcd76b12f44ad465707c597f73, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -25893,7 +25674,7 @@ GameObject:
   - component: {fileID: 719912723233347453}
   m_Layer: 0
   m_Name: Cube.018
-  m_TagString: Untagged
+  m_TagString: Glass
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -25905,12 +25686,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7879106583670341657}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0.6518554, y: 6.428389, z: -2.8291085}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
+  m_LocalPosition: {x: 0.65185547, y: 6.4283886, z: -2.8291092}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 5
+  m_Father: {fileID: 6296815526429071122}
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4610629732190184040
 MeshFilter:
@@ -25988,7 +25769,7 @@ GameObject:
   - component: {fileID: 7621556731146020147}
   m_Layer: 0
   m_Name: gartentor part.330
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26083,7 +25864,7 @@ GameObject:
   - component: {fileID: 6839456667395828743}
   m_Layer: 0
   m_Name: Cube.027
-  m_TagString: Untagged
+  m_TagString: Glass
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26095,12 +25876,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7899766251579732579}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -4.824931, y: 9.846407, z: 4.0098295}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
+  m_LocalPosition: {x: -4.824932, y: 9.846407, z: 4.0098305}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 14
+  m_Father: {fileID: 6296815526429071122}
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5901265671978825894
 MeshFilter:
@@ -26128,7 +25909,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1eae092b54646ad4db715e1393dd41ca, type: 2}
+  - {fileID: 2100000, guid: 83993b9736c0bcb4986c5bbbfd1e2a49, type: 2}
   - {fileID: 2100000, guid: 6d8974bcd76b12f44ad465707c597f73, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -26178,7 +25959,7 @@ GameObject:
   - component: {fileID: 7225024639778929750}
   m_Layer: 0
   m_Name: gartentor part.016
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26273,7 +26054,7 @@ GameObject:
   - component: {fileID: 7534403075661229187}
   m_Layer: 0
   m_Name: gartentor part.441
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26368,7 +26149,7 @@ GameObject:
   - component: {fileID: 4848706113957484741}
   m_Layer: 0
   m_Name: gartentor part.410
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26463,7 +26244,7 @@ GameObject:
   - component: {fileID: 376789056370645311}
   m_Layer: 0
   m_Name: gartentor part.358
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26558,7 +26339,7 @@ GameObject:
   - component: {fileID: 5014646319758808162}
   m_Layer: 0
   m_Name: gartentor part.040
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26653,7 +26434,7 @@ GameObject:
   - component: {fileID: 5186055060366433302}
   m_Layer: 0
   m_Name: gartentor part.111
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26747,7 +26528,7 @@ GameObject:
   - component: {fileID: 2616181873534097499}
   m_Layer: 0
   m_Name: gartentor part.440
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26842,7 +26623,7 @@ GameObject:
   - component: {fileID: 6423736104293553343}
   m_Layer: 0
   m_Name: gartentor part.284
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26937,7 +26718,7 @@ GameObject:
   - component: {fileID: 7743215518215382472}
   m_Layer: 0
   m_Name: gartentor part.437
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27032,7 +26813,7 @@ GameObject:
   - component: {fileID: 5199152347405479520}
   m_Layer: 0
   m_Name: gartentor part.326
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27127,7 +26908,7 @@ GameObject:
   - component: {fileID: 6300073260507510190}
   m_Layer: 0
   m_Name: gartentor part.039
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27222,7 +27003,7 @@ GameObject:
   - component: {fileID: 8914871573435508715}
   m_Layer: 0
   m_Name: gartentor part.360
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27317,7 +27098,7 @@ GameObject:
   - component: {fileID: 2514133166439363901}
   m_Layer: 0
   m_Name: gartentor part.292
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27412,7 +27193,7 @@ GameObject:
   - component: {fileID: 5241270082656854093}
   m_Layer: 0
   m_Name: gartentor part.038
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27538,7 +27319,7 @@ Transform:
   - {fileID: 5602835341872853714}
   - {fileID: 5338092595992142838}
   m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 33
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8312419368380526732
 GameObject:
@@ -27554,7 +27335,7 @@ GameObject:
   - component: {fileID: 1456653669327019225}
   m_Layer: 0
   m_Name: gartentor part.338
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27649,7 +27430,7 @@ GameObject:
   - component: {fileID: 7866966019043309469}
   m_Layer: 0
   m_Name: gartentor part.272
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27744,7 +27525,7 @@ GameObject:
   - component: {fileID: 1053078085475599989}
   m_Layer: 0
   m_Name: gartentor part.305
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27839,7 +27620,7 @@ GameObject:
   - component: {fileID: 8523021912005293703}
   m_Layer: 0
   m_Name: Cube.010
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27934,7 +27715,7 @@ GameObject:
   - component: {fileID: 2992969250876534997}
   m_Layer: 0
   m_Name: gartentor part.014
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28029,7 +27810,7 @@ GameObject:
   - component: {fileID: 2316938460874448788}
   m_Layer: 0
   m_Name: gartentor part.431
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28123,7 +27904,7 @@ GameObject:
   - component: {fileID: 9042970151408423923}
   m_Layer: 0
   m_Name: Cube.033
-  m_TagString: Untagged
+  m_TagString: Tiles
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28140,7 +27921,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 20
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &479465040237947061
 MeshFilter:
@@ -28168,7 +27949,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 168d7553380bddd459321a3e5384dfc5, type: 2}
+  - {fileID: 2100000, guid: ef90fb4d12a43ab418295e7c83bd5575, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -28217,7 +27998,7 @@ GameObject:
   - component: {fileID: 8529881366701738822}
   m_Layer: 0
   m_Name: gartentor part.275
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28343,7 +28124,7 @@ Transform:
   - {fileID: 9085463666963522721}
   - {fileID: 5738107696362250561}
   m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 31
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8542826786477849740
 GameObject:
@@ -28359,7 +28140,7 @@ GameObject:
   - component: {fileID: 4691212957445839668}
   m_Layer: 0
   m_Name: gartentor part.354
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28454,7 +28235,7 @@ GameObject:
   - component: {fileID: 2491567724789558293}
   m_Layer: 0
   m_Name: gartentor part.006
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28549,7 +28330,7 @@ GameObject:
   - component: {fileID: 7627402496899173045}
   m_Layer: 0
   m_Name: gartentor part.033
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28675,7 +28456,7 @@ Transform:
   - {fileID: 374191346240740198}
   - {fileID: 1708007917571544277}
   m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 25
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8672548326767069267
 GameObject:
@@ -28691,7 +28472,7 @@ GameObject:
   - component: {fileID: 8460976549548367071}
   m_Layer: 0
   m_Name: gartentor part.109
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28785,7 +28566,7 @@ GameObject:
   - component: {fileID: 4022248625616703896}
   m_Layer: 0
   m_Name: Cube.032
-  m_TagString: Untagged
+  m_TagString: Concrete
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28802,7 +28583,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 19
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2552272687338479458
 MeshFilter:
@@ -28879,7 +28660,7 @@ GameObject:
   - component: {fileID: 7239210998593404502}
   m_Layer: 0
   m_Name: gartentor part.357
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28974,7 +28755,7 @@ GameObject:
   - component: {fileID: 1025322795123575160}
   m_Layer: 0
   m_Name: Cube.004
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29069,7 +28850,7 @@ GameObject:
   - component: {fileID: 1648750804819707904}
   m_Layer: 0
   m_Name: gartentor part.280
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29164,7 +28945,7 @@ GameObject:
   - component: {fileID: 5002896688358624683}
   m_Layer: 0
   m_Name: gartentor part.027
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29258,7 +29039,7 @@ GameObject:
   - component: {fileID: 8589392021419085076}
   m_Layer: 0
   m_Name: gartentor part.295
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29353,7 +29134,7 @@ GameObject:
   - component: {fileID: 8752373870641188367}
   m_Layer: 0
   m_Name: gartentor part.323
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29448,7 +29229,7 @@ GameObject:
   - component: {fileID: 8330719950929328799}
   m_Layer: 0
   m_Name: gartentor part.043
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29574,7 +29355,7 @@ Transform:
   - {fileID: 6122933775394937972}
   - {fileID: 7621066535058027084}
   m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 38
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8935257044398886074
 GameObject:
@@ -29590,7 +29371,7 @@ GameObject:
   - component: {fileID: 4742685838363337566}
   m_Layer: 0
   m_Name: gartentor part.381
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29685,7 +29466,7 @@ GameObject:
   - component: {fileID: 8966204934931135458}
   m_Layer: 0
   m_Name: gartentor part.407
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29811,7 +29592,7 @@ Transform:
   - {fileID: 5033936950009100871}
   - {fileID: 6244030466011733926}
   m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 26
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &9086518953884736726
 GameObject:
@@ -29827,7 +29608,7 @@ GameObject:
   - component: {fileID: 7636339443145819342}
   m_Layer: 0
   m_Name: gartentor part.320
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29922,7 +29703,7 @@ GameObject:
   - component: {fileID: 6678965102324957860}
   m_Layer: 0
   m_Name: gartentor part.403
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -30017,7 +29798,7 @@ GameObject:
   - component: {fileID: 1731343067643162033}
   m_Layer: 0
   m_Name: gartentor part.434
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -30112,7 +29893,7 @@ GameObject:
   - component: {fileID: 6290771665014864827}
   m_Layer: 0
   m_Name: gartentor part.397
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -30206,7 +29987,7 @@ GameObject:
   - component: {fileID: 1349269571531205081}
   m_Layer: 0
   m_Name: gartentor part.018
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -30301,7 +30082,7 @@ GameObject:
   - component: {fileID: 6349965439488135565}
   m_Layer: 0
   m_Name: gartentor part.404
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -30396,7 +30177,7 @@ GameObject:
   - component: {fileID: 4800906548329990947}
   m_Layer: 0
   m_Name: gartentor part.316
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -30521,5 +30302,5 @@ Transform:
   - {fileID: 3170933807089454106}
   - {fileID: 1881930777682134101}
   m_Father: {fileID: 2623781133547783689}
-  m_RootOrder: 35
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

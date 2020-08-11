@@ -2,6 +2,7 @@
 using InventorySystem.Presets;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 [RequireComponent ( typeof ( CharacterController ) )]
@@ -146,15 +147,22 @@ public class Player : MonoBehaviour
 
         if ( Physics.Raycast ( m_shootOrigin.position, _shootDirection, out RaycastHit _hit, 500f ) )
         {
-            // Metal (5) hit test
-            ServerSend.SpawnHitObject ( Id, 10, _hit.point, _hit.normal );
-
             if ( _hit.collider.CompareTag ( "Player" ) )
             {
+                // Deal damage to player
                 _hit.collider.GetComponent<Player> ().TakeDamage ( _damage );
+
+                // Player hit object (blood effect)
+                ServerSend.SpawnHitObject ( ( int ) ShootableObjectsManager.HitObjects.Skin, _hit.point, _hit.normal );
+            }
+            else
+            {
+                ShootableObjectsManager.Instance.ProjectileHit ( _hit, _damage );
             }
         }
     }
+
+
 
     public void TakeDamage ( float _damage )
     {
