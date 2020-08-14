@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4ab51bd43e6659447b0bba9b680dbba6, type: 3}
-  m_Name: Standard
+  m_Name: StandardStock-SMG-45
   m_EditorClassIdentifier: 
-  Id: standard-stock
-  Name: Standard Stock
+  Id: standard-stock-smg-45
+  Name: Standard SMG
   StackLimit: 1
   RecoilReductionModifier: 0.1

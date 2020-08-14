@@ -24,8 +24,8 @@ MonoBehaviour:
     Quantity: 32
   PrimaryWeapon:
     Weapon: {fileID: 11400000, guid: 61109460dffeeaf469dddce79743a4bd, type: 2}
-    Barrel: {fileID: 11400000, guid: 3900433c2cd9f6f45952cba95398c005, type: 2}
-    Sight: {fileID: 11400000, guid: 7d358ddffe23ab54482e5421910e4b56, type: 2}
+    Barrel: {fileID: 0}
+    Sight: {fileID: 11400000, guid: acf66b9a8f5c1164f9480da9352010bf, type: 2}
     Magazine: {fileID: 11400000, guid: 8abd58a58c11ddb4d9d54379eb6b5b35, type: 2}
     Stock: {fileID: 11400000, guid: 5b4c7ed734b6542499a1e56a7fe4eca0, type: 2}
   SecondaryWeapon:

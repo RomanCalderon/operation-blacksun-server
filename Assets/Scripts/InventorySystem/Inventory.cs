@@ -258,7 +258,7 @@ namespace InventorySystem
                     case RemovalResult.Results.SUCCESS:
                         break;
                     case RemovalResult.Results.SLOT_EMPTY:
-                        Debug.LogError ( "fromSlot is empty." );
+                        //Debug.LogError ( "fromSlot is empty." );
                         return;
                     default:
                         Debug.LogError ( $"Unknown RemovalResult [{removalResult.Result}]" );
@@ -274,32 +274,33 @@ namespace InventorySystem
                         ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, string.Empty, 0 ); // fromSlot
                         break;
                     case InsertionResult.Results.SLOT_FULL: // Swap
-                        Debug.Log ( "Slot full" );
-                        Debug.Log ( fromSlot.Insert ( toSlot.PlayerItem, toSlot.StackSize ) );
+                        //Debug.Log ( "Slot full" );
+                        //Debug.Log ( fromSlot.Insert ( toSlot.PlayerItem, toSlot.StackSize ) );
                         toSlot.Clear ();
-                        Debug.Log ( toSlot.Insert ( playerItem, removalResult.RemoveAmount ) );
+                        //Debug.Log ( toSlot.Insert ( playerItem, removalResult.RemoveAmount ) );
                         ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize ); // fromSlot
                         ServerSend.PlayerUpdateInventorySlot ( m_player.Id, toSlot.Id, toSlot.PlayerItem.Id, toSlot.StackSize ); // toSlot
                         break;
                     case InsertionResult.Results.OVERFLOW:
-                        Debug.Log ( $"Overflow - OverflowAmount [{insertionResult.OverflowAmount}]" );
+                        //Debug.Log ( $"Overflow - OverflowAmount [{insertionResult.OverflowAmount}]" );
                         fromSlot.Insert ( playerItem, insertionResult.OverflowAmount );
                         ServerSend.PlayerUpdateInventorySlot ( m_player.Id, toSlot.Id, playerItem.Id, toSlot.StackSize ); // toSlot
                         ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, playerItem.Id, fromSlot.StackSize ); // fromSlot
                         break;
                     case InsertionResult.Results.INSERTION_FAILED:
-                        Debug.Log ( "Insertion failed" );
-                        Debug.Log ( $"playerItem [{playerItem}]" );
-                        Debug.Log ( $"removalResult.RemoveAmount [{removalResult.RemoveAmount}]" );
-                        Debug.Log ( fromSlot.Insert ( playerItem, removalResult.RemoveAmount ) );
+                        //Debug.Log ( "Insertion failed" );
+                        //Debug.Log ( $"playerItem [{playerItem}]" );
+                        //Debug.Log ( $"removalResult.RemoveAmount [{removalResult.RemoveAmount}]" );
+                        //Debug.Log ( fromSlot.Insert ( playerItem, removalResult.RemoveAmount ) );
                         ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize ); // fromSlot
                         return;
                     case InsertionResult.Results.INVALID_TYPE:
-                        Debug.Log ( "Invalid type" );
+                        //Debug.Log ( "Invalid type" );
                         fromSlot.Insert ( playerItem, removalResult.RemoveAmount );
                         ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize ); // fromSlot
                         return;
                     default:
+                        Debug.LogError ( $"Unknown InsertionResult [{insertionResult.Result}]" );
                         break;
                 }
             }
@@ -522,7 +523,6 @@ namespace InventorySystem
             Queue<Slot> slotQueue = new Queue<Slot> ( slots );
             List<Slot> affectedSlots = new List<Slot> ();
 
-            Debug.Log ( $"reductionAmount [{reductionAmount}]" );
             while ( itemsReduced < reductionAmount )
             {
                 if ( slotQueue.Count () == 0 )
