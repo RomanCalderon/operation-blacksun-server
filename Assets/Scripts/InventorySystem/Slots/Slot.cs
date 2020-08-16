@@ -296,7 +296,7 @@ namespace InventorySystem.Slots
         public void Clear ()
         {
             PlayerItem = null;
-            IsStackable = false;
+            //IsStackable = false;
             StackSize = 0;
         }
 

@@ -173,6 +173,11 @@ public class ServerSend
         }
     }
 
+    public static void PlayerUpdateInventorySlot ( int _playerId, string _slotId, int _quantity )
+    {
+        PlayerUpdateInventorySlot ( _playerId, _slotId, string.Empty, _quantity );
+    }
+
     public static void PlayerUpdateInventorySlot ( int _playerId, string _slotId, string _playerItemId, int _quantity )
     {
         using ( Packet _packet = new Packet ( ( int ) ServerPackets.playerUpdateInventorySlot ) )
