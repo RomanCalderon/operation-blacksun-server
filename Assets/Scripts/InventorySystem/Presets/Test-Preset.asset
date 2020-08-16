@@ -23,10 +23,10 @@ MonoBehaviour:
   - PlayerItem: {fileID: 11400000, guid: 1ff2bf4c93009dd4d9c2a138a7e2dd81, type: 2}
     Quantity: 32
   PrimaryWeapon:
-    Weapon: {fileID: 11400000, guid: 61109460dffeeaf469dddce79743a4bd, type: 2}
+    Weapon: {fileID: 11400000, guid: 1c00435c2ebf94547911207f66ca53de, type: 2}
     Barrel: {fileID: 0}
-    Sight: {fileID: 11400000, guid: acf66b9a8f5c1164f9480da9352010bf, type: 2}
-    Magazine: {fileID: 11400000, guid: 8abd58a58c11ddb4d9d54379eb6b5b35, type: 2}
+    Sight: {fileID: 11400000, guid: 7d358ddffe23ab54482e5421910e4b56, type: 2}
+    Magazine: {fileID: 11400000, guid: 4b707c11c03486542b7baae0e496945c, type: 2}
     Stock: {fileID: 11400000, guid: 5b4c7ed734b6542499a1e56a7fe4eca0, type: 2}
   SecondaryWeapon:
     Weapon: {fileID: 11400000, guid: 1c00435c2ebf94547911207f66ca53de, type: 2}

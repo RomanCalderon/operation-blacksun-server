@@ -6,8 +6,6 @@ using InventorySystem.Presets;
 using InventorySystem.Slots;
 using InventorySystem.Slots.Results;
 using InventorySystem.PlayerItems;
-using System.Reflection;
-using System.CodeDom;
 
 namespace InventorySystem
 {
@@ -256,6 +254,13 @@ namespace InventorySystem
                 return;
             }
 
+            // Magazine
+            if ( fromSlot.PlayerItem is Magazine && toSlot is MagazineSlot magazineSlot )
+            {
+                TransferMagazine ( fromSlot, magazineSlot );
+                return;
+            }
+
             PlayerItem playerItem = fromSlot.PlayerItem;
             if ( playerItem != null )
             {
@@ -494,6 +499,59 @@ namespace InventorySystem
             // Apply changes
             m_primaryWeaponSlots.Apply ( m_player.Id );
             m_secondaryWeaponSlots.Apply ( m_player.Id );
+            OnValidate ();
+        }
+
+        private void TransferMagazine ( Slot fromSlot, MagazineSlot magazineSlot )
+        {
+            if ( fromSlot == null || magazineSlot == null )
+            {
+                Debug.Assert ( fromSlot != null );
+                Debug.Assert ( magazineSlot != null );
+                return;
+            }
+
+            // Get magazine caliber
+            Magazine magazine = fromSlot.PlayerItem as Magazine;
+            Ammunition.Calibers magazineCaliber = magazine.CompatibleAmmoCaliber;
+
+            // Get magazine slot caliber
+            Ammunition.Calibers magazineSlotCaliber = Ammunition.Calibers.AAC;
+            if ( magazineSlot.Id.Contains ( "primary" ) )
+            {
+                magazineSlotCaliber = ( m_primaryWeaponSlots.WeaponSlot.PlayerItem as Weapon ).Caliber;
+            }
+            else if ( magazineSlot.Id.Contains ( "secondary" ) )
+            {
+                magazineSlotCaliber = ( m_secondaryWeaponSlots.WeaponSlot.PlayerItem as Weapon ).Caliber;
+            }
+
+            // Check for caliber compatibility
+            if ( magazineCaliber == magazineSlotCaliber )
+            {
+                if ( magazineSlot.IsEmpty () ) // Empty magazine slot
+                {
+                    magazineSlot.Insert ( magazine );
+                    fromSlot.Clear ();
+
+                    ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, 1 ); // fromSlot
+                    ServerSend.PlayerUpdateInventorySlot ( m_player.Id, magazineSlot.Id, magazine.Id, 1 ); // magazineSlot
+                }
+                else // Swap magazines
+                {
+                    SwapItems ( fromSlot, magazineSlot );
+                }
+            }
+            else // Incompatible magazine
+            {
+                // From slot
+                string fromSlotItemId = fromSlot.IsEmpty () ? string.Empty : fromSlot.PlayerItem.Id;
+                ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, fromSlotItemId, 1 );
+
+                // Magazine slot
+                string magazineSlotItemId = magazineSlot.IsEmpty () ? string.Empty : magazineSlot.PlayerItem.Id;
+                ServerSend.PlayerUpdateInventorySlot ( m_player.Id, magazineSlot.Id, magazineSlotItemId, 1 );
+            }
             OnValidate ();
         }
 
@@ -959,23 +1017,23 @@ namespace InventorySystem
                 }
                 Clear ();
 
-                if ( other.WeaponSlot != null && !other.WeaponSlot.IsEmpty() )
+                if ( other.WeaponSlot != null && !other.WeaponSlot.IsEmpty () )
                 {
                     WeaponSlot.Insert ( other.WeaponSlot.PlayerItem );
                 }
-                if ( other.BarrelSlot != null && !other.BarrelSlot.IsEmpty() )
+                if ( other.BarrelSlot != null && !other.BarrelSlot.IsEmpty () )
                 {
                     BarrelSlot.Insert ( other.BarrelSlot.PlayerItem );
                 }
-                if ( other.SightSlot != null && !other.SightSlot.IsEmpty() )
+                if ( other.SightSlot != null && !other.SightSlot.IsEmpty () )
                 {
                     SightSlot.Insert ( other.SightSlot.PlayerItem );
                 }
-                if ( other.MagazineSlot != null && !other.MagazineSlot.IsEmpty() )
+                if ( other.MagazineSlot != null && !other.MagazineSlot.IsEmpty () )
                 {
                     MagazineSlot.Insert ( other.MagazineSlot.PlayerItem );
                 }
-                if ( other.StockSlot != null && !other.StockSlot.IsEmpty() )
+                if ( other.StockSlot != null && !other.StockSlot.IsEmpty () )
                 {
                     StockSlot.Insert ( other.StockSlot.PlayerItem );
                 }
