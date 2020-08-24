@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b7b58d9153b0d743894e79d0f2c288b, type: 3}
-  m_Name: Gladiator
+  m_Name: Zero-1
   m_EditorClassIdentifier: 
-  Id: gladiator
-  Name: Gladiator
+  Id: zero-1
+  Name: Zero 1
   StackLimit: 1
   WeaponType: 1
   WeaponClass: 3
   Caliber: 0
-  BaseDamage: 18
-  FireRate: 0.2
-  Magazine: {fileID: 11400000, guid: 08ae076a907243d409e5aca62c7a8d25, type: 2}
+  BaseDamage: 16
+  FireRate: 0.12
+  FireMode: 0

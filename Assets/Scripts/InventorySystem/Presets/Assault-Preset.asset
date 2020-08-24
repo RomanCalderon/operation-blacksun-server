@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 136d8c675e4afdc4bb18c5d6136a6e5c, type: 3}
-  m_Name: Assault_Preset
+  m_Name: Assault-Preset
   m_EditorClassIdentifier: 
   RigItems:
   - PlayerItem: {fileID: 11400000, guid: de0d343f2e922ff41960bd9d515cda6d, type: 2}
