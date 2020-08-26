@@ -2,30 +2,28 @@
 using InventorySystem.Presets;
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using UnityEngine;
 
-[RequireComponent ( typeof ( CharacterController ) )]
+[RequireComponent ( typeof ( PlayerMovementController ) )]
+[RequireComponent ( typeof ( CharacterMotor ) )]
 public class Player : MonoBehaviour
 {
+    private const int NUM_PLAYER_INPUTS = 8;
+
     public int Id { get; private set; }
     public string Username { get; private set; }
 
-    private CharacterController m_controller;
+    private CharacterController m_controller = null;
+    private CharacterMotor m_motor = null;
+    private PlayerMovementController m_movementController = null;
+
     [SerializeField]
     private Transform m_shootOrigin = null;
-    [SerializeField]
-    private float m_gravity = -22f;
-    [SerializeField]
-    private float m_moveSpeed = 4f;
-    [SerializeField]
-    private float m_jumpSpeed = 6.5f;
     [SerializeField]
     private float m_maxHealth = 100f;
     public float Health { get; private set; }
     public bool IsDead { get { return Health == 0; } }
     private bool [] m_inputs;
-    private float m_yVelocity = 0;
 
     // Inventory
     [SerializeField]
@@ -36,13 +34,8 @@ public class Player : MonoBehaviour
     private void Awake ()
     {
         m_controller = GetComponent<CharacterController> ();
-    }
-
-    private void Start ()
-    {
-        m_gravity *= Time.fixedDeltaTime * Time.fixedDeltaTime;
-        m_moveSpeed *= Time.fixedDeltaTime;
-        m_jumpSpeed *= Time.fixedDeltaTime;
+        m_motor = GetComponent<CharacterMotor> ();
+        m_movementController = GetComponent<PlayerMovementController> ();
     }
 
     public void Initialize ( int _id, string _username )
@@ -51,7 +44,7 @@ public class Player : MonoBehaviour
         Username = _username;
         Health = m_maxHealth;
 
-        m_inputs = new bool [ 5 ];
+        m_inputs = new bool [ NUM_PLAYER_INPUTS ];
         Inventory = new Inventory ( this, m_inventoryPreset );
     }
 
@@ -62,6 +55,7 @@ public class Player : MonoBehaviour
     {
         Health = m_maxHealth;
         m_controller.enabled = true;
+        m_motor.enabled = true;
         Inventory = new Inventory ( this, m_inventoryPreset );
         Inventory.SendInitializedInventory ();
     }
@@ -90,48 +84,25 @@ public class Player : MonoBehaviour
             return;
         }
 
-        Vector2 _inputDirection = Vector2.zero;
+        Vector2 inputDirection = Vector2.zero;
         if ( m_inputs [ 0 ] )
         {
-            _inputDirection.y += 1;
+            inputDirection.y += 1;
         }
         if ( m_inputs [ 1 ] )
         {
-            _inputDirection.y -= 1;
+            inputDirection.y -= 1;
         }
         if ( m_inputs [ 2 ] )
         {
-            _inputDirection.x -= 1;
+            inputDirection.x -= 1;
         }
         if ( m_inputs [ 3 ] )
         {
-            _inputDirection.x += 1;
+            inputDirection.x += 1;
         }
 
-        Move ( _inputDirection );
-    }
-
-    private void Move ( Vector2 _inputDirection )
-    {
-        Vector3 _moveDirection = ( transform.right * _inputDirection.x + transform.forward * _inputDirection.y ).normalized;
-        _moveDirection *= m_moveSpeed;
-
-        if ( m_controller.isGrounded )
-        {
-            m_yVelocity = 0f;
-            if ( m_inputs [ 4 ] )
-            {
-                m_yVelocity = m_jumpSpeed;
-            }
-        }
-        m_yVelocity += m_gravity;
-
-        _moveDirection.y = m_yVelocity;
-        m_controller.Move ( _moveDirection );
-
-        ServerSend.PlayerPosition ( Id, transform.position );
-        ServerSend.PlayerRotation ( Id, transform.rotation );
-        ServerSend.PlayerMovementVector ( this, _inputDirection );
+        m_movementController.Movement ( inputDirection, m_inputs [ 4 ], m_inputs [ 5 ], m_inputs [ 6 ], m_inputs [ 7 ] );
     }
 
     public void SetInput ( bool [] _inputs, Quaternion _rotation )
@@ -162,8 +133,6 @@ public class Player : MonoBehaviour
         }
     }
 
-
-
     public void TakeDamage ( float _damage )
     {
         if ( IsDead )
@@ -178,6 +147,7 @@ public class Player : MonoBehaviour
         if ( Health <= 0 )
         {
             m_controller.enabled = false;
+            m_motor.enabled = false;
             StartCoroutine ( DeathSequence () );
         }
     }
