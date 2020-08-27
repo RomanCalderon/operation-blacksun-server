@@ -66,7 +66,7 @@ MonoBehaviour:
   m_walkSpeed: 4.5
   m_runSpeed: 8
   m_crouchSpeed: 2
-  m_slideSpeed: 5
+  m_slideSpeed: 12
   m_drawGizmos: 0
 --- !u!143 &2446812335587931953
 CharacterController:

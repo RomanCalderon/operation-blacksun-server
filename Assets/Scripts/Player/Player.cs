@@ -102,7 +102,7 @@ public class Player : MonoBehaviour
             inputDirection.x += 1;
         }
 
-        m_movementController.Movement ( inputDirection, m_inputs [ 4 ], m_inputs [ 5 ], m_inputs [ 6 ], m_inputs [ 7 ] );
+        m_movementController.Movement ( inputDirection, m_inputs [ 4 ], m_inputs [ 5 ], ( m_inputs [ 6 ] || m_inputs [ 7 ] ) );
     }
 
     public void SetInput ( bool [] _inputs, Quaternion _rotation )

@@ -12,7 +12,8 @@ public class PlayerMovementController : MonoBehaviour
         NONE,
         WALKING,
         RUNNING,
-        CROUCHING
+        CROUCHING,
+        SLIDING
     }
 
     private Player m_player = null;
@@ -26,8 +27,6 @@ public class PlayerMovementController : MonoBehaviour
     private float m_runSpeed = 8f;
     [SerializeField]
     private float m_crouchSpeed = 2f;
-    [SerializeField]
-    private float m_slideSpeed = 5f;
     private MovementStates m_currentMovementState = MovementStates.NONE;
 
     // Crouching
@@ -37,7 +36,8 @@ public class PlayerMovementController : MonoBehaviour
 
     // Sliding
     private bool m_isSliding = false;
-    private float m_minSlideThreshold = 7f;
+    private float m_slideSpeed = 12f;
+    private float m_minSlideThreshold = 5.5f;
     private Vector3 m_initialSlideVelocity; // Initial direction of slide
     private float m_slideTimer = 0f;
     private float m_slideTimerMax = 1.5f; // Slide duration in seconds
@@ -62,7 +62,7 @@ public class PlayerMovementController : MonoBehaviour
         m_height = m_controller.height; // Initial height
     }
 
-    public void Movement ( Vector2 inputDirection, bool runInput, bool jumpInput, bool crouchInput, bool slideInput )
+    public void Movement ( Vector2 inputDirection, bool runInput, bool jumpInput, bool crouchInput )
     {
         if ( m_player.IsDead )
         {
@@ -72,12 +72,16 @@ public class PlayerMovementController : MonoBehaviour
         float fixedDeltaTime = Time.fixedDeltaTime;
         float height = m_height;
         float speed = m_walkSpeed;
+        float slopeAngle;
         Vector3 movementVelocity = m_motor.movement.velocity;
         m_currentMovementState = MovementStates.WALKING;
 
         // Movement input direction
-        Vector3 movementInputVector = ( transform.right * inputDirection.x + transform.forward * inputDirection.y ).normalized;
-        m_motor.inputMoveDirection = !slideInput ? movementInputVector : Vector3.zero;
+        if ( !m_isSliding )
+        {
+            Vector3 movementInputVector = ( transform.right * inputDirection.x + transform.forward * inputDirection.y ).normalized;
+            m_motor.inputMoveDirection = movementInputVector;
+        }
 
         if ( runInput )
         {
@@ -97,26 +101,35 @@ public class PlayerMovementController : MonoBehaviour
         m_motor.inputJump = jumpInput;
 
         // Sliding
-        if ( slideInput &&  // Slide input
+        if ( crouchInput &&  // Crouch input
             !m_isSliding && // Not already sliding
             m_motor.IsGrounded () && // Player is grounded
-            movementVelocity.magnitude > m_minSlideThreshold ) // Moving faster than threshold
+            movementVelocity.magnitude >= m_minSlideThreshold ) // Minimum speed for sliding
         {
+            m_currentMovementState = MovementStates.SLIDING;
+
             m_slideTimer = 0.0f; // Start timer
             m_isSliding = true;
 
-            m_initialSlideVelocity = movementVelocity;
-            float slopeAngle = Vector3.Angle ( Vector3.up, m_initialSlideVelocity.normalized );
-            // Set initial slide speed
-            speed = m_initialSlideVelocity.magnitude; //Mathf.Max ( m_minSlideThreshold, m_slideSpeed * ( slopeAngle - 89f ) );
-        }
-        else if ( m_isSliding )
-        {
-            height = m_height / 2f;
-            speed -= m_slideTimer;
-            Debug.Log ( $"speed = {speed}" );
+            // Movement velocity boost
+            m_motor.movement.velocity = m_initialSlideVelocity = movementVelocity;
 
-            if ( speed < m_minSlideThreshold )
+            // Set initial slide speed
+            slopeAngle = CalculateSlopeAngle ( transform.position );
+            speed = m_slideSpeed = m_initialSlideVelocity.magnitude + Mathf.Clamp01 ( slopeAngle / 12f );
+        }
+        if ( m_isSliding )
+        {
+            m_currentMovementState = MovementStates.SLIDING;
+
+            // Set controller height
+            height = m_height / 2f;
+
+            // Calculate slide speed by slope angle and time
+            float dot = Vector3.Dot ( m_initialSlideVelocity, CalculateSlopeDirection ( transform.position ) );
+            speed = m_slideSpeed -= m_slideTimer * ( 1 - ( dot / 6f ) );
+
+            if ( m_slideSpeed < m_minSlideThreshold )
             {
                 m_isSliding = false;
                 return;
@@ -124,7 +137,7 @@ public class PlayerMovementController : MonoBehaviour
             m_motor.movement.velocity = m_initialSlideVelocity.normalized * speed;
 
             m_slideTimer += fixedDeltaTime;
-            if ( !slideInput || !m_motor.IsGrounded () )
+            if ( !crouchInput || !m_motor.IsGrounded () )
             {
                 m_isSliding = false;
             }
@@ -142,16 +155,13 @@ public class PlayerMovementController : MonoBehaviour
         // Server Sends
         ServerSend.PlayerPosition ( m_player.Id, transform.position );
         ServerSend.PlayerRotation ( m_player.Id, transform.rotation );
-        ServerSend.PlayerMovementVector ( m_player, inputDirection ); // TODO: Send controller velocity as Vector2
+        ServerSend.PlayerMovementVector ( m_player, inputDirection * speed );
     }
 
-    private Vector3 CalculateSlideVector ( float time )
+    private float CalculateSlopeAngle ( Vector3 position )
     {
-        time = Mathf.Clamp ( time, 0f, m_slideTimerMax );
-        Vector3 slopeVector = CalculateSlopeDirection ( transform.position );
-        Debug.DrawRay ( transform.position, slopeVector, Color.red );
-
-        return Vector3.Lerp ( m_initialSlideVelocity, slopeVector, time / m_slideTimerMax );
+        Vector3 slopeDirection = CalculateSlopeDirection ( position );
+        return Mathf.FloorToInt ( Vector3.Angle ( Vector3.up, slopeDirection.normalized ) - 90f );
     }
 
     private Vector3 CalculateSlopeDirection ( Vector3 position )
@@ -197,9 +207,11 @@ public class PlayerMovementController : MonoBehaviour
             case MovementStates.WALKING:
                 return m_walkSpeed;
             case MovementStates.RUNNING:
-                return m_walkSpeed;
+                return m_walkSpeed * 1.5f;
             case MovementStates.CROUCHING:
                 return m_crouchSpeed;
+            case MovementStates.SLIDING:
+                return m_slideSpeed;
             default:
                 return m_walkSpeed;
         }
@@ -216,6 +228,8 @@ public class PlayerMovementController : MonoBehaviour
                 return m_runSpeed * 0.75f;
             case MovementStates.CROUCHING:
                 return m_crouchSpeed;
+            case MovementStates.SLIDING:
+                return m_slideSpeed;
             default:
                 return m_walkSpeed;
         }
