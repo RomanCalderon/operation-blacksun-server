@@ -130,13 +130,15 @@ public class ServerSend
         }
     }
 
-    public static void PlayerMovementVector ( Player _player, Vector2 _movement )
+    public static void PlayerMovement ( Player _player, Vector2 _movement, bool _run, bool _crouch )
     {
         using ( Packet _packet = new Packet ( ( int ) ServerPackets.playerMovementVector ) )
         {
             _packet.Write ( _player.Id );
             _packet.Write ( _movement.x );
             _packet.Write ( _movement.y );
+            _packet.Write ( _run );
+            _packet.Write ( _crouch );
 
             SendUDPDataToAll ( _player.Id, _packet );
         }

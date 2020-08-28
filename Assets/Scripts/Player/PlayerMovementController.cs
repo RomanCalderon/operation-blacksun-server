@@ -39,10 +39,9 @@ public class PlayerMovementController : MonoBehaviour
     private float m_slideSpeed = 12f;
     private float m_minSlideThreshold = 5.5f;
     private Vector3 m_initialSlideVelocity; // Initial direction of slide
+    private Vector3 m_initialSlideLookDirection; // Initial look direction when sliding
     private float m_slideTimer = 0f;
     private float m_slideTimerMax = 1.5f; // Slide duration in seconds
-    private Vector3 [] m_slopeCheckOffsets = new Vector3 [ 8 ];
-    private Vector3 [] m_slopeHitChecks = new Vector3 [ 8 ];
 
     // Gizmos
     [SerializeField]
@@ -72,8 +71,8 @@ public class PlayerMovementController : MonoBehaviour
         float fixedDeltaTime = Time.fixedDeltaTime;
         float height = m_height;
         float speed = m_walkSpeed;
-        float slopeAngle;
         Vector3 movementVelocity = m_motor.movement.velocity;
+        Vector3 globalVelocity = ( transform.right * movementVelocity.x + transform.forward * movementVelocity.y );
         m_currentMovementState = MovementStates.WALKING;
 
         // Movement input direction
@@ -115,19 +114,27 @@ public class PlayerMovementController : MonoBehaviour
             m_motor.movement.velocity = m_initialSlideVelocity = movementVelocity;
 
             // Set initial slide speed
-            slopeAngle = CalculateSlopeAngle ( transform.position );
-            speed = m_slideSpeed = m_initialSlideVelocity.magnitude + Mathf.Clamp01 ( slopeAngle / 12f );
+            m_initialSlideLookDirection = transform.forward;
+            speed = m_slideSpeed = m_initialSlideVelocity.magnitude + 3.5f;
         }
         if ( m_isSliding )
         {
-            m_currentMovementState = MovementStates.SLIDING;
-
             // Set controller height
             height = m_height / 2f;
 
             // Calculate slide speed by slope angle and time
-            float dot = Vector3.Dot ( m_initialSlideVelocity, CalculateSlopeDirection ( transform.position ) );
-            speed = m_slideSpeed -= m_slideTimer * ( 1 - ( dot / 6f ) );
+            Vector3 slopeDir = CalculateSlopeDirection ( transform.position );
+            float slopeResistance = ( movementVelocity.normalized - slopeDir.normalized ).magnitude;
+            float slopeAngle = CalculateSlopeAngle ( transform.position );
+            float slideTimeModifier = Mathf.Clamp01 ( ( Mathf.Clamp01 ( 30 - slopeAngle ) + slopeResistance ) / Mathf.Max ( 1, Mathf.Sqrt ( slopeResistance * 2 ) * ( slopeAngle / 30 ) ) );
+
+            if ( m_drawGizmos )
+            {
+                Debug.DrawRay ( transform.position, movementVelocity.normalized, Color.yellow );
+                Debug.DrawRay ( transform.position, slopeDir.normalized, Color.blue );
+            }
+
+            speed = m_slideSpeed -= m_slideTimer * slideTimeModifier;
 
             if ( m_slideSpeed < m_minSlideThreshold )
             {
@@ -150,12 +157,12 @@ public class PlayerMovementController : MonoBehaviour
 
         float lastHeight = m_controller.height; // Crouch/stand up smoothly 
         m_controller.height = Mathf.SmoothDamp ( m_controller.height, height, ref m_crouchCurrVelocity, m_crouchSmoothTime * fixedDeltaTime );
-        transform.position += new Vector3 ( 0f, ( m_controller.height - lastHeight ) / 2, 0f ); // Fix vertical position
+        m_controller.center += new Vector3 ( 0f, ( m_controller.height - lastHeight ) / 2, 0f ); // Fix vertical position
 
         // Server Sends
         ServerSend.PlayerPosition ( m_player.Id, transform.position );
         ServerSend.PlayerRotation ( m_player.Id, transform.rotation );
-        ServerSend.PlayerMovementVector ( m_player, inputDirection * speed );
+        ServerSend.PlayerMovement ( m_player, inputDirection * speed, runInput, crouchInput );
     }
 
     private float CalculateSlopeAngle ( Vector3 position )
@@ -166,37 +173,47 @@ public class PlayerMovementController : MonoBehaviour
 
     private Vector3 CalculateSlopeDirection ( Vector3 position )
     {
-        float maxDist = 0f;
-        int maxDistCheckIndex = 0;
+        Vector3 [] m_slopeCheckOrigins = new Vector3 [ 8 ];
+        Vector3 [] slopeSamples = new Vector3 [ 8 ];
+        Vector3 playerBottom = position - Vector3.up;
+        float maxAngle = 0f;
+        int maxAngleIndex = 0;
 
         // Get slope check hits
-        for ( int i = 0; i < m_slopeHitChecks.Length; i++ )
+        for ( int i = 0; i < slopeSamples.Length; i++ )
         {
-            m_slopeCheckOffsets [ i ] = position + new Vector3 ( Mathf.Cos ( ( i / 8f ) * 360 * Mathf.Deg2Rad ), 0, Mathf.Sin ( ( i / 8f ) * 360 * Mathf.Deg2Rad ) );
+            m_slopeCheckOrigins [ i ] = position + new Vector3 ( Mathf.Cos ( ( i / 8f ) * 360 * Mathf.Deg2Rad ), 0, Mathf.Sin ( ( i / 8f ) * 360 * Mathf.Deg2Rad ) );
 
-            if ( Physics.Raycast ( m_slopeCheckOffsets [ i ], Vector3.down, out RaycastHit hit, m_controller.height ) )
+            if ( Physics.Raycast ( m_slopeCheckOrigins [ i ], Vector3.down, out RaycastHit hit, 3.0f ) )
             {
-                m_slopeHitChecks [ i ] = hit.point;
+                if ( m_drawGizmos )
+                {
+                    Debug.DrawLine ( m_slopeCheckOrigins [ i ], hit.point, Color.white );
+                }
+                slopeSamples [ i ] = hit.point - playerBottom;
             }
             else
             {
-                m_slopeHitChecks [ i ] = position + m_slopeCheckOffsets [ i ];
+                slopeSamples [ i ] = Vector3.up;
             }
         }
 
         // Get largest slope vector
-        for ( int i = 0; i < m_slopeHitChecks.Length; i++ )
+        for ( int i = 0; i < slopeSamples.Length; i++ )
         {
-            float checkDist = Vector3.Distance ( m_slopeCheckOffsets [ i ], m_slopeHitChecks [ i ] );
-            if ( checkDist > maxDist )
+            float checkAngle = Vector3.Angle ( Vector3.up, slopeSamples [ i ] );
+            if ( checkAngle > maxAngle )
             {
-                maxDist = checkDist;
-                maxDistCheckIndex = i;
+                maxAngle = checkAngle;
+                maxAngleIndex = i;
             }
         }
 
-        Vector3 playerBottom = transform.position - ( Vector3.up * ( m_controller.height / 2f ) );
-        return ( m_slopeHitChecks [ maxDistCheckIndex ] - playerBottom ).normalized;
+        if ( m_drawGizmos )
+        {
+            Debug.DrawRay ( playerBottom, slopeSamples [ maxAngleIndex ], Color.green );
+        }
+        return slopeSamples [ maxAngleIndex ].normalized;
     }
 
     private float CalculateSidewaysSpeed ()
@@ -233,36 +250,5 @@ public class PlayerMovementController : MonoBehaviour
             default:
                 return m_walkSpeed;
         }
-    }
-
-    private void OnDrawGizmos ()
-    {
-        if ( !m_drawGizmos )
-        {
-            return;
-        }
-
-        float maxDist = 0f;
-        int maxDistCheckIndex = 0;
-
-        Gizmos.color = Color.blue;
-
-        for ( int i = 0; i < m_slopeHitChecks.Length; i++ )
-        {
-            float checkDist = Vector3.Distance ( m_slopeCheckOffsets [ i ], m_slopeHitChecks [ i ] );
-            if ( checkDist > maxDist )
-            {
-                maxDist = checkDist;
-                maxDistCheckIndex = i;
-            }
-
-            // Draw debug sphere indication ground collision
-            Gizmos.DrawSphere ( m_slopeHitChecks [ i ], 0.1f );
-        }
-
-        Gizmos.color = Color.green;
-        Gizmos.DrawSphere ( m_slopeHitChecks [ maxDistCheckIndex ], 0.15f );
-        Vector3 playerBottom = transform.position - Vector3.up;
-        Gizmos.DrawRay ( transform.position, ( m_slopeHitChecks [ maxDistCheckIndex ] - playerBottom ) );
     }
 }
