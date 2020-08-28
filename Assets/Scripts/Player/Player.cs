@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private Transform m_shootOrigin = null;
+    private Vector3 m_shootOriginOffset;
     [SerializeField]
     private float m_maxHealth = 100f;
     public float Health { get; private set; }
@@ -36,6 +37,11 @@ public class Player : MonoBehaviour
         m_controller = GetComponent<CharacterController> ();
         m_motor = GetComponent<CharacterMotor> ();
         m_movementController = GetComponent<PlayerMovementController> ();
+    }
+
+    private void Start ()
+    {
+        m_shootOriginOffset = m_shootOrigin.position - transform.position;
     }
 
     public void Initialize ( int _id, string _username )
@@ -115,6 +121,9 @@ public class Player : MonoBehaviour
     {
         // Shoot audio
         ServerSend.PlayAudioClip ( Id, _gunshotClip, _gunshotVolume, transform.position, _minDistance, _maxDistance );
+
+        // Adjust shoot origin position
+        m_shootOrigin.position = transform.position + m_shootOriginOffset + new Vector3 ( 0, m_controller.center.y, 0 );
 
         if ( Physics.Raycast ( m_shootOrigin.position, _shootDirection, out RaycastHit _hit, 500f ) )
         {

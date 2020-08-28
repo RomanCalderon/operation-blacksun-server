@@ -39,9 +39,7 @@ public class PlayerMovementController : MonoBehaviour
     private float m_slideSpeed = 12f;
     private float m_minSlideThreshold = 5.5f;
     private Vector3 m_initialSlideVelocity; // Initial direction of slide
-    private Vector3 m_initialSlideLookDirection; // Initial look direction when sliding
     private float m_slideTimer = 0f;
-    private float m_slideTimerMax = 1.5f; // Slide duration in seconds
 
     // Gizmos
     [SerializeField]
@@ -72,7 +70,6 @@ public class PlayerMovementController : MonoBehaviour
         float height = m_height;
         float speed = m_walkSpeed;
         Vector3 movementVelocity = m_motor.movement.velocity;
-        Vector3 globalVelocity = ( transform.right * movementVelocity.x + transform.forward * movementVelocity.y );
         m_currentMovementState = MovementStates.WALKING;
 
         // Movement input direction
@@ -114,7 +111,6 @@ public class PlayerMovementController : MonoBehaviour
             m_motor.movement.velocity = m_initialSlideVelocity = movementVelocity;
 
             // Set initial slide speed
-            m_initialSlideLookDirection = transform.forward;
             speed = m_slideSpeed = m_initialSlideVelocity.magnitude + 3.5f;
         }
         if ( m_isSliding )
