@@ -66,6 +66,7 @@ MonoBehaviour:
   m_walkSpeed: 4.5
   m_runSpeed: 8
   m_crouchSpeed: 2
+  m_proneSpeed: 1
   m_drawGizmos: 0
 --- !u!143 &2446812335587931953
 CharacterController:
@@ -80,7 +81,7 @@ CharacterController:
   serializedVersion: 2
   m_Height: 2
   m_Radius: 0.5
-  m_SlopeLimit: 45
+  m_SlopeLimit: 55
   m_StepOffset: 0.4
   m_SkinWidth: 0.04
   m_MinMoveDistance: 0.001
@@ -136,7 +137,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    maxGroundAcceleration: 30
+    maxGroundAcceleration: 45
     maxAirAcceleration: 20
     gravity: 32
     maxFallSpeed: 65

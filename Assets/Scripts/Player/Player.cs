@@ -19,7 +19,8 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private Transform m_shootOrigin = null;
-    private Vector3 m_shootOriginOffset;
+    private Vector3 m_shootOriginInitialOffset;
+    private Vector3 m_shootOriginCrouchProneOffset;
     [SerializeField]
     private float m_maxHealth = 100f;
     public float Health { get; private set; }
@@ -41,7 +42,7 @@ public class Player : MonoBehaviour
 
     private void Start ()
     {
-        m_shootOriginOffset = m_shootOrigin.position - transform.position;
+        m_shootOriginInitialOffset = m_shootOrigin.position - transform.position;
     }
 
     public void Initialize ( int _id, string _username )
@@ -108,13 +109,27 @@ public class Player : MonoBehaviour
             inputDirection.x += 1;
         }
 
-        m_movementController.Movement ( inputDirection, m_inputs [ 4 ], m_inputs [ 5 ], ( m_inputs [ 6 ] || m_inputs [ 7 ] ) );
+        m_movementController.Movement ( inputDirection, m_inputs [ 4 ], m_inputs [ 5 ], m_inputs [ 6 ], m_inputs [ 7 ] );
     }
 
     public void SetInput ( bool [] _inputs, Quaternion _rotation )
     {
         m_inputs = _inputs;
         transform.rotation = _rotation;
+
+        // Set shoot position crouch/prone offsets
+        if ( m_inputs [ 6 ] ) // Crouch offset
+        {
+            m_shootOriginCrouchProneOffset = new Vector3 ( 0, -0.5f, 0 );
+        }
+        else if ( m_inputs [ 7 ] ) // Prone offset
+        {
+            m_shootOriginCrouchProneOffset = new Vector3 ( 0, -1.5f, 0 );
+        }
+        else // No offset (standing)
+        {
+            m_shootOriginCrouchProneOffset = Vector3.zero;
+        }
     }
 
     public void Shoot ( Vector3 _shootDirection, float _damage, string _gunshotClip, float _gunshotVolume, float _minDistance, float _maxDistance )
@@ -123,7 +138,7 @@ public class Player : MonoBehaviour
         ServerSend.PlayAudioClip ( Id, _gunshotClip, _gunshotVolume, transform.position, _minDistance, _maxDistance );
 
         // Adjust shoot origin position
-        m_shootOrigin.position = transform.position + m_shootOriginOffset + new Vector3 ( 0, m_controller.center.y, 0 );
+        m_shootOrigin.position = transform.position + m_shootOriginInitialOffset + m_shootOriginCrouchProneOffset;
 
         if ( Physics.Raycast ( m_shootOrigin.position, _shootDirection, out RaycastHit _hit, 500f ) )
         {
@@ -157,6 +172,7 @@ public class Player : MonoBehaviour
         {
             m_controller.enabled = false;
             m_motor.enabled = false;
+            m_movementController.Movement ( Vector2.zero, false, false, false, false );
             StartCoroutine ( DeathSequence () );
         }
     }

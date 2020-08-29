@@ -13,6 +13,7 @@ public class PlayerMovementController : MonoBehaviour
         WALKING,
         RUNNING,
         CROUCHING,
+        PRONE,
         SLIDING
     }
 
@@ -27,6 +28,8 @@ public class PlayerMovementController : MonoBehaviour
     private float m_runSpeed = 8f;
     [SerializeField]
     private float m_crouchSpeed = 2f;
+    [SerializeField]
+    private float m_proneSpeed = 1f;
     private MovementStates m_currentMovementState = MovementStates.NONE;
 
     // Crouching
@@ -40,6 +43,9 @@ public class PlayerMovementController : MonoBehaviour
     private float m_minSlideThreshold = 5.5f;
     private Vector3 m_initialSlideVelocity; // Initial direction of slide
     private float m_slideTimer = 0f;
+
+    // Prone
+    private bool m_proneToggle = false;
 
     // Gizmos
     [SerializeField]
@@ -59,7 +65,7 @@ public class PlayerMovementController : MonoBehaviour
         m_height = m_controller.height; // Initial height
     }
 
-    public void Movement ( Vector2 inputDirection, bool runInput, bool jumpInput, bool crouchInput )
+    public void Movement ( Vector2 inputDirection, bool runInput, bool jumpInput, bool crouchInput, bool proneInput )
     {
         if ( m_player.IsDead )
         {
@@ -88,9 +94,15 @@ public class PlayerMovementController : MonoBehaviour
         // Crouching
         if ( crouchInput )
         {
-            height = m_height / 2f;
+            height = m_height * 0.75f;
             speed = m_crouchSpeed;
             m_currentMovementState = MovementStates.CROUCHING;
+        }
+        else if ( proneInput ) // Prone
+        {
+            height = m_height * 0.5f;
+            speed = m_proneSpeed;
+            m_currentMovementState = MovementStates.PRONE;
         }
 
         // Jumping
@@ -158,7 +170,7 @@ public class PlayerMovementController : MonoBehaviour
         // Server Sends
         ServerSend.PlayerPosition ( m_player.Id, transform.position );
         ServerSend.PlayerRotation ( m_player.Id, transform.rotation );
-        ServerSend.PlayerMovement ( m_player, inputDirection * speed, runInput, crouchInput );
+        ServerSend.PlayerMovement ( m_player, inputDirection * speed, runInput, crouchInput, proneInput );
     }
 
     private float CalculateSlopeAngle ( Vector3 position )
@@ -225,6 +237,8 @@ public class PlayerMovementController : MonoBehaviour
                 return m_crouchSpeed;
             case MovementStates.SLIDING:
                 return m_slideSpeed;
+            case MovementStates.PRONE:
+                return m_proneSpeed;
             default:
                 return m_walkSpeed;
         }
@@ -243,6 +257,8 @@ public class PlayerMovementController : MonoBehaviour
                 return m_crouchSpeed;
             case MovementStates.SLIDING:
                 return m_slideSpeed;
+            case MovementStates.PRONE:
+                return m_proneSpeed;
             default:
                 return m_walkSpeed;
         }
