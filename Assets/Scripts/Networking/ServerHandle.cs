@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Security.Cryptography;
 
 public class ServerHandle
 {
@@ -67,14 +68,10 @@ public class ServerHandle
 
     public static void PlayerMovement ( int _fromClient, Packet _packet )
     {
-        bool [] _inputs = new bool [ _packet.ReadInt () ];
-        for ( int i = 0; i < _inputs.Length; i++ )
-        {
-            _inputs [ i ] = _packet.ReadBool ();
-        }
-        Quaternion _rotation = _packet.ReadQuaternion ();
+        int length = _packet.ReadInt ();
+        byte [] inputs = _packet.ReadBytes (length);
 
-        Server.clients [ _fromClient ].player.SetInput ( _inputs, _rotation );
+        Server.clients [ _fromClient ].player.ReceiveInput ( inputs );
     }
 
     public static void PlayerShoot ( int _fromClient, Packet _packet )

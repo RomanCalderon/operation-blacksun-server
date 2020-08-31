@@ -131,7 +131,7 @@ public class Server
             { (int)ClientPackets.ping, ServerHandle.Ping },
             { (int)ClientPackets.spawnPlayer, ServerHandle.SpawnPlayer },
             { (int)ClientPackets.playerReady, ServerHandle.PlayerReady },
-            { (int)ClientPackets.playerMovement, ServerHandle.PlayerMovement },
+            { (int)ClientPackets.playerInput, ServerHandle.PlayerMovement },
             { (int)ClientPackets.playerShoot, ServerHandle.PlayerShoot },
             { (int)ClientPackets.playerTransferSlotContents, ServerHandle.PlayerTransferSlotContents },
             { (int)ClientPackets.playerInventoryReduceItem, ServerHandle.PlayerInventoryReduceItem }

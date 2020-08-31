@@ -29,7 +29,7 @@ public enum ClientPackets
     ping,
     spawnPlayer,
     playerReady,
-    playerMovement,
+    playerInput,
     playerShoot,
     playerTransferSlotContents,
     playerInventoryReduceItem
