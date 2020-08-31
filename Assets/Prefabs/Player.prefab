@@ -143,9 +143,9 @@ MonoBehaviour:
     maxFallSpeed: 65
   jumping:
     enabled: 1
-    baseHeight: 0.35
-    extraHeight: 0.85
-    perpAmount: 0.251
+    baseHeight: 1
+    extraHeight: 0.1
+    perpAmount: 0
     steepPerpAmount: 0.5
   movingPlatform:
     enabled: 1

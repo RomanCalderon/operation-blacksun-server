@@ -7,6 +7,14 @@ using UnityEngine;
 [RequireComponent ( typeof ( CharacterController ) )]
 public class PlayerMovementController : MonoBehaviour
 {
+    #region Constants
+
+    private const float BASE_JUMP_HEIGHT = 1.0f;
+
+    #endregion
+
+    #region Models
+
     public enum MovementStates
     {
         NONE,
@@ -16,6 +24,10 @@ public class PlayerMovementController : MonoBehaviour
         PRONE,
         SLIDING
     }
+
+    #endregion
+
+    #region Members
 
     private Player m_player = null;
     private CharacterMotor m_motor = null;
@@ -51,6 +63,8 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField]
     private bool m_drawGizmos = false;
 
+    #endregion
+
 
     private void Awake ()
     {
@@ -74,6 +88,7 @@ public class PlayerMovementController : MonoBehaviour
 
         float fixedDeltaTime = Time.fixedDeltaTime;
         float height = m_height;
+        float jumpHeight = BASE_JUMP_HEIGHT;
         float speed = m_walkSpeed;
         Vector3 movementVelocity = m_motor.movement.velocity;
         m_currentMovementState = MovementStates.WALKING;
@@ -85,11 +100,16 @@ public class PlayerMovementController : MonoBehaviour
             m_motor.inputMoveDirection = movementInputVector;
         }
 
+        // Running
         if ( runInput )
         {
             speed = m_runSpeed;
             m_currentMovementState = MovementStates.RUNNING;
         }
+
+        // Jumping
+        m_motor.jumping.baseHeight = jumpHeight;
+        m_motor.inputJump = jumpInput;
 
         // Crouching
         if ( crouchInput )
@@ -104,9 +124,6 @@ public class PlayerMovementController : MonoBehaviour
             speed = m_proneSpeed;
             m_currentMovementState = MovementStates.PRONE;
         }
-
-        // Jumping
-        m_motor.inputJump = jumpInput;
 
         // Sliding
         if ( crouchInput &&  // Crouch input
@@ -128,7 +145,10 @@ public class PlayerMovementController : MonoBehaviour
         if ( m_isSliding )
         {
             // Set controller height
-            height = m_height / 2f;
+            height = m_height * 0.75f;
+
+            // Jump height boost
+            jumpHeight = BASE_JUMP_HEIGHT * 2.5f;
 
             // Calculate slide speed by slope angle and time
             Vector3 slopeDir = CalculateSlopeDirection ( transform.position );
@@ -143,16 +163,20 @@ public class PlayerMovementController : MonoBehaviour
             }
 
             speed = m_slideSpeed -= m_slideTimer * slideTimeModifier;
-
-            if ( m_slideSpeed < m_minSlideThreshold )
+            if ( m_motor.IsGrounded () )
             {
-                m_isSliding = false;
-                return;
-            }
-            m_motor.movement.velocity = m_initialSlideVelocity.normalized * speed;
+                m_motor.movement.velocity = m_initialSlideVelocity.normalized * speed;
 
+                // Add jump velocity
+                if ( jumpInput )
+                {
+                    m_motor.movement.velocity += Vector3.up * jumpHeight + transform.forward * m_motor.movement.velocity.magnitude * 0.65f;
+                }
+            }
             m_slideTimer += fixedDeltaTime;
-            if ( !crouchInput || !m_motor.IsGrounded () )
+
+            // Stop sliding if player is moving too slow OR no longer crouching OR is not grounded
+            if ( m_slideSpeed < m_minSlideThreshold )
             {
                 m_isSliding = false;
             }
@@ -170,7 +194,7 @@ public class PlayerMovementController : MonoBehaviour
         // Server Sends
         ServerSend.PlayerPosition ( m_player.Id, transform.position );
         ServerSend.PlayerRotation ( m_player.Id, transform.rotation );
-        ServerSend.PlayerMovement ( m_player, inputDirection * speed, runInput, crouchInput, proneInput );
+        ServerSend.PlayerMovement ( m_player, m_motor.movement.velocity, inputDirection * speed, runInput, crouchInput, proneInput );
     }
 
     private float CalculateSlopeAngle ( Vector3 position )

@@ -120,7 +120,7 @@ public class Player : MonoBehaviour
         // Set shoot position crouch/prone offsets
         if ( m_inputs [ 6 ] ) // Crouch offset
         {
-            m_shootOriginCrouchProneOffset = new Vector3 ( 0, -0.5f, 0 );
+            m_shootOriginCrouchProneOffset = new Vector3 ( 0, -0.75f, 0 );
         }
         else if ( m_inputs [ 7 ] ) // Prone offset
         {
