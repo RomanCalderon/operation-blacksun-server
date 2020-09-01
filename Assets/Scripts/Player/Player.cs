@@ -20,6 +20,8 @@ public class Player : MonoBehaviour
 
     private struct PlayerInputs
     {
+        // Request number
+        public uint request;
         // Interpolation time on client
         public short lerp_msec;
         // Duration in ms of command
