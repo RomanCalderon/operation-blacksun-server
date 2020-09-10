@@ -66,10 +66,10 @@ public class ServerHandle
         }
     }
 
-    public static void PlayerMovement ( int _fromClient, Packet _packet )
+    public static void PlayerInput ( int _fromClient, Packet _packet )
     {
         int length = _packet.ReadInt ();
-        byte [] inputs = _packet.ReadBytes (length);
+        byte [] inputs = _packet.ReadBytes ( length );
 
         Server.clients [ _fromClient ].player.ReceiveInput ( inputs );
     }

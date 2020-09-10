@@ -63,9 +63,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0776afed1b0bd40abbc7090da5fc7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_walkSpeed: 4.5
+  m_walkSpeed: 4
   m_runSpeed: 8
-  m_crouchSpeed: 2
+  m_crouchSpeed: 3.5
   m_proneSpeed: 1
   m_drawGizmos: 0
 --- !u!143 &2446812335587931953
@@ -80,7 +80,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 2
-  m_Radius: 0.3
+  m_Radius: 0.38
   m_SlopeLimit: 55
   m_StepOffset: 0.4
   m_SkinWidth: 0.04
@@ -137,7 +137,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    maxGroundAcceleration: 45
+    maxGroundAcceleration: 40
     maxAirAcceleration: 20
     gravity: 32
     maxFallSpeed: 65

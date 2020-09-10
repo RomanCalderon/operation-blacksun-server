@@ -115,7 +115,7 @@ public class ServerSend
             _packet.Write ( _playerId );
             _packet.Write ( _position );
 
-            SendUDPDataToAll ( _packet );
+            SendUDPDataToAll ( _playerId, _packet );
         }
     }
 
@@ -130,11 +130,11 @@ public class ServerSend
         }
     }
 
-    public static void PlayerMovement ( Player _player, Vector3 _movementVelocity, Vector2 _inputVelocity, bool _run, bool _crouch, bool _prone )
+    public static void PlayerMovement ( int _playerId, Vector3 _movementVelocity, Vector2 _inputVelocity, bool _run, bool _crouch, bool _prone )
     {
-        using ( Packet _packet = new Packet ( ( int ) ServerPackets.playerMovementVector ) )
+        using ( Packet _packet = new Packet ( ( int ) ServerPackets.playerMovement ) )
         {
-            _packet.Write ( _player.Id );
+            _packet.Write ( _playerId );
             _packet.Write ( _movementVelocity );
             _packet.Write ( _inputVelocity.x );
             _packet.Write ( _inputVelocity.y );
@@ -143,6 +143,18 @@ public class ServerSend
             _packet.Write ( _prone );
 
             SendUDPDataToAll ( _packet );
+        }
+    }
+
+    public static void PlayerInputProcessed ( int _playerId, byte [] _requestProcessed )
+    {
+        using ( Packet _packet = new Packet ( ( int ) ServerPackets.playerInputProcessed ) )
+        {
+            _packet.Write ( _playerId );
+            _packet.Write ( _requestProcessed.Length );
+            _packet.Write ( _requestProcessed );
+
+            SendTCPData ( _playerId, _packet );
         }
     }
 

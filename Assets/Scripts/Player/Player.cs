@@ -1,36 +1,48 @@
-﻿using InventorySystem;
-using InventorySystem.Presets;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
+using InventorySystem;
+using InventorySystem.Presets;
 
 [RequireComponent ( typeof ( PlayerMovementController ) )]
 [RequireComponent ( typeof ( CharacterMotor ) )]
 public class Player : MonoBehaviour
 {
-    #region Constants
-
-    private const int NUM_BOOL_INPUTS = 8;
-
-    #endregion
-
     #region Models
 
-    private struct PlayerInputs
+    private struct Frame
     {
-        // Request number
-        public uint request;
+        // Frame timestamp
+        public float timestamp;
         // Interpolation time on client
         public short lerp_msec;
         // Duration in ms of command
-        public byte msec;
+        public float deltaTime;
+        // Position of player
+        public Vector3 position;
+        // Delta position
+        public Vector3 deltaPosition;
+        // Velocity this frame
+        public Vector3 velocity;
         // Player movement inputs
-        [MarshalAs ( UnmanagedType.ByValArray, SizeConst = NUM_BOOL_INPUTS )]
+        [MarshalAs ( UnmanagedType.ByValArray, SizeConst = Constants.NUM_PLAYER_INPUTS )]
         public bool [] inputs;
         // Player rotation
         public Quaternion rot;
+
+        public Frame ( Frame other )
+        {
+            timestamp = other.timestamp;
+            lerp_msec = other.lerp_msec;
+            deltaTime = other.deltaTime;
+            position = other.position;
+            deltaPosition = other.deltaPosition;
+            velocity = other.velocity;
+            inputs = other.inputs;
+            rot = other.rot;
+        }
     }
 
     #endregion
@@ -54,7 +66,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float m_maxHealth = 100f;
 
-    private PlayerInputs m_playerInputs;
+    //private PlayerInputs m_playerInputs;
     private bool m_receivedInput = false;
 
     // Inventory
@@ -107,23 +119,38 @@ public class Player : MonoBehaviour
         Inventory.SendInitializedInventory ();
     }
 
-    public void FixedUpdate ()
+    private void FixedUpdate ()
     {
         if ( IsDead )
         {
             return;
         }
-
-        ApplyInput ( m_playerInputs.inputs, m_playerInputs.rot );
     }
 
-    public void ReceiveInput ( byte [] inputs )
+    public void ReceiveInput ( byte [] clientFrame )
     {
         m_receivedInput = true;
-        m_playerInputs = FromBytes ( inputs );
+        Frame input = FromBytes ( clientFrame );
+
+        StartCoroutine ( ProcessInput ( input ) );
     }
 
-    public void ApplyInput ( bool [] _inputs, Quaternion _rotation )
+    private IEnumerator ProcessInput ( Frame playerInput )
+    {
+        // Apply the input
+        ApplyInput ( playerInput );
+
+        // Wait one frame for simulation
+        yield return new WaitForFixedUpdate ();
+
+        // Update players new position
+        playerInput.position = transform.position;
+
+        // Send processed input back to client for reconciliation
+        ServerSend.PlayerInputProcessed ( Id, GetBytes ( playerInput ) );
+    }
+
+    private void ApplyInput ( Frame playerInput )
     {
         if ( !m_receivedInput )
         {
@@ -132,37 +159,39 @@ public class Player : MonoBehaviour
 
         // Movement / Run / Jump / Crouch / Prone
         Vector2 inputDirection = Vector2.zero;
-        if ( m_playerInputs.inputs [ 0 ] )
+        if ( playerInput.inputs [ 0 ] ) // Forward input
         {
             inputDirection.y += 1;
         }
-        if ( m_playerInputs.inputs [ 1 ] )
+        if ( playerInput.inputs [ 1 ] ) // Backward input
         {
             inputDirection.y -= 1;
         }
-        if ( m_playerInputs.inputs [ 2 ] )
+        if ( playerInput.inputs [ 2 ] ) // Left input
         {
             inputDirection.x -= 1;
         }
-        if ( m_playerInputs.inputs [ 3 ] )
+        if ( playerInput.inputs [ 3 ] ) // Right input
         {
             inputDirection.x += 1;
         }
-        bool runInput = m_playerInputs.inputs [ 4 ];
-        bool jumpInput = m_playerInputs.inputs [ 5 ];
-        bool crouchInput = m_playerInputs.inputs [ 6 ];
-        bool proneInput = m_playerInputs.inputs [ 7 ];
+        bool runInput = playerInput.inputs [ 4 ]; // Run input
+        bool jumpInput = playerInput.inputs [ 5 ]; // Jump input
+        bool crouchInput = playerInput.inputs [ 6 ]; // Crouch input
+        bool proneInput = playerInput.inputs [ 7 ]; // Prone input
+
+        // Send movement-related inputs to movement controller
         m_movementController.Movement ( inputDirection, runInput, jumpInput, crouchInput, proneInput );
-        
+
         // Look rotation
-        transform.rotation = _rotation;
+        transform.rotation = playerInput.rot;
 
         // Set shoot position crouch/prone offsets
-        if ( _inputs [ 6 ] ) // Crouch input
+        if ( crouchInput ) // Crouch input
         {
             m_shootOriginCrouchProneOffset = new Vector3 ( 0, -0.75f, 0 );
         }
-        else if ( _inputs [ 7 ] ) // Prone input
+        else if ( proneInput ) // Prone input
         {
             m_shootOriginCrouchProneOffset = new Vector3 ( 0, -1.5f, 0 );
         }
@@ -236,19 +265,31 @@ public class Player : MonoBehaviour
 
     #region Util
 
-    private PlayerInputs FromBytes ( byte [] arr )
+    private Frame FromBytes ( byte [] arr )
     {
-        PlayerInputs str = new PlayerInputs ();
+        Frame str = new Frame ();
 
         int size = Marshal.SizeOf ( str );
         IntPtr ptr = Marshal.AllocHGlobal ( size );
 
         Marshal.Copy ( arr, 0, ptr, size );
 
-        str = ( PlayerInputs ) Marshal.PtrToStructure ( ptr, str.GetType () );
+        str = ( Frame ) Marshal.PtrToStructure ( ptr, str.GetType () );
         Marshal.FreeHGlobal ( ptr );
 
         return str;
+    }
+
+    private byte [] GetBytes ( Frame str )
+    {
+        int size = Marshal.SizeOf ( str );
+        byte [] arr = new byte [ size ];
+
+        IntPtr ptr = Marshal.AllocHGlobal ( size );
+        Marshal.StructureToPtr ( str, ptr, true );
+        Marshal.Copy ( ptr, arr, 0, size );
+        Marshal.FreeHGlobal ( ptr );
+        return arr;
     }
 
     private void OnValidate ()
