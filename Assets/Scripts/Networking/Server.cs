@@ -23,7 +23,8 @@ public class Server
         MaxPlayers = _maxPlayers;
         Port = _port;
 
-        Debug.Log ( "\nStarting server..." );
+        Console.WriteLine ( "" );
+        Debug.Log ( "Starting server..." );
         InitializeServerData ();
 
         tcpListener = new TcpListener ( IPAddress.Any, Port );
