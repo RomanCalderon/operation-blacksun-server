@@ -86,7 +86,7 @@ public class PlayerMovementController : MonoBehaviour
             return;
         }
 
-        float fixedDeltaTime = Time.fixedDeltaTime;
+        float deltaTime = Time.fixedDeltaTime;
         float height = m_height;
         float jumpHeight = BASE_JUMP_HEIGHT;
         float speed = m_walkSpeed;
@@ -96,8 +96,7 @@ public class PlayerMovementController : MonoBehaviour
         // Movement input direction
         if ( !m_isSliding )
         {
-            Vector3 movementInputVector = ( transform.right * inputDirection.x + transform.forward * inputDirection.y ).normalized;
-            m_motor.inputMoveDirection = movementInputVector;
+            m_motor.inputMoveDirection = ( transform.right * inputDirection.x + transform.forward * inputDirection.y ).normalized;
         }
 
         // Running
@@ -162,7 +161,7 @@ public class PlayerMovementController : MonoBehaviour
                 Debug.DrawRay ( transform.position, slopeDir.normalized, Color.blue );
             }
 
-            speed = m_slideSpeed -= m_slideTimer * slideTimeModifier;
+            speed = m_slideSpeed -= m_slideTimer * slideTimeModifier / 48f;
             if ( m_motor.IsGrounded () )
             {
                 m_motor.movement.velocity = m_initialSlideVelocity.normalized * speed;
@@ -173,7 +172,7 @@ public class PlayerMovementController : MonoBehaviour
                     m_motor.movement.velocity += Vector3.up * jumpHeight + transform.forward * m_motor.movement.velocity.magnitude * 0.65f;
                 }
             }
-            m_slideTimer += fixedDeltaTime;
+            m_slideTimer += deltaTime;
 
             // Stop sliding if player is moving too slow OR no longer crouching OR is not grounded
             if ( m_slideSpeed < m_minSlideThreshold )
@@ -188,13 +187,13 @@ public class PlayerMovementController : MonoBehaviour
         m_motor.movement.maxBackwardsSpeed = CalculateBackwardSpeed (); // Set max backward speed
 
         float lastHeight = m_controller.height; // Crouch/stand up smoothly 
-        m_controller.height = Mathf.SmoothDamp ( m_controller.height, height, ref m_crouchCurrVelocity, m_crouchSmoothTime * fixedDeltaTime );
+        m_controller.height = Mathf.SmoothDamp ( m_controller.height, height, ref m_crouchCurrVelocity, m_crouchSmoothTime * deltaTime );
         m_controller.center += new Vector3 ( 0f, ( m_controller.height - lastHeight ) / 2, 0f ); // Fix vertical position
 
         // Server Sends
         ServerSend.PlayerPosition ( m_player.Id, transform.position );
         ServerSend.PlayerRotation ( m_player.Id, transform.rotation );
-        ServerSend.PlayerMovement ( m_player, m_motor.movement.velocity, inputDirection * speed, runInput, crouchInput, proneInput );
+        ServerSend.PlayerMovement ( m_player.Id, m_motor.movement.velocity, inputDirection * speed, runInput, crouchInput, proneInput );
     }
 
     private float CalculateSlopeAngle ( Vector3 position )

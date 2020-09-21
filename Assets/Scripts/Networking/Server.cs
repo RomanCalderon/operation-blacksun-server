@@ -23,7 +23,8 @@ public class Server
         MaxPlayers = _maxPlayers;
         Port = _port;
 
-        Debug.Log ( "\nStarting server..." );
+        Console.WriteLine ( "" );
+        Debug.Log ( "Starting server..." );
         InitializeServerData ();
 
         tcpListener = new TcpListener ( IPAddress.Any, Port );
@@ -131,7 +132,7 @@ public class Server
             { (int)ClientPackets.ping, ServerHandle.Ping },
             { (int)ClientPackets.spawnPlayer, ServerHandle.SpawnPlayer },
             { (int)ClientPackets.playerReady, ServerHandle.PlayerReady },
-            { (int)ClientPackets.playerMovement, ServerHandle.PlayerMovement },
+            { (int)ClientPackets.playerInput, ServerHandle.PlayerInput },
             { (int)ClientPackets.playerShoot, ServerHandle.PlayerShoot },
             { (int)ClientPackets.playerTransferSlotContents, ServerHandle.PlayerTransferSlotContents },
             { (int)ClientPackets.playerInventoryReduceItem, ServerHandle.PlayerInventoryReduceItem }

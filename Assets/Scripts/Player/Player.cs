@@ -1,17 +1,58 @@
-﻿using InventorySystem;
-using InventorySystem.Presets;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
+using InventorySystem;
+using InventorySystem.Presets;
 
 [RequireComponent ( typeof ( PlayerMovementController ) )]
 [RequireComponent ( typeof ( CharacterMotor ) )]
 public class Player : MonoBehaviour
 {
-    private const int NUM_PLAYER_INPUTS = 8;
+    #region Models
+
+    private struct Frame
+    {
+        // Frame timestamp
+        public float timestamp;
+        // Interpolation time on client
+        public short lerp_msec;
+        // Duration in ms of command
+        public float deltaTime;
+        // Position of player
+        public Vector3 position;
+        // Delta position
+        public Vector3 deltaPosition;
+        // Velocity this frame
+        public Vector3 velocity;
+        // Player movement inputs
+        [MarshalAs ( UnmanagedType.ByValArray, SizeConst = Constants.NUM_PLAYER_INPUTS )]
+        public bool [] inputs;
+        // Player rotation
+        public Quaternion rot;
+
+        public Frame ( Frame other )
+        {
+            timestamp = other.timestamp;
+            lerp_msec = other.lerp_msec;
+            deltaTime = other.deltaTime;
+            position = other.position;
+            deltaPosition = other.deltaPosition;
+            velocity = other.velocity;
+            inputs = other.inputs;
+            rot = other.rot;
+        }
+    }
+
+    #endregion
+
+    #region Members
 
     public int Id { get; private set; }
     public string Username { get; private set; }
+    public float Health { get; private set; }
+    public bool IsDead { get { return Health == 0; } }
 
     private CharacterController m_controller = null;
     private CharacterMotor m_motor = null;
@@ -21,16 +62,19 @@ public class Player : MonoBehaviour
     private Transform m_shootOrigin = null;
     private Vector3 m_shootOriginInitialOffset;
     private Vector3 m_shootOriginCrouchProneOffset;
+
     [SerializeField]
     private float m_maxHealth = 100f;
-    public float Health { get; private set; }
-    public bool IsDead { get { return Health == 0; } }
-    private bool [] m_inputs;
+
+    //private PlayerInputs m_playerInputs;
+    private bool m_receivedInput = false;
 
     // Inventory
     [SerializeField]
     private Preset m_inventoryPreset = null;
     public Inventory Inventory { get; private set; } = null;
+
+    #endregion
 
 
     private void Awake ()
@@ -51,7 +95,6 @@ public class Player : MonoBehaviour
         Username = _username;
         Health = m_maxHealth;
 
-        m_inputs = new bool [ NUM_PLAYER_INPUTS ];
         Inventory = new Inventory ( this, m_inventoryPreset );
     }
 
@@ -76,57 +119,83 @@ public class Player : MonoBehaviour
         Inventory.SendInitializedInventory ();
     }
 
-    private void OnValidate ()
-    {
-        if ( Inventory != null )
-        {
-            Inventory.OnValidate ();
-        }
-    }
-
-    public void FixedUpdate ()
+    private void FixedUpdate ()
     {
         if ( IsDead )
         {
             return;
         }
+    }
 
+    public void ReceiveInput ( byte [] clientFrame )
+    {
+        m_receivedInput = true;
+        Frame input = FromBytes ( clientFrame );
+
+        StartCoroutine ( ProcessInput ( input ) );
+    }
+
+    private IEnumerator ProcessInput ( Frame playerInput )
+    {
+        // Apply the input
+        ApplyInput ( playerInput );
+
+        // Wait one frame for simulation
+        yield return new WaitForFixedUpdate ();
+
+        // Update players new position
+        playerInput.position = transform.position;
+
+        // Send processed input back to client for reconciliation
+        ServerSend.PlayerInputProcessed ( Id, GetBytes ( playerInput ) );
+    }
+
+    private void ApplyInput ( Frame playerInput )
+    {
+        if ( !m_receivedInput )
+        {
+            return;
+        }
+
+        // Movement / Run / Jump / Crouch / Prone
         Vector2 inputDirection = Vector2.zero;
-        if ( m_inputs [ 0 ] )
+        if ( playerInput.inputs [ 0 ] ) // Forward input
         {
             inputDirection.y += 1;
         }
-        if ( m_inputs [ 1 ] )
+        if ( playerInput.inputs [ 1 ] ) // Backward input
         {
             inputDirection.y -= 1;
         }
-        if ( m_inputs [ 2 ] )
+        if ( playerInput.inputs [ 2 ] ) // Left input
         {
             inputDirection.x -= 1;
         }
-        if ( m_inputs [ 3 ] )
+        if ( playerInput.inputs [ 3 ] ) // Right input
         {
             inputDirection.x += 1;
         }
+        bool runInput = playerInput.inputs [ 4 ]; // Run input
+        bool jumpInput = playerInput.inputs [ 5 ]; // Jump input
+        bool crouchInput = playerInput.inputs [ 6 ]; // Crouch input
+        bool proneInput = playerInput.inputs [ 7 ]; // Prone input
 
-        m_movementController.Movement ( inputDirection, m_inputs [ 4 ], m_inputs [ 5 ], m_inputs [ 6 ], m_inputs [ 7 ] );
-    }
+        // Send movement-related inputs to movement controller
+        m_movementController.Movement ( inputDirection, runInput, jumpInput, crouchInput, proneInput );
 
-    public void SetInput ( bool [] _inputs, Quaternion _rotation )
-    {
-        m_inputs = _inputs;
-        transform.rotation = _rotation;
+        // Look rotation
+        transform.rotation = playerInput.rot;
 
         // Set shoot position crouch/prone offsets
-        if ( m_inputs [ 6 ] ) // Crouch offset
+        if ( crouchInput ) // Crouch input
         {
             m_shootOriginCrouchProneOffset = new Vector3 ( 0, -0.75f, 0 );
         }
-        else if ( m_inputs [ 7 ] ) // Prone offset
+        else if ( proneInput ) // Prone input
         {
             m_shootOriginCrouchProneOffset = new Vector3 ( 0, -1.5f, 0 );
         }
-        else // No offset (standing)
+        else // Standing input (no crouch or prone input)
         {
             m_shootOriginCrouchProneOffset = Vector3.zero;
         }
@@ -193,4 +262,43 @@ public class Player : MonoBehaviour
         Reinitialize ();
         ServerSend.PlayerRespawned ( Id );
     }
+
+    #region Util
+
+    private Frame FromBytes ( byte [] arr )
+    {
+        Frame str = new Frame ();
+
+        int size = Marshal.SizeOf ( str );
+        IntPtr ptr = Marshal.AllocHGlobal ( size );
+
+        Marshal.Copy ( arr, 0, ptr, size );
+
+        str = ( Frame ) Marshal.PtrToStructure ( ptr, str.GetType () );
+        Marshal.FreeHGlobal ( ptr );
+
+        return str;
+    }
+
+    private byte [] GetBytes ( Frame str )
+    {
+        int size = Marshal.SizeOf ( str );
+        byte [] arr = new byte [ size ];
+
+        IntPtr ptr = Marshal.AllocHGlobal ( size );
+        Marshal.StructureToPtr ( str, ptr, true );
+        Marshal.Copy ( ptr, arr, 0, size );
+        Marshal.FreeHGlobal ( ptr );
+        return arr;
+    }
+
+    private void OnValidate ()
+    {
+        if ( Inventory != null )
+        {
+            Inventory.OnValidate ();
+        }
+    }
+
+    #endregion
 }

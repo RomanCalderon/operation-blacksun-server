@@ -6,6 +6,7 @@ public class Constants
 {
     public const int TICKS_PER_SECOND = 30;
     public const int MS_PER_TICK = 1000 / TICKS_PER_SECOND;
+    public const int NUM_PLAYER_INPUTS = 8;
 
     public const int INVENTORY_RIG_SIZE = 6;
     public const int INVENTORY_BACKPACK_SIZE = 10;

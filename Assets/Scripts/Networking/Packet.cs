@@ -13,7 +13,8 @@ public enum ServerPackets
     spawnPlayer,
     playerPosition,
     playerRotation,
-    playerMovementVector,
+    playerMovement,
+    playerInputProcessed,
     playerDisconnected,
     playerHealth,
     playerRespawned,
@@ -29,7 +30,7 @@ public enum ClientPackets
     ping,
     spawnPlayer,
     playerReady,
-    playerMovement,
+    playerInput,
     playerShoot,
     playerTransferSlotContents,
     playerInventoryReduceItem
