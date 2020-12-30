@@ -316,7 +316,7 @@ MonoBehaviour:
   playerPrefab: {fileID: 2414371901970800181, guid: 66694f294f5bfca478546f89367b9710,
     type: 3}
   m_maxPlayers: 50
-  m_port: 26951
+  m_port: 26950
 --- !u!4 &380976496
 Transform:
   m_ObjectHideFlags: 0

@@ -208,6 +208,8 @@ public class ServerSend
         }
     }
 
+    #endregion
+
     public static void SpawnHitObject ( int _hitType, Vector3 _hitPosition, Vector3 _hitNormal )
     {
         using ( Packet _packet = new Packet ( ( int ) ServerPackets.spawnHitObject ) )
@@ -235,7 +237,16 @@ public class ServerSend
         }
     }
 
-    #endregion
+    public static void Hitmarker ( int _playerId, int _hitmarkerType )
+    {
+        using ( Packet _packet = new Packet ( ( int ) ServerPackets.hitmarker ) )
+        {
+            _packet.Write ( _playerId );
+            _packet.Write ( _hitmarkerType );
+
+            SendTCPData ( _playerId, _packet );
+        }
+    }
 
     #endregion
 }

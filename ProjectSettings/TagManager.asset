@@ -11,6 +11,7 @@ TagManager:
   - Plywood
   - Tiles
   - Glass
+  - TestPlayer
   layers:
   - Default
   - TransparentFX

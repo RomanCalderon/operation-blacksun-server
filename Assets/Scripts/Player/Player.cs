@@ -49,6 +49,8 @@ public class Player : MonoBehaviour
 
     #region Members
 
+    private const string PLAYER_TAG = "Player";
+
     public int Id { get; private set; }
     public string Username { get; private set; }
     public float Health { get; private set; }
@@ -211,13 +213,23 @@ public class Player : MonoBehaviour
 
         if ( Physics.Raycast ( m_shootOrigin.position, _shootDirection, out RaycastHit _hit, 500f ) )
         {
-            if ( _hit.collider.CompareTag ( "Player" ) )
+            if ( _hit.collider.CompareTag ( PLAYER_TAG ) )
             {
-                // Deal damage to player
-                _hit.collider.GetComponent<Player> ().TakeDamage ( _damage );
+                // Get player hit
+                Player playerHit = _hit.collider.GetComponent<Player> ();
 
-                // Player hit object (blood effect)
+                // Deal damage to player hit
+                playerHit.TakeDamage ( _damage );
+
+                // Send hitmarker to shooter
+                ServerSend.Hitmarker ( Id, playerHit.IsDead ? 1 : 0 );
+
+                // Player hit blood effect
                 ServerSend.SpawnHitObject ( ( int ) ShootableObjectsManager.HitObjects.Skin, _hit.point, _hit.normal );
+            }
+            else if ( _hit.collider.CompareTag ( "TestPlayer" ) ) // DEBUG
+            {
+                ServerSend.Hitmarker ( Id, 0 );
             }
             else
             {
