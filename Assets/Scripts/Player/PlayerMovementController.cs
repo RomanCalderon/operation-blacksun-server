@@ -2,17 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent ( typeof ( Player ) )]
-[RequireComponent ( typeof ( CharacterMotor ) )]
-[RequireComponent ( typeof ( CharacterController ) )]
+[RequireComponent ( typeof ( Rigidbody ) )]
+[RequireComponent ( typeof ( CapsuleCollider ) )]
 public class PlayerMovementController : MonoBehaviour
 {
-    #region Constants
-
-    private const float BASE_JUMP_HEIGHT = 1.0f;
-
-    #endregion
-
     #region Models
 
     public enum MovementStates
@@ -20,270 +13,304 @@ public class PlayerMovementController : MonoBehaviour
         NONE,
         WALKING,
         RUNNING,
-        CROUCHING,
-        PRONE,
-        SLIDING
+        CROUCHING
     }
+
+    #endregion
+
+    #region Constants
+
+    // Movement
+    private const float WALK_SPEED = 4f; // Base movement speed
+    private const float RUN_SPEED_MULTIPLIER = 2.25f;
+    private const float CROUCH_SPEED_MULTIPLIER = 0.5f;
+    private const float CROUCH_POSITION_MODIFIER = 0.5f;
+    private const float CROUCH_SMOOTH_TIME = 2.5f;
+    private const float SLIDE_SPEED_BOOST = 2f;
+    private const float MIN_SLIDE_SPEED = 3f;
+
+    private const float MAX_VELOCITY_CHANGE = 10f;
+    private const float GROUND_CONTROL = 1f;
+    private const float AIR_CONTROL = 0.3f;
+    private const float JUMP_HEIGHT = 1.3f; // Base jump height
+    private const float MIN_JUMP_HEIGHT = 0.6f; // Crouch jumping
+
+    private const float GROUND_CHECK_DISTANCE = 0.1f;
+    private const float STATIONARY_DRAG = 100f;
+    private const float SLIDING_DRAG = 1f;
+    private const float NORMAL_DRAG = 0.1f;
 
     #endregion
 
     #region Members
 
-    private Player m_player = null;
-    private CharacterMotor m_motor = null;
-    private CharacterController m_controller = null;
+    // Controllers
+    private Rigidbody m_rigidbody = null;
+    private CapsuleCollider m_collider = null;
 
     // Movement
+    public Vector3 Velocity { get => m_rigidbody.velocity; }
+    private Vector3 m_gravity;
+    private bool m_isGrounded;
+    private bool m_jumpCheck = false;
     [SerializeField]
-    private float m_walkSpeed = 4.5f;
-    [SerializeField]
-    private float m_runSpeed = 8f;
-    [SerializeField]
-    private float m_crouchSpeed = 2f;
-    [SerializeField]
-    private float m_proneSpeed = 1f;
-    private MovementStates m_currentMovementState = MovementStates.NONE;
+    private LayerMask m_groundMask;
 
     // Crouching
-    private float m_crouchSmoothTime = 2.5f;
     private float m_crouchCurrVelocity;
     private float m_height;
 
+    private Vector3 m_shootOriginOffset;
+
     // Sliding
     private bool m_isSliding = false;
-    private float m_slideSpeed = 12f;
-    private float m_minSlideThreshold = 5.5f;
-    private Vector3 m_initialSlideVelocity; // Initial direction of slide
-    private float m_slideTimer = 0f;
+    private bool m_appliedSlideForce = false;
 
-    // Prone
-    private bool m_proneToggle = false;
-
-    // Gizmos
-    [SerializeField]
-    private bool m_drawGizmos = false;
+    // Debug
+    [Space, SerializeField]
+    private bool m_showGizmos = false;
 
     #endregion
 
 
     private void Awake ()
     {
-        m_player = GetComponent<Player> ();
-        m_motor = GetComponent<CharacterMotor> ();
-        m_controller = GetComponent<CharacterController> ();
+        m_rigidbody = GetComponent<Rigidbody> ();
+        m_collider = GetComponent<CapsuleCollider> ();
     }
 
     private void Start ()
     {
-        m_motor.useFixedUpdate = true;
-        m_height = m_controller.height; // Initial height
+        m_gravity = Physics.gravity; // Global gravity
+        m_height = m_collider.height; // Initial height
+        m_rigidbody.useGravity = false;
+        m_rigidbody.freezeRotation = true;
+
+        m_shootOriginOffset = new Vector3 ( 0, 0.75f, 0 );
     }
 
-    public void Movement ( Vector2 inputDirection, bool runInput, bool jumpInput, bool crouchInput, bool proneInput )
+    public void SetVelocty ( Vector3 newVelocity )
     {
-        if ( m_player.IsDead )
+        m_rigidbody.velocity = newVelocity;
+    }
+
+    public void SetRotation ( Quaternion newRotation )
+    {
+        m_rigidbody.MoveRotation ( newRotation );
+    }
+
+    #region Movement
+
+    public void ProcessInputs ( ClientInputState state )
+    {
+        // If there's no state provided, use a default state.
+        // This is used on the server to prevent resimulation of controller's
+        // that have already been processed.
+        if ( state == null )
+        {
+            Debug.Log ( "state is null" );
+            state = new ClientInputState ();
+        }
+
+        // Get input
+        bool moveForward = state.MoveForward;
+        bool moveBackward = state.MoveBackward;
+        bool moveLeft = state.MoveLeft;
+        bool moveRight = state.MoveRight;
+        bool jumping = state.Jump;
+        bool running = state.Run;
+        bool crouching = state.Crouch;
+
+        // Convert movement input to linear values
+        float inputX = moveRight ? 1 : moveLeft ? -1 : 0;
+        float inputZ = moveForward ? 1 : moveBackward ? -1 : 0;
+
+        // Calculate movement speed
+        float movementSpeed = WALK_SPEED * ( crouching ? CROUCH_SPEED_MULTIPLIER : running ? RUN_SPEED_MULTIPLIER : 1f );
+
+        // Set target velocity
+        Vector3 targetVelocity = ( transform.right * inputX + transform.forward * inputZ ).normalized * movementSpeed;
+
+        // Calculate a force that attempts to reach target velocity
+        Vector3 velocity = m_rigidbody.velocity;
+        float smoothTargetVelocityX = Mathf.Lerp ( velocity.x, targetVelocity.x, Time.fixedDeltaTime * 16f );
+        float smoothTargetVelocityZ = Mathf.Lerp ( velocity.z, targetVelocity.z, Time.fixedDeltaTime * 16f );
+        Vector3 velocityChange = ( new Vector3 ( smoothTargetVelocityX, 0, smoothTargetVelocityZ ) - velocity );
+        velocityChange = Vector3.ClampMagnitude ( velocityChange, MAX_VELOCITY_CHANGE );
+        velocityChange.y = 0;
+
+        // Applies drag on rigidbody based on movement state
+        ApplyDrag ( moveForward || moveBackward || moveRight || moveLeft || jumping );
+
+        // If the player is not sliding, apply normal movement forces
+        if ( !SlideControl ( velocity, crouching ) )
+        {
+            // Clamp velocity magnitude for ground/air control multiplier
+            velocityChange = Vector3.ClampMagnitude ( velocityChange, velocityChange.magnitude * ( m_isGrounded ? GROUND_CONTROL : AIR_CONTROL ) );
+
+            // Apply movement force
+            m_rigidbody.AddForce ( velocityChange, ForceMode.VelocityChange );
+        }
+
+        // Add gravity
+        m_rigidbody.AddForce ( m_gravity, ForceMode.Acceleration );
+
+        // Jumping
+        if ( jumping && m_isGrounded && !m_jumpCheck )
+        {
+            m_jumpCheck = true;
+            m_rigidbody.AddForce ( transform.up * CalculateJumpVerticalSpeed ( velocity.magnitude, crouching ), ForceMode.VelocityChange );
+        }
+        if ( !jumping )
+        {
+            m_jumpCheck = false;
+        }
+
+        // Sets a flag for when the player is grounded
+        GroundDetection ();
+
+        // Updates collider height and position when crouching
+        UpdateCrouchPosition ( crouching, Time.deltaTime );
+
+        // Prevents rigidbody from sticking to walls
+        FinalCollisionCheck ();
+
+        // Update player rotation
+        m_rigidbody.MoveRotation ( state.Rotation );
+    }
+
+    private bool SlideControl ( Vector3 velocity, bool crouchInput )
+    {
+        Vector3 slideVelocity = Vector3.ClampMagnitude ( velocity, MAX_VELOCITY_CHANGE ) * SLIDE_SPEED_BOOST;
+
+        m_isSliding = velocity.magnitude > MIN_SLIDE_SPEED && crouchInput;
+
+        if ( m_isSliding && !m_appliedSlideForce )
+        {
+            m_appliedSlideForce = true;
+            m_rigidbody.AddForce ( slideVelocity, ForceMode.Impulse );
+        }
+        else if ( !m_isSliding )
+        {
+            m_appliedSlideForce = false;
+        }
+        return m_isSliding;
+    }
+
+    /// <summary>
+    /// Sets a flag for when the player is grounded.
+    /// </summary>
+    private void GroundDetection ()
+    {
+        Vector3 groundCheckOrigin = ( transform.position + m_collider.center ) - Vector3.up * m_collider.height / 2f;
+        m_isGrounded = Physics.CheckSphere ( groundCheckOrigin, GROUND_CHECK_DISTANCE, m_groundMask );
+    }
+
+    /// <summary>
+    /// Applies drag on the rigidbody based on movement state. Increases drag when not moving and decreases drag when moving or not grounded.
+    /// </summary>
+    /// <param name="movementInput">Input that causes player to move.</param>
+    /// <param name="crouchInput">Crouch input.</param>
+    private void ApplyDrag ( bool movementInput )
+    {
+        float dragAmount;
+
+        if ( m_isGrounded )
+        {
+            if ( !movementInput && !m_isSliding )
+            {
+                dragAmount = STATIONARY_DRAG;
+            }
+            else if ( m_isSliding )
+            {
+                dragAmount = SLIDING_DRAG;
+            }
+            else
+            {
+                dragAmount = NORMAL_DRAG;
+            }
+        }
+        else
+        {
+            dragAmount = 0f;
+        }
+        // Apply drag
+        m_rigidbody.drag = dragAmount;
+    }
+
+    /// <summary>
+    /// Calculates proper rigidbody jump height based on movement speed and crouch state.
+    /// </summary>
+    /// <param name="currentSpeed">Rigidbody speed.</param>
+    /// <param name="crouching">Crouch input.</param>
+    /// <returns></returns>
+    private float CalculateJumpVerticalSpeed ( float currentSpeed, bool crouching )
+    {
+        // From the jump height and gravity we deduce the upwards speed 
+        // for the character to reach at the apex.
+        float speedFactor = currentSpeed / MAX_VELOCITY_CHANGE;
+        float jumpHeight = ( crouching ? Mathf.Lerp ( MIN_JUMP_HEIGHT, JUMP_HEIGHT, speedFactor ) : JUMP_HEIGHT );
+        return Mathf.Sqrt ( 2 * jumpHeight * -m_gravity.y );
+    }
+
+    /// <summary>
+    /// Prevents rigidbody from sticking to walls.
+    /// </summary>
+    private void FinalCollisionCheck ()
+    {
+        if ( m_isGrounded )
         {
             return;
         }
 
-        float deltaTime = Time.fixedDeltaTime;
-        float height = m_height;
-        float jumpHeight = BASE_JUMP_HEIGHT;
-        float speed = m_walkSpeed;
-        Vector3 movementVelocity = m_motor.movement.velocity;
-        m_currentMovementState = MovementStates.WALKING;
+        // Get the velocity
+        Vector3 moveDirection = m_rigidbody.velocity * Time.fixedDeltaTime;
 
-        // Movement input direction
-        if ( !m_isSliding )
+        // Calculate the approximate distance that will be traversed
+        float distance = moveDirection.magnitude * Time.fixedDeltaTime;
+        // Normalize horizontalMove since it should be used to indicate direction
+        moveDirection.Normalize ();
+
+        // Check if the body's current velocity will result in a collision
+        if ( m_rigidbody.SweepTest ( moveDirection, out _, distance, QueryTriggerInteraction.Ignore ) )
         {
-            m_motor.inputMoveDirection = ( transform.right * inputDirection.x + transform.forward * inputDirection.y ).normalized;
+            // If so, stop the movement
+            m_rigidbody.velocity = new Vector3 ( 0, m_rigidbody.velocity.y, 0 );
         }
-
-        // Running
-        if ( runInput )
-        {
-            speed = m_runSpeed;
-            m_currentMovementState = MovementStates.RUNNING;
-        }
-
-        // Jumping
-        m_motor.jumping.baseHeight = jumpHeight;
-        m_motor.inputJump = jumpInput;
-
-        // Crouching
-        if ( crouchInput )
-        {
-            height = m_height * 0.75f;
-            speed = m_crouchSpeed;
-            m_currentMovementState = MovementStates.CROUCHING;
-        }
-        else if ( proneInput ) // Prone
-        {
-            height = m_height * 0.5f;
-            speed = m_proneSpeed;
-            m_currentMovementState = MovementStates.PRONE;
-        }
-
-        // Sliding
-        if ( crouchInput &&  // Crouch input
-            !m_isSliding && // Not already sliding
-            m_motor.IsGrounded () && // Player is grounded
-            movementVelocity.magnitude >= m_minSlideThreshold ) // Minimum speed for sliding
-        {
-            m_currentMovementState = MovementStates.SLIDING;
-
-            m_slideTimer = 0.0f; // Start timer
-            m_isSliding = true;
-
-            // Movement velocity boost
-            m_motor.movement.velocity = m_initialSlideVelocity = movementVelocity;
-
-            // Set initial slide speed
-            speed = m_slideSpeed = m_initialSlideVelocity.magnitude + 3.5f;
-        }
-        if ( m_isSliding )
-        {
-            // Set controller height
-            height = m_height * 0.75f;
-
-            // Jump height boost
-            jumpHeight = BASE_JUMP_HEIGHT * 2.5f;
-
-            // Calculate slide speed by slope angle and time
-            Vector3 slopeDir = CalculateSlopeDirection ( transform.position );
-            float slopeResistance = ( movementVelocity.normalized - slopeDir.normalized ).magnitude;
-            float slopeAngle = CalculateSlopeAngle ( transform.position );
-            float slideTimeModifier = Mathf.Clamp01 ( ( Mathf.Clamp01 ( 30 - slopeAngle ) + slopeResistance ) / Mathf.Max ( 1, Mathf.Sqrt ( slopeResistance * 2 ) * ( slopeAngle / 30 ) ) );
-
-            if ( m_drawGizmos )
-            {
-                Debug.DrawRay ( transform.position, movementVelocity.normalized, Color.yellow );
-                Debug.DrawRay ( transform.position, slopeDir.normalized, Color.blue );
-            }
-
-            speed = m_slideSpeed -= m_slideTimer * slideTimeModifier / 48f;
-            if ( m_motor.IsGrounded () )
-            {
-                m_motor.movement.velocity = m_initialSlideVelocity.normalized * speed;
-
-                // Add jump velocity
-                if ( jumpInput )
-                {
-                    m_motor.movement.velocity += Vector3.up * jumpHeight + transform.forward * m_motor.movement.velocity.magnitude * 0.65f;
-                }
-            }
-            m_slideTimer += deltaTime;
-
-            // Stop sliding if player is moving too slow OR no longer crouching OR is not grounded
-            if ( m_slideSpeed < m_minSlideThreshold )
-            {
-                m_isSliding = false;
-            }
-        }
-
-        // Apply movement modifiers   
-        m_motor.movement.maxForwardSpeed = speed; // Set max forward speed
-        m_motor.movement.maxSidewaysSpeed = CalculateSidewaysSpeed (); // Set max sideways speed
-        m_motor.movement.maxBackwardsSpeed = CalculateBackwardSpeed (); // Set max backward speed
-
-        float lastHeight = m_controller.height; // Crouch/stand up smoothly 
-        m_controller.height = Mathf.SmoothDamp ( m_controller.height, height, ref m_crouchCurrVelocity, m_crouchSmoothTime * deltaTime );
-        m_controller.center += new Vector3 ( 0f, ( m_controller.height - lastHeight ) / 2, 0f ); // Fix vertical position
-
-        // Server Sends
-        ServerSend.PlayerPosition ( m_player.Id, transform.position );
-        ServerSend.PlayerRotation ( m_player.Id, transform.rotation );
-        ServerSend.PlayerMovement ( m_player.Id, m_motor.movement.velocity, inputDirection * speed, runInput, crouchInput, proneInput );
     }
 
-    private float CalculateSlopeAngle ( Vector3 position )
+    /// <summary>
+    /// Updates collider height and position when crouching.
+    /// </summary>
+    /// <param name="isCrouching"></param>
+    /// <param name="deltaTime"></param>
+    private void UpdateCrouchPosition ( bool isCrouching, float deltaTime )
     {
-        Vector3 slopeDirection = CalculateSlopeDirection ( position );
-        return Mathf.FloorToInt ( Vector3.Angle ( Vector3.up, slopeDirection.normalized ) - 90f );
+        // Set height target
+        float height = isCrouching ? m_height * CROUCH_POSITION_MODIFIER : m_height;
+        float lastHeight = m_collider.height;
+        // Crouch/stand up smoothly 
+        m_collider.height = Mathf.SmoothDamp ( m_collider.height, height, ref m_crouchCurrVelocity, CROUCH_SMOOTH_TIME * deltaTime );
+        // Fix vertical position
+        m_collider.center += new Vector3 ( 0f, ( m_collider.height - lastHeight ) * 0.2f, 0f );
     }
 
-    private Vector3 CalculateSlopeDirection ( Vector3 position )
+    #endregion
+
+    #region Util
+
+    private void OnDrawGizmos ()
     {
-        Vector3 [] m_slopeCheckOrigins = new Vector3 [ 8 ];
-        Vector3 [] slopeSamples = new Vector3 [ 8 ];
-        Vector3 playerBottom = position - Vector3.up;
-        float maxAngle = 0f;
-        int maxAngleIndex = 0;
-
-        // Get slope check hits
-        for ( int i = 0; i < slopeSamples.Length; i++ )
+        if ( !m_showGizmos )
         {
-            m_slopeCheckOrigins [ i ] = position + new Vector3 ( Mathf.Cos ( ( i / 8f ) * 360 * Mathf.Deg2Rad ), 0, Mathf.Sin ( ( i / 8f ) * 360 * Mathf.Deg2Rad ) );
-
-            if ( Physics.Raycast ( m_slopeCheckOrigins [ i ], Vector3.down, out RaycastHit hit, 3.0f ) )
-            {
-                if ( m_drawGizmos )
-                {
-                    Debug.DrawLine ( m_slopeCheckOrigins [ i ], hit.point, Color.white );
-                }
-                slopeSamples [ i ] = hit.point - playerBottom;
-            }
-            else
-            {
-                slopeSamples [ i ] = Vector3.up;
-            }
+            return;
         }
 
-        // Get largest slope vector
-        for ( int i = 0; i < slopeSamples.Length; i++ )
-        {
-            float checkAngle = Vector3.Angle ( Vector3.up, slopeSamples [ i ] );
-            if ( checkAngle > maxAngle )
-            {
-                maxAngle = checkAngle;
-                maxAngleIndex = i;
-            }
-        }
-
-        if ( m_drawGizmos )
-        {
-            Debug.DrawRay ( playerBottom, slopeSamples [ maxAngleIndex ], Color.green );
-        }
-        return slopeSamples [ maxAngleIndex ].normalized;
+        // Ground check
+        Vector3 checkOrigin = ( transform.position + m_collider.center ) - Vector3.up * m_collider.height / 2f;
+        Gizmos.color = m_isGrounded ? Color.red : Color.blue;
+        Gizmos.DrawSphere ( checkOrigin, GROUND_CHECK_DISTANCE );
     }
 
-    private float CalculateSidewaysSpeed ()
-    {
-        switch ( m_currentMovementState )
-        {
-            case MovementStates.NONE:
-            case MovementStates.WALKING:
-                return m_walkSpeed;
-            case MovementStates.RUNNING:
-                return m_walkSpeed * 1.5f;
-            case MovementStates.CROUCHING:
-                return m_crouchSpeed;
-            case MovementStates.SLIDING:
-                return m_slideSpeed;
-            case MovementStates.PRONE:
-                return m_proneSpeed;
-            default:
-                return m_walkSpeed;
-        }
-    }
-
-    private float CalculateBackwardSpeed ()
-    {
-        switch ( m_currentMovementState )
-        {
-            case MovementStates.NONE:
-            case MovementStates.WALKING:
-                return m_walkSpeed;
-            case MovementStates.RUNNING:
-                return m_runSpeed * 0.75f;
-            case MovementStates.CROUCHING:
-                return m_crouchSpeed;
-            case MovementStates.SLIDING:
-                return m_slideSpeed;
-            case MovementStates.PRONE:
-                return m_proneSpeed;
-            default:
-                return m_walkSpeed;
-        }
-    }
+    #endregion
 }

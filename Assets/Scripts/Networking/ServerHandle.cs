@@ -71,7 +71,7 @@ public class ServerHandle
         int length = _packet.ReadInt ();
         byte [] inputs = _packet.ReadBytes ( length );
 
-        Server.clients [ _fromClient ].player.ReceiveInput ( inputs );
+        ServerSimulation.OnClientInputStateReceived ( Server.clients [ _fromClient ], inputs );
     }
 
     public static void PlayerShoot ( int _fromClient, Packet _packet )
