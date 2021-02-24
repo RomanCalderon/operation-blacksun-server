@@ -16,4 +16,9 @@ public class ClientInputState : Message
 
     [SerializeField]
     public Quaternion Rotation;
+
+    public ClientInputState ()
+    {
+        Rotation.Normalize ();
+    }
 }

@@ -25,6 +25,9 @@ public class ServerSimulation : MonoBehaviour
                 player.MovementController.ProcessInputs ( inputState );
                 player.LookOriginController.ProcessInput ( inputState );
 
+                // Simulate physics
+                Physics.Simulate ( Time.fixedDeltaTime );
+
                 // Obtain the current SimulationState
                 SimulationState state = player.CurrentSimulationState ( inputState.SimulationFrame );
 
