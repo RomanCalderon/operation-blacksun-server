@@ -10,6 +10,30 @@ public class ServerSimulation : MonoBehaviour
 
     private void FixedUpdate ()
     {
+        // Process client input
+        foreach ( KeyValuePair<Player, Queue<ClientInputState>> entry in ClientInputs )
+        {
+            Player player = entry.Key;
+            ClientInputState [] queue = entry.Value.ToArray ();
+
+            // Declare the ClientInputState that we're going to be using
+            ClientInputState inputState;
+            int inputStateIndex = 0;
+
+            // Obtain ClientInputStates from the queue
+            while ( queue.Length > 0 && inputStateIndex < queue.Length && ( inputState = queue [ inputStateIndex ] ) != null )
+            {
+                // Process the input
+                player.MovementController.ProcessInputs ( inputState );
+                player.LookOriginController.ProcessInput ( inputState );
+                inputStateIndex++;
+            }
+        }
+
+        // Simulate physics
+        Physics.Simulate ( Time.fixedDeltaTime );
+
+        // Send new state back to the client
         foreach ( KeyValuePair<Player, Queue<ClientInputState>> entry in ClientInputs )
         {
             Player player = entry.Key;
@@ -21,18 +45,14 @@ public class ServerSimulation : MonoBehaviour
             // Obtain ClientInputStates from the queue
             while ( queue.Count > 0 && ( inputState = queue.Dequeue () ) != null )
             {
-                // Process the input
-                player.MovementController.ProcessInputs ( inputState );
-                player.LookOriginController.ProcessInput ( inputState );
-
-                // Simulate physics
-                Physics.Simulate ( Time.fixedDeltaTime );
-
                 // Obtain the current SimulationState
                 SimulationState state = player.CurrentSimulationState ( inputState.SimulationFrame );
 
                 // Send the state back to the client
                 ServerSend.PlayerInputProcessed ( player.Id, StateToBytes ( state ) );
+
+                // Send player orientation to all clients
+                player.SendPlayerStateAll ( inputState );
             }
         }
     }

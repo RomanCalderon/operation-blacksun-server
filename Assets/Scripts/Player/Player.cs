@@ -131,6 +131,21 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void SendPlayerStateAll ( ClientInputState state )
+    {
+        if ( this == null)
+        {
+            return;
+        }
+
+        ServerSend.PlayerPosition ( Id, transform.position );
+        ServerSend.PlayerRotation ( Id, transform.rotation );
+        int inputMoveX = state.MoveRight ? 1 : state.MoveLeft ? -1 : 0;
+        int inputMoveY = state.MoveForward ? 1 : state.MoveBackward ? -1 : 0;
+        float moveSpeed = MovementController.Velocity.magnitude;
+        ServerSend.PlayerMovement ( Id, inputMoveX, inputMoveY, moveSpeed,  state.Run, state.Crouch );
+    }
+
     private IEnumerator DeathSequence ()
     {
         yield return new WaitForSeconds ( 0.1f );
@@ -138,8 +153,7 @@ public class Player : MonoBehaviour
         Transform respawnPoint = RespawnPointManager.Instance.GetRandomPoint ();
         transform.position = respawnPoint.position;
         transform.rotation = respawnPoint.rotation;
-        ServerSend.PlayerPosition ( Id, transform.position );
-        ServerSend.PlayerRotation ( Id, transform.rotation );
+        SendPlayerStateAll ( new ClientInputState () { Rotation = transform.rotation } );
 
         // RESPAWN
         yield return new WaitForSeconds ( Constants.PLAYER_RESPAWN_DELAY );

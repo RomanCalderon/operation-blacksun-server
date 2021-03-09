@@ -11,7 +11,7 @@ public class NetworkManager : MonoBehaviour
     [SerializeField]
     private int m_maxPlayers = 50;
     [SerializeField]
-    private int m_port = 26951;
+    private int m_port = 26950;
 
     private void Awake ()
     {
@@ -28,7 +28,7 @@ public class NetworkManager : MonoBehaviour
     private void Start ()
     {
         QualitySettings.vSyncCount = 0;
-        Application.targetFrameRate = 30;
+        Application.targetFrameRate = 60;
 
         Server.Start ( m_maxPlayers, m_port );
     }
