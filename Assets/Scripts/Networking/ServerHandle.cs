@@ -24,13 +24,7 @@ public class ServerHandle
 
     public static void Ping ( int _fromClient, Packet _packet )
     {
-        string pingStartTime = _packet.ReadString ();
-
-        DateTime parsedPingStartTime = DateTime.ParseExact ( pingStartTime, "o", CultureInfo.CurrentCulture );
-        int travelTimeSpan = DateTime.Now.Millisecond - parsedPingStartTime.Millisecond;
-        DateTime travelTime = parsedPingStartTime.AddMilliseconds ( travelTimeSpan );
-
-        ServerSend.Ping ( _fromClient, travelTimeSpan, travelTime.ToString ( "o" ) );
+        ServerSend.Ping ( _fromClient );
     }
 
     public static void SpawnPlayer ( int _fromClient, Packet _packet )

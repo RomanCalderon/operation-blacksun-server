@@ -85,13 +85,10 @@ public class ServerSend
         }
     }
 
-    public static void Ping ( int _toClient, int _elapsedTime, string _serverBounceTime )
+    public static void Ping ( int _toClient )
     {
         using ( Packet _packet = new Packet ( ( int ) ServerPackets.ping ) )
         {
-            _packet.Write ( _elapsedTime );
-            _packet.Write ( _serverBounceTime );
-
             SendTCPData ( _toClient, _packet );
         }
     }
