@@ -6,12 +6,17 @@ using UnityEngine;
 
 public class ServerSimulation : MonoBehaviour
 {
-    private static Dictionary<Player, Queue<ClientInputState>> ClientInputs = new Dictionary<Player, Queue<ClientInputState>> ();
+    private static Dictionary<Player, Queue<ClientInputState>> m_clientInputs = new Dictionary<Player, Queue<ClientInputState>> ();
 
     private void FixedUpdate ()
     {
+        ThreadManager.ExecuteOnMainThread ( SimulationLoop );
+    }
+
+    private void SimulationLoop ()
+    {
         // Process client input
-        foreach ( KeyValuePair<Player, Queue<ClientInputState>> entry in ClientInputs )
+        foreach ( KeyValuePair<Player, Queue<ClientInputState>> entry in m_clientInputs )
         {
             Player player = entry.Key;
             ClientInputState [] queue = entry.Value.ToArray ();
@@ -34,7 +39,7 @@ public class ServerSimulation : MonoBehaviour
         Physics.Simulate ( Time.fixedDeltaTime );
 
         // Send new state back to the client
-        foreach ( KeyValuePair<Player, Queue<ClientInputState>> entry in ClientInputs )
+        foreach ( KeyValuePair<Player, Queue<ClientInputState>> entry in m_clientInputs )
         {
             Player player = entry.Key;
             Queue<ClientInputState> queue = entry.Value;
@@ -62,13 +67,27 @@ public class ServerSimulation : MonoBehaviour
         ClientInputState message = BytesToState ( inputs );
 
         // Ensure the key exists, if it doesn't, create it
-        if ( ClientInputs.ContainsKey ( client.player ) == false )
+        if ( m_clientInputs.ContainsKey ( client.player ) == false )
         {
-            ClientInputs.Add ( client.player, new Queue<ClientInputState> () );
+            Debug.Log ( "new client added to input processing queue" );
+            m_clientInputs.Add ( client.player, new Queue<ClientInputState> () );
         }
 
         // Add the input to the appropriate queue
-        ClientInputs [ client.player ].Enqueue ( message );
+        m_clientInputs [ client.player ].Enqueue ( message );
+    }
+
+    public static void OnClientDisconnected ( Client client )
+    {
+        if ( client == null )
+        {
+            throw new System.NullReferenceException ( "Client is null." );
+        }
+
+        if ( m_clientInputs.Remove ( client.player ) )
+        {
+            Debug.Log ( "Successfully removed client from input queue." );
+        }
     }
 
     #region Util

@@ -7,6 +7,7 @@ using InventorySystem;
 using InventorySystem.Presets;
 
 [RequireComponent ( typeof ( PlayerMovementController ) )]
+[RequireComponent ( typeof ( Rigidbody ) )]
 public class Player : MonoBehaviour
 {
     #region Members
@@ -20,6 +21,7 @@ public class Player : MonoBehaviour
 
     public PlayerMovementController MovementController { get; private set; } = null;
     public LookOriginController LookOriginController { get; private set; } = null;
+    private Rigidbody m_rigidbody = null;
 
     [SerializeField]
     private float m_maxHealth = 100f;
@@ -36,6 +38,7 @@ public class Player : MonoBehaviour
     {
         MovementController = GetComponent<PlayerMovementController> ();
         LookOriginController = GetComponent<LookOriginController> ();
+        m_rigidbody = GetComponent<Rigidbody> ();
     }
 
     public void Initialize ( int _id, string _username )
@@ -71,8 +74,8 @@ public class Player : MonoBehaviour
     {
         return new SimulationState
         {
-            Position = transform.position,
-            Rotation = transform.rotation,
+            Position = m_rigidbody.position,
+            Rotation = m_rigidbody.rotation,
             Velocity = MovementController.Velocity,
             SimulationFrame = simulationFrame,
             DeltaTime = Time.deltaTime
