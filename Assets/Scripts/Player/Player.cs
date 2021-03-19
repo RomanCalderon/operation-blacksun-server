@@ -70,7 +70,7 @@ public class Player : MonoBehaviour
         Inventory.SendInitializedInventory ();
     }
 
-    public SimulationState CurrentSimulationState ( int simulationFrame )
+    public SimulationState CurrentSimulationState ( uint simulationFrame )
     {
         return new SimulationState
         {

@@ -5,7 +5,7 @@ namespace NetworkMessages
     [Serializable]
     public abstract class Message
     {
-        public int SimulationFrame;
+        public uint SimulationFrame;
         public float DeltaTime;
     }
 }
