@@ -15,11 +15,17 @@ public class ServerSimulation : MonoBehaviour
 
     private void SimulationLoop ()
     {
-        // Process client input
+        // Process each client input
         foreach ( KeyValuePair<Player, Queue<ClientInputState>> entry in m_clientInputs )
         {
             Player player = entry.Key;
             ClientInputState [] queue = entry.Value.ToArray ();
+
+            // Null check
+            if ( player == null || queue == null )
+            {
+                continue;
+            }
 
             // Declare the ClientInputState that we're going to be using
             ClientInputState inputState;
@@ -43,6 +49,12 @@ public class ServerSimulation : MonoBehaviour
         {
             Player player = entry.Key;
             Queue<ClientInputState> queue = entry.Value;
+            
+            // Null check
+            if ( player == null || queue == null )
+            {
+                continue;
+            }
 
             // Declare the ClientInputState that we're going to be using
             ClientInputState inputState;
@@ -64,6 +76,10 @@ public class ServerSimulation : MonoBehaviour
 
     public static void OnClientInputStateReceived ( Client client, byte [] inputs )
     {
+        if ( client == null || client.player == null )
+        {
+            return;
+        }
         ClientInputState message = BytesToState ( inputs );
 
         // Ensure the key exists, if it doesn't, create it
