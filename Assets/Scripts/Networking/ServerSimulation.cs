@@ -1,7 +1,7 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ServerSimulation : MonoBehaviour
@@ -10,48 +10,64 @@ public class ServerSimulation : MonoBehaviour
 
     private void FixedUpdate ()
     {
+        // Run simulation loop on main thread
         ThreadManager.ExecuteOnMainThread ( SimulationLoop );
     }
 
+    /// <summary>
+    /// Main server simulation loop.
+    /// </summary>
     private void SimulationLoop ()
     {
-        // Process each client input
-        foreach ( KeyValuePair<Player, Queue<ClientInputState>> entry in m_clientInputs )
+        // Process client inputs and apply to the player
+        ProcessClientInput ();
+
+        // Simulate physics in the scene
+        Physics.Simulate ( Time.fixedDeltaTime );
+
+        // Send new state back to the clients
+        SendStateUpdate ();
+    }
+
+    #region Simulation Sub-processes
+
+    private void ProcessClientInput ()
+    {
+        foreach ( KeyValuePair<Player, Queue<ClientInputState>> client in m_clientInputs )
         {
-            Player player = entry.Key;
-            ClientInputState [] queue = entry.Value.ToArray ();
+            Player player = client.Key;
+            ClientInputState [] inputArray = client.Value.ToArray ();
 
             // Null check
-            if ( player == null || queue == null )
+            if ( player == null || inputArray == null )
             {
                 continue;
             }
 
             // Declare the ClientInputState that we're going to be using
             ClientInputState inputState;
-            int inputStateIndex = 0;
+            int index = 0;
 
             // Obtain ClientInputStates from the queue
-            while ( queue.Length > 0 && inputStateIndex < queue.Length && ( inputState = queue [ inputStateIndex ] ) != null )
+            while ( inputArray.Length > 0 && index < inputArray.Length && ( inputState = inputArray [ index ] ) != null )
             {
                 // Process the input
                 player.MovementController.ProcessInputs ( inputState );
                 player.LookOriginController.ProcessInput ( inputState );
-                inputStateIndex++;
+                index++;
             }
         }
+    }
 
-        // Simulate physics
-        Physics.Simulate ( Time.fixedDeltaTime );
-
-        // Send new state back to the client
-        foreach ( KeyValuePair<Player, Queue<ClientInputState>> entry in m_clientInputs )
+    private void SendStateUpdate ()
+    {
+        foreach ( KeyValuePair<Player, Queue<ClientInputState>> client in m_clientInputs )
         {
-            Player player = entry.Key;
-            Queue<ClientInputState> queue = entry.Value;
-            
+            Player player = client.Key;
+            Queue<ClientInputState> inputQueue = client.Value;
+
             // Null check
-            if ( player == null || queue == null )
+            if ( player == null || inputQueue == null )
             {
                 continue;
             }
@@ -59,8 +75,8 @@ public class ServerSimulation : MonoBehaviour
             // Declare the ClientInputState that we're going to be using
             ClientInputState inputState;
 
-            // Obtain ClientInputStates from the queue
-            while ( queue.Count > 0 && ( inputState = queue.Dequeue () ) != null )
+            // Dequeue inputs for player processing
+            while ( inputQueue.Count > 0 && ( inputState = inputQueue.Dequeue () ) != null )
             {
                 // Obtain the current SimulationState
                 SimulationState state = player.CurrentSimulationState ( inputState.SimulationFrame );
@@ -73,6 +89,10 @@ public class ServerSimulation : MonoBehaviour
             }
         }
     }
+
+    #endregion
+
+    #region Client Events
 
     public static void OnClientInputStateReceived ( Client client, byte [] inputs )
     {
@@ -105,6 +125,8 @@ public class ServerSimulation : MonoBehaviour
             Debug.Log ( "Successfully removed client from input queue." );
         }
     }
+
+    #endregion
 
     #region Util
 
