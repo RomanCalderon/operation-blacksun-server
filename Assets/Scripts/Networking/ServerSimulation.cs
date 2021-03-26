@@ -7,11 +7,17 @@ using UnityEngine;
 public class ServerSimulation : MonoBehaviour
 {
     private static Dictionary<Player, Queue<ClientInputState>> m_clientInputs = new Dictionary<Player, Queue<ClientInputState>> ();
+    private uint m_tick = 0;
 
     private void FixedUpdate ()
     {
         // Run simulation loop on main thread
-        ThreadManager.ExecuteOnMainThread ( SimulationLoop );
+        ThreadManager.ExecuteOnMainThread ( () =>
+            {
+                SimulationLoop ();
+                m_tick++;
+            }
+        );
     }
 
     /// <summary>
