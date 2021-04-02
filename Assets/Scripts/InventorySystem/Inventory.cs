@@ -12,7 +12,8 @@ namespace InventorySystem
     [Serializable]
     public class Inventory
     {
-        private readonly Player m_player;
+        private readonly Player player;
+        private readonly InventoryManager inventoryManager;
 
         // Rig
         [SerializeField]
@@ -28,11 +29,12 @@ namespace InventorySystem
         private WeaponSlots m_secondaryWeaponSlots;
 
 
-        #region Constructors
+        #region Constructors/Destructor
 
-        public Inventory ( Player player )
+        public Inventory ( InventoryManager manager, Player player )
         {
-            m_player = player;
+            this.player = player;
+            inventoryManager = manager;
 
             // Initialize Rig slots
             m_rigSlots = new Slot [ Constants.INVENTORY_RIG_SIZE ];
@@ -51,17 +53,18 @@ namespace InventorySystem
             m_primaryWeaponSlots = new WeaponSlots ( "primary-weapon", "primary-barrel", "primary-sight", "primary-magazine", "primary-stock" );
             m_secondaryWeaponSlots = new WeaponSlots ( "secondary-weapon", "secondary-barrel", "secondary-sight", "secondary-magazine", "secondary-stock" );
 
+            SendInitializedInventory ();
             OnValidate ();
         }
 
-        public Inventory ( Player player, Preset preset )
+        private Inventory ( InventoryManager manager, Player player, Preset preset )
         {
-            if ( preset == null )
+            if ( manager == null || player == null || preset == null )
             {
                 return;
             }
-
-            m_player = player;
+            this.player = player;
+            inventoryManager = manager;
 
             // Initialize Rig slots
             m_rigSlots = new Slot [ Constants.INVENTORY_RIG_SIZE ];
@@ -96,17 +99,31 @@ namespace InventorySystem
             m_secondaryWeaponSlots = new WeaponSlots ( "secondary-weapon", "secondary-barrel", "secondary-sight", "secondary-magazine", "secondary-stock",
                 preset.SecondaryWeapon.Weapon, preset.SecondaryWeapon.Barrel, preset.SecondaryWeapon.Sight, preset.SecondaryWeapon.Magazine, preset.SecondaryWeapon.Stock );
 
+            SendInitializedInventory ();
             OnValidate ();
+        }
+
+        public static Inventory Create ( InventoryManager manager, Player player, Preset preset, Action<WeaponSlots> actionCallback )
+        {
+            Inventory result = new Inventory ( manager, player, preset );
+            result.Initialized ( actionCallback );
+            return result;
+        }
+
+        public virtual void Initialized ( Action<WeaponSlots> actionCallback )
+        {
+            actionCallback?.Invoke ( m_primaryWeaponSlots );
+            actionCallback?.Invoke ( m_secondaryWeaponSlots );
         }
 
         #endregion
 
-        #region ServerSends
+        #region Server Sends
 
         /// <summary>
         /// Sends via TCP the entire inventory (slots) to this clients' player.
         /// </summary>
-        public void SendInitializedInventory ()
+        private void SendInitializedInventory ()
         {
             // Rig slots
             for ( int i = 0; i < m_rigSlots.Length; i++ )
@@ -116,7 +133,7 @@ namespace InventorySystem
                     string slotId = m_rigSlots [ i ].Id;
                     string playerItemId = m_rigSlots [ i ].PlayerItem.Id;
                     int quantity = m_rigSlots [ i ].StackSize;
-                    ServerSend.PlayerUpdateInventorySlot ( m_player.Id, slotId, playerItemId, quantity );
+                    ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId, playerItemId, quantity );
                 }
             }
             // Backpack slots
@@ -127,7 +144,7 @@ namespace InventorySystem
                     string slotId = m_backpackSlots [ i ].Id;
                     string playerItemId = m_backpackSlots [ i ].PlayerItem.Id;
                     int quantity = m_backpackSlots [ i ].StackSize;
-                    ServerSend.PlayerUpdateInventorySlot ( m_player.Id, slotId, playerItemId, quantity );
+                    ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId, playerItemId, quantity );
                 }
             }
             // Primary weapon slots
@@ -139,7 +156,7 @@ namespace InventorySystem
                     {
                         string slotId = m_primaryWeaponSlots.WeaponSlot.Id;
                         string playerItemId = m_primaryWeaponSlots.WeaponSlot.PlayerItem.Id;
-                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, slotId, playerItemId, 1 );
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId, playerItemId, 1 );
                     }
                 }
                 if ( m_primaryWeaponSlots.BarrelSlot != null )
@@ -148,7 +165,7 @@ namespace InventorySystem
                     {
                         string slotId = m_primaryWeaponSlots.BarrelSlot.Id;
                         string playerItemId = m_primaryWeaponSlots.BarrelSlot.PlayerItem.Id;
-                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, slotId, playerItemId, 1 );
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId, playerItemId, 1 );
                     }
                 }
                 if ( m_primaryWeaponSlots.SightSlot != null )
@@ -157,7 +174,7 @@ namespace InventorySystem
                     {
                         string slotId = m_primaryWeaponSlots.SightSlot.Id;
                         string playerItemId = m_primaryWeaponSlots.SightSlot.PlayerItem.Id;
-                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, slotId, playerItemId, 1 );
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId, playerItemId, 1 );
                     }
                 }
                 if ( m_primaryWeaponSlots.MagazineSlot != null )
@@ -166,7 +183,7 @@ namespace InventorySystem
                     {
                         string slotId = m_primaryWeaponSlots.MagazineSlot.Id;
                         string playerItemId = m_primaryWeaponSlots.MagazineSlot.PlayerItem.Id;
-                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, slotId, playerItemId, 1 );
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId, playerItemId, 1 );
                     }
                 }
                 if ( m_primaryWeaponSlots.StockSlot != null )
@@ -175,7 +192,7 @@ namespace InventorySystem
                     {
                         string slotId = m_primaryWeaponSlots.StockSlot.Id;
                         string playerItemId = m_primaryWeaponSlots.StockSlot.PlayerItem.Id;
-                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, slotId, playerItemId, 1 );
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId, playerItemId, 1 );
                     }
                 }
             }
@@ -188,7 +205,7 @@ namespace InventorySystem
                     {
                         string slotId = m_secondaryWeaponSlots.WeaponSlot.Id;
                         string playerItemId = m_secondaryWeaponSlots.WeaponSlot.PlayerItem.Id;
-                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, slotId, playerItemId, 1 );
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId, playerItemId, 1 );
                     }
                 }
                 if ( m_secondaryWeaponSlots.BarrelSlot != null )
@@ -197,7 +214,7 @@ namespace InventorySystem
                     {
                         string slotId = m_secondaryWeaponSlots.BarrelSlot.Id;
                         string playerItemId = m_secondaryWeaponSlots.BarrelSlot.PlayerItem.Id;
-                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, slotId, playerItemId, 1 );
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId, playerItemId, 1 );
                     }
                 }
                 if ( m_secondaryWeaponSlots.SightSlot != null )
@@ -206,7 +223,7 @@ namespace InventorySystem
                     {
                         string slotId = m_secondaryWeaponSlots.SightSlot.Id;
                         string playerItemId = m_secondaryWeaponSlots.SightSlot.PlayerItem.Id;
-                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, slotId, playerItemId, 1 );
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId, playerItemId, 1 );
                     }
                 }
                 if ( m_secondaryWeaponSlots.MagazineSlot != null )
@@ -215,7 +232,7 @@ namespace InventorySystem
                     {
                         string slotId = m_secondaryWeaponSlots.MagazineSlot.Id;
                         string playerItemId = m_secondaryWeaponSlots.MagazineSlot.PlayerItem.Id;
-                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, slotId, playerItemId, 1 );
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId, playerItemId, 1 );
                     }
                 }
                 if ( m_secondaryWeaponSlots.StockSlot != null )
@@ -224,7 +241,7 @@ namespace InventorySystem
                     {
                         string slotId = m_secondaryWeaponSlots.StockSlot.Id;
                         string playerItemId = m_secondaryWeaponSlots.StockSlot.PlayerItem.Id;
-                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, slotId, playerItemId, 1 );
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId, playerItemId, 1 );
                     }
                 }
             }
@@ -254,7 +271,14 @@ namespace InventorySystem
                 return;
             }
 
-            // Magazine
+            // Sight swap
+            if ( fromSlot is SightSlot && toSlot is SightSlot )
+            {
+                TransferSight ( fromSlot, toSlot );
+                return;
+            }
+
+            // Magazine swap
             if ( fromSlot.PlayerItem is Magazine && toSlot is MagazineSlot magazineSlot )
             {
                 TransferMagazine ( fromSlot, magazineSlot );
@@ -281,30 +305,30 @@ namespace InventorySystem
                 switch ( insertionResult.Result )
                 {
                     case InsertionResult.Results.SUCCESS:
-                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, toSlot.Id, playerItem.Id, toSlot.StackSize ); // toSlot
-                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, 0 ); // fromSlot
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, toSlot.Id, playerItem.Id, toSlot.StackSize ); // toSlot
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, fromSlot.Id, 0 ); // fromSlot
                         break;
                     case InsertionResult.Results.SLOT_FULL: // Swap
                         fromSlot.Insert ( toSlot.PlayerItem, toSlot.StackSize );
                         toSlot.Clear ();
                         toSlot.Insert ( playerItem, removalResult.RemoveAmount );
-                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize ); // fromSlot
-                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, toSlot.Id, toSlot.PlayerItem.Id, toSlot.StackSize ); // toSlot
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize ); // fromSlot
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, toSlot.Id, toSlot.PlayerItem.Id, toSlot.StackSize ); // toSlot
                         break;
                     case InsertionResult.Results.OVERFLOW:
                         fromSlot.Insert ( playerItem, insertionResult.OverflowAmount );
-                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, toSlot.Id, playerItem.Id, toSlot.StackSize ); // toSlot
-                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, playerItem.Id, fromSlot.StackSize ); // fromSlot
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, toSlot.Id, playerItem.Id, toSlot.StackSize ); // toSlot
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, fromSlot.Id, playerItem.Id, fromSlot.StackSize ); // fromSlot
                         break;
                     case InsertionResult.Results.INSERTION_FAILED:
                         Debug.Log ( "Insertion failed" );
                         Debug.Log ( fromSlot.Insert ( playerItem, removalResult.RemoveAmount ) );
-                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize ); // fromSlot
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize ); // fromSlot
                         return;
                     case InsertionResult.Results.INVALID_TYPE:
                         Debug.Log ( "Invalid type" );
                         fromSlot.Insert ( playerItem, removalResult.RemoveAmount );
-                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize ); // fromSlot
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize ); // fromSlot
                         return;
                     default:
                         Debug.LogError ( $"Unknown InsertionResult [{insertionResult.Result}]" );
@@ -352,27 +376,27 @@ namespace InventorySystem
                 {
                     case InsertionResult.Results.SUCCESS:
                         string fromSlotPlayerItemId = fromSlot.PlayerItem ? fromSlot.PlayerItem.Id : string.Empty;
-                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, toSlot.Id, toSlot.PlayerItem.Id, toSlot.StackSize ); // toSlot
-                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, fromSlotPlayerItemId, fromSlot.StackSize ); // fromSlot
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, toSlot.Id, toSlot.PlayerItem.Id, toSlot.StackSize ); // toSlot
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, fromSlot.Id, fromSlotPlayerItemId, fromSlot.StackSize ); // fromSlot
                         break;
                     case InsertionResult.Results.SLOT_FULL:
                         Debug.Log ( "Slot full" );
                         fromSlot.Insert ( playerItem, removalResult.RemoveAmount );
-                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize ); // fromSlot
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize ); // fromSlot
                         break;
                     case InsertionResult.Results.OVERFLOW:
                         fromSlot.Insert ( playerItem, insertionResult.OverflowAmount );
-                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, toSlot.Id, playerItem.Id, toSlot.StackSize ); // toSlot
-                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, playerItem.Id, fromSlot.StackSize ); // fromSlot
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, toSlot.Id, playerItem.Id, toSlot.StackSize ); // toSlot
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, fromSlot.Id, playerItem.Id, fromSlot.StackSize ); // fromSlot
                         break;
                     case InsertionResult.Results.INSERTION_FAILED:
                         fromSlot.Insert ( playerItem, removalResult.RemoveAmount );
-                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize ); // fromSlot
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize ); // fromSlot
                         return;
                     case InsertionResult.Results.INVALID_TYPE:
                         Debug.Log ( "Invalid type" );
                         fromSlot.Insert ( playerItem, removalResult.RemoveAmount );
-                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize ); // fromSlot
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize ); // fromSlot
                         return;
                     default:
                         Debug.LogError ( $"Unknown InsertionResult [{insertionResult.Result}]" );
@@ -421,29 +445,29 @@ namespace InventorySystem
                 {
                     case InsertionResult.Results.SUCCESS:
                         string fromSlotPlayerItemId = fromSlot.PlayerItem ? fromSlot.PlayerItem.Id : string.Empty;
-                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, toSlot.Id, toSlot.PlayerItem.Id, toSlot.StackSize ); // toSlot
-                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, fromSlotPlayerItemId, fromSlot.StackSize ); // fromSlot
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, toSlot.Id, toSlot.PlayerItem.Id, toSlot.StackSize ); // toSlot
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, fromSlot.Id, fromSlotPlayerItemId, fromSlot.StackSize ); // fromSlot
                         break;
                     case InsertionResult.Results.SLOT_FULL:
                         Debug.Log ( "Slot full" );
                         fromSlot.Insert ( playerItem, removalResult.RemoveAmount );
-                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize ); // fromSlot
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize ); // fromSlot
                         break;
                     case InsertionResult.Results.OVERFLOW:
                         Debug.Log ( $"Overflow - OverflowAmount [{insertionResult.OverflowAmount}]" );
                         fromSlot.Insert ( playerItem, insertionResult.OverflowAmount );
-                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, toSlot.Id, playerItem.Id, toSlot.StackSize ); // toSlot
-                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, playerItem.Id, fromSlot.StackSize ); // fromSlot
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, toSlot.Id, playerItem.Id, toSlot.StackSize ); // toSlot
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, fromSlot.Id, playerItem.Id, fromSlot.StackSize ); // fromSlot
                         break;
                     case InsertionResult.Results.INSERTION_FAILED:
                         Debug.Log ( "Insertion failed" );
                         fromSlot.Insert ( playerItem, removalResult.RemoveAmount );
-                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize ); // fromSlot
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize ); // fromSlot
                         return;
                     case InsertionResult.Results.INVALID_TYPE:
                         Debug.Log ( "Invalid type" );
                         fromSlot.Insert ( playerItem, removalResult.RemoveAmount );
-                        ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize ); // fromSlot
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize ); // fromSlot
                         return;
                     default:
                         Debug.LogError ( $"Unknown InsertionResult [{insertionResult.Result}]" );
@@ -467,26 +491,16 @@ namespace InventorySystem
                 return;
             }
 
-            if ( !m_secondaryWeaponSlots.ContainsWeapon () ) // Move primary to empty secondary
+            // Move primary to empty secondary
+            if ( !m_secondaryWeaponSlots.ContainsWeapon () )
             {
-                // Insert slot contents into secondary weapon slots
-                m_secondaryWeaponSlots.Clear ();
-                m_secondaryWeaponSlots.WeaponSlot.Insert ( m_primaryWeaponSlots.WeaponSlot.PlayerItem );
-                m_secondaryWeaponSlots.BarrelSlot.Insert ( m_primaryWeaponSlots.BarrelSlot.PlayerItem );
-                m_secondaryWeaponSlots.SightSlot.Insert ( m_primaryWeaponSlots.SightSlot.PlayerItem );
-                m_secondaryWeaponSlots.MagazineSlot.Insert ( m_primaryWeaponSlots.MagazineSlot.PlayerItem );
-                m_secondaryWeaponSlots.StockSlot.Insert ( m_primaryWeaponSlots.StockSlot.PlayerItem );
+                m_secondaryWeaponSlots.AssignContents ( m_primaryWeaponSlots );
                 m_primaryWeaponSlots.Clear ();
             }
-            else if ( !m_primaryWeaponSlots.ContainsWeapon () ) // Move secondary to empty primary
+            // Move secondary to empty primary
+            else if ( !m_primaryWeaponSlots.ContainsWeapon () )
             {
-                // Insert slot contents into primary weapon slots
-                m_primaryWeaponSlots.Clear ();
-                m_primaryWeaponSlots.WeaponSlot.Insert ( m_secondaryWeaponSlots.WeaponSlot.PlayerItem );
-                m_primaryWeaponSlots.BarrelSlot.Insert ( m_secondaryWeaponSlots.BarrelSlot.PlayerItem );
-                m_primaryWeaponSlots.SightSlot.Insert ( m_secondaryWeaponSlots.SightSlot.PlayerItem );
-                m_primaryWeaponSlots.MagazineSlot.Insert ( m_secondaryWeaponSlots.MagazineSlot.PlayerItem );
-                m_primaryWeaponSlots.StockSlot.Insert ( m_secondaryWeaponSlots.StockSlot.PlayerItem );
+                m_primaryWeaponSlots.AssignContents ( m_secondaryWeaponSlots );
                 m_secondaryWeaponSlots.Clear ();
             }
             else // Swap primary and secondary
@@ -497,9 +511,51 @@ namespace InventorySystem
             }
 
             // Apply changes
-            m_primaryWeaponSlots.Apply ( m_player.Id );
-            m_secondaryWeaponSlots.Apply ( m_player.Id );
+            m_primaryWeaponSlots.Apply ( player.Id );
+            m_secondaryWeaponSlots.Apply ( player.Id );
+            inventoryManager.OnWeaponSlotsUpdated.Invoke ( m_primaryWeaponSlots );
+            inventoryManager.OnWeaponSlotsUpdated.Invoke ( m_secondaryWeaponSlots );
             OnValidate ();
+        }
+
+        private void TransferSight ( Slot fromSlot, Slot toSlot )
+        {
+            if ( fromSlot == null || toSlot == null )
+            {
+                Debug.Assert ( fromSlot != null );
+                Debug.Assert ( toSlot != null );
+                return;
+            }
+
+            // Check if toSlot is associated with a weapon (Is WeaponSlot empty)
+            if ( toSlot.Id.Contains ( "primary" ) )
+            {
+                if ( !m_primaryWeaponSlots.ContainsWeapon () )
+                {
+                    CancelSwap ( fromSlot, toSlot );
+                    OnValidate ();
+                    return;
+                }
+            }
+            if ( toSlot.Id.Contains ( "secondary" ) )
+            {
+                if ( !m_secondaryWeaponSlots.ContainsWeapon () )
+                {
+                    CancelSwap ( fromSlot, toSlot );
+                    OnValidate ();
+                    return;
+                }
+            }
+
+            // TODO: Check weapon/sight compatibility
+
+            // Ignorant swap
+            if ( !fromSlot.IsEmpty () && !toSlot.IsEmpty () )
+            {
+                SwapItems ( fromSlot, toSlot );
+                ServerSend.PlayerUpdateInventorySlot ( player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize ); // fromSlot
+                ServerSend.PlayerUpdateInventorySlot ( player.Id, toSlot.Id, toSlot.PlayerItem.Id, toSlot.StackSize ); // toSlot
+            }
         }
 
         private void TransferMagazine ( Slot fromSlot, MagazineSlot magazineSlot )
@@ -509,6 +565,26 @@ namespace InventorySystem
                 Debug.Assert ( fromSlot != null );
                 Debug.Assert ( magazineSlot != null );
                 return;
+            }
+
+            // Check if magazineSlot is associated with a weapon (Is weapon slot empty)
+            if ( magazineSlot.Id.Contains ( "primary" ) )
+            {
+                if ( !m_primaryWeaponSlots.ContainsWeapon () )
+                {
+                    CancelSwap ( fromSlot, magazineSlot );
+                    OnValidate ();
+                    return;
+                }
+            }
+            if ( magazineSlot.Id.Contains ( "secondary" ) )
+            {
+                if ( !m_secondaryWeaponSlots.ContainsWeapon () )
+                {
+                    CancelSwap ( fromSlot, magazineSlot );
+                    OnValidate ();
+                    return;
+                }
             }
 
             // Get magazine caliber
@@ -534,8 +610,8 @@ namespace InventorySystem
                     magazineSlot.Insert ( magazine );
                     fromSlot.Clear ();
 
-                    ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, 1 ); // fromSlot
-                    ServerSend.PlayerUpdateInventorySlot ( m_player.Id, magazineSlot.Id, magazine.Id, 1 ); // magazineSlot
+                    ServerSend.PlayerUpdateInventorySlot ( player.Id, fromSlot.Id, 1 ); // fromSlot
+                    ServerSend.PlayerUpdateInventorySlot ( player.Id, magazineSlot.Id, magazine.Id, 1 ); // magazineSlot
                 }
                 else // Swap magazines
                 {
@@ -544,13 +620,7 @@ namespace InventorySystem
             }
             else // Incompatible magazine
             {
-                // From slot
-                string fromSlotItemId = fromSlot.IsEmpty () ? string.Empty : fromSlot.PlayerItem.Id;
-                ServerSend.PlayerUpdateInventorySlot ( m_player.Id, fromSlot.Id, fromSlotItemId, 1 );
-
-                // Magazine slot
-                string magazineSlotItemId = magazineSlot.IsEmpty () ? string.Empty : magazineSlot.PlayerItem.Id;
-                ServerSend.PlayerUpdateInventorySlot ( m_player.Id, magazineSlot.Id, magazineSlotItemId, 1 );
+                CancelSwap ( fromSlot, magazineSlot );
             }
             OnValidate ();
         }
@@ -563,8 +633,19 @@ namespace InventorySystem
             slotB.Insert ( slotA.PlayerItem, slotA.StackSize );
             slotA.Clear ();
             slotA.Insert ( tempItem, tempSize );
-            ServerSend.PlayerUpdateInventorySlot ( m_player.Id, slotA.Id, slotA.PlayerItem.Id, slotA.StackSize ); // slotA
-            ServerSend.PlayerUpdateInventorySlot ( m_player.Id, slotB.Id, slotB.PlayerItem.Id, slotB.StackSize ); // slotB
+            ServerSend.PlayerUpdateInventorySlot ( player.Id, slotA.Id, slotA.PlayerItem.Id, slotA.StackSize ); // slotA
+            ServerSend.PlayerUpdateInventorySlot ( player.Id, slotB.Id, slotB.PlayerItem.Id, slotB.StackSize ); // slotB
+        }
+
+        private void CancelSwap ( Slot fromSlot, Slot toSlot )
+        {
+            // From slot
+            string fromSlotItemId = fromSlot.IsEmpty () ? string.Empty : fromSlot.PlayerItem.Id;
+            ServerSend.PlayerUpdateInventorySlot ( player.Id, fromSlot.Id, fromSlotItemId, 1 );
+
+            // Magazine slot
+            string magazineSlotItemId = toSlot.IsEmpty () ? string.Empty : toSlot.PlayerItem.Id;
+            ServerSend.PlayerUpdateInventorySlot ( player.Id, toSlot.Id, magazineSlotItemId, 1 );
         }
 
         #endregion
@@ -609,6 +690,47 @@ namespace InventorySystem
             }
 
             return null;
+        }
+
+        public WeaponSlot GetWeaponSlot ( string slotId )
+        {
+            // Search primary weapon slots
+            if ( m_primaryWeaponSlots.ContainsSlot ( slotId ) )
+            {
+                return m_primaryWeaponSlots.GetSlot ( slotId ) as WeaponSlot;
+            }
+
+            // Search secondary weapon slots
+            if ( m_secondaryWeaponSlots.ContainsSlot ( slotId ) )
+            {
+                return m_secondaryWeaponSlots.GetSlot ( slotId ) as WeaponSlot;
+            }
+
+            return null;
+        }
+
+        public int GetItemCount ( string playerItemId )
+        {
+            int count = 0;
+
+            // Rig slots
+            List<Slot> rigSlots = m_rigSlots.Where ( s => s.PlayerItem && s.PlayerItem.Id == playerItemId ).ToList ();
+            foreach ( Slot slot in rigSlots )
+            {
+                count += slot.StackSize;
+            }
+            // Backpack slots
+            List<Slot> backpackSlots = m_backpackSlots.Where ( s => s.PlayerItem && s.PlayerItem.Id == playerItemId ).ToList ();
+            foreach ( Slot slot in backpackSlots )
+            {
+                count += slot.StackSize;
+            }
+
+            // Weapon slots
+            count += m_primaryWeaponSlots.GetItemCount ( playerItemId );
+            count += m_secondaryWeaponSlots.GetItemCount ( playerItemId );
+
+            return count;
         }
 
         /// <summary>
@@ -665,7 +787,7 @@ namespace InventorySystem
             {
                 // ID of slot's PlayerItem (empty if null)
                 string itemId = slot.PlayerItem == null ? string.Empty : playerItemId;
-                ServerSend.PlayerUpdateInventorySlot ( m_player.Id, slot.Id, itemId, slot.StackSize );
+                ServerSend.PlayerUpdateInventorySlot ( player.Id, slot.Id, itemId, slot.StackSize );
             }
         }
 
@@ -884,260 +1006,5 @@ namespace InventorySystem
                 }
             }
         }
-
-        #region Models
-
-        /// <summary>
-        /// Weapon and attachment slots.
-        /// </summary>
-        [Serializable]
-        public class WeaponSlots
-        {
-            public WeaponSlot WeaponSlot;
-            public BarrelSlot BarrelSlot;
-            public SightSlot SightSlot;
-            public MagazineSlot MagazineSlot;
-            public StockSlot StockSlot;
-
-            /// <summary>
-            /// Constructs new WeaponSlots with provided slot IDs.
-            /// </summary>
-            /// <param name="weaponSlotId"></param>
-            /// <param name="barrelSlotId"></param>
-            /// <param name="sightSlotId"></param>
-            /// <param name="magazineSlotId"></param>
-            /// <param name="stockSlotId"></param>
-            public WeaponSlots ( string weaponSlotId, string barrelSlotId, string sightSlotId, string magazineSlotId, string stockSlotId )
-            {
-                WeaponSlot = new WeaponSlot ( weaponSlotId );
-                BarrelSlot = new BarrelSlot ( barrelSlotId );
-                SightSlot = new SightSlot ( sightSlotId );
-                MagazineSlot = new MagazineSlot ( magazineSlotId );
-                StockSlot = new StockSlot ( stockSlotId );
-            }
-
-            public WeaponSlots ( string weaponSlotId, string barrelSlotId, string sightSlotId, string magazineSlotId, string stockSlotId,
-                Weapon weapon, Barrel barrel, Sight sight, Magazine magazine, Stock stock )
-            {
-                WeaponSlot = new WeaponSlot ( weaponSlotId, weapon );
-                BarrelSlot = new BarrelSlot ( barrelSlotId, barrel );
-                SightSlot = new SightSlot ( sightSlotId, sight );
-                MagazineSlot = new MagazineSlot ( magazineSlotId, magazine );
-                StockSlot = new StockSlot ( stockSlotId, stock );
-            }
-
-            public WeaponSlots ( WeaponSlots other )
-            {
-                if ( other.WeaponSlot != null && !other.WeaponSlot.IsEmpty () ) // Weapon
-                {
-                    WeaponSlot = new WeaponSlot ( other.WeaponSlot.Id, other.WeaponSlot.PlayerItem as Weapon );
-                }
-                if ( other.BarrelSlot != null && !other.BarrelSlot.IsEmpty () ) // Barrel
-                {
-                    BarrelSlot = new BarrelSlot ( other.BarrelSlot.Id, other.BarrelSlot.PlayerItem as Barrel );
-                }
-                if ( other.SightSlot != null && !other.SightSlot.IsEmpty () ) // Sight
-                {
-                    SightSlot = new SightSlot ( other.SightSlot.Id, other.SightSlot.PlayerItem as Sight );
-                }
-                if ( other.MagazineSlot != null && !other.MagazineSlot.IsEmpty () ) // Magazine
-                {
-                    MagazineSlot = new MagazineSlot ( other.MagazineSlot.Id, other.MagazineSlot.PlayerItem as Magazine );
-                }
-                if ( other.StockSlot != null && !other.StockSlot.IsEmpty () ) // Stock
-                {
-                    StockSlot = new StockSlot ( other.StockSlot.Id, other.StockSlot.PlayerItem as Stock );
-                }
-            }
-
-            public bool ContainsWeapon ()
-            {
-                return !WeaponSlot.IsEmpty ();
-            }
-
-            public bool ContainsBarrel ()
-            {
-                return !BarrelSlot.IsEmpty ();
-            }
-
-            public bool ContainsSight ()
-            {
-                return !SightSlot.IsEmpty ();
-            }
-
-            public bool ContainsMagazine ()
-            {
-                return !MagazineSlot.IsEmpty ();
-            }
-
-            public bool ContainsStock ()
-            {
-                return !StockSlot.IsEmpty ();
-            }
-
-            public bool ContainsSlot ( string slotId )
-            {
-                if ( WeaponSlot.Id == slotId )
-                {
-                    return true;
-                }
-                if ( BarrelSlot.Id == slotId )
-                {
-                    return true;
-                }
-                if ( SightSlot.Id == slotId )
-                {
-                    return true;
-                }
-                if ( MagazineSlot.Id == slotId )
-                {
-                    return true;
-                }
-                if ( StockSlot.Id == slotId )
-                {
-                    return true;
-                }
-                return false;
-            }
-
-            public void AssignContents ( Weapon weapon, Barrel barrel, Sight sight, Magazine magazine, Stock stock )
-            {
-                WeaponSlot.Insert ( weapon );
-                BarrelSlot.Insert ( barrel );
-                SightSlot.Insert ( sight );
-                MagazineSlot.Insert ( magazine );
-                StockSlot.Insert ( stock );
-            }
-
-            public void AssignContents ( WeaponSlots other )
-            {
-                if ( other == null )
-                {
-                    return;
-                }
-                Clear ();
-
-                if ( other.WeaponSlot != null && !other.WeaponSlot.IsEmpty () )
-                {
-                    WeaponSlot.Insert ( other.WeaponSlot.PlayerItem );
-                }
-                if ( other.BarrelSlot != null && !other.BarrelSlot.IsEmpty () )
-                {
-                    BarrelSlot.Insert ( other.BarrelSlot.PlayerItem );
-                }
-                if ( other.SightSlot != null && !other.SightSlot.IsEmpty () )
-                {
-                    SightSlot.Insert ( other.SightSlot.PlayerItem );
-                }
-                if ( other.MagazineSlot != null && !other.MagazineSlot.IsEmpty () )
-                {
-                    MagazineSlot.Insert ( other.MagazineSlot.PlayerItem );
-                }
-                if ( other.StockSlot != null && !other.StockSlot.IsEmpty () )
-                {
-                    StockSlot.Insert ( other.StockSlot.PlayerItem );
-                }
-            }
-
-            public Slot GetSlot ( string slotId )
-            {
-                if ( WeaponSlot.Id == slotId )
-                {
-                    return WeaponSlot;
-                }
-                if ( BarrelSlot.Id == slotId )
-                {
-                    return BarrelSlot;
-                }
-                if ( SightSlot.Id == slotId )
-                {
-                    return SightSlot;
-                }
-                if ( MagazineSlot.Id == slotId )
-                {
-                    return MagazineSlot;
-                }
-                if ( StockSlot.Id == slotId )
-                {
-                    return StockSlot;
-                }
-                return null;
-            }
-
-            public List<Slot> GetSlotsWithItem ( string playerItemId )
-            {
-                List<Slot> slots = new List<Slot> ();
-
-                if ( WeaponSlot.PlayerItem && WeaponSlot.PlayerItem.Id == playerItemId )
-                {
-                    slots.Add ( WeaponSlot );
-                }
-                if ( BarrelSlot.PlayerItem && BarrelSlot.PlayerItem.Id == playerItemId )
-                {
-                    slots.Add ( BarrelSlot );
-                }
-                if ( SightSlot.PlayerItem && SightSlot.PlayerItem.Id == playerItemId )
-                {
-                    slots.Add ( SightSlot );
-                }
-                if ( MagazineSlot.PlayerItem && MagazineSlot.PlayerItem.Id == playerItemId )
-                {
-                    slots.Add ( MagazineSlot );
-                }
-                if ( StockSlot.PlayerItem && StockSlot.PlayerItem.Id == playerItemId )
-                {
-                    slots.Add ( StockSlot );
-                }
-
-                return slots;
-            }
-
-            /// <summary>
-            /// Sends current Slot data to the client.
-            /// </summary>
-            public void Apply ( int playerId )
-            {
-                if ( WeaponSlot != null )
-                {
-                    string weaponItemId = WeaponSlot.IsEmpty () ? string.Empty : WeaponSlot.PlayerItem.Id;
-                    ServerSend.PlayerUpdateInventorySlot ( playerId, WeaponSlot.Id, weaponItemId, 1 );
-                }
-
-                if ( BarrelSlot != null )
-                {
-                    string barrelItemId = BarrelSlot.IsEmpty () ? string.Empty : BarrelSlot.PlayerItem.Id;
-                    ServerSend.PlayerUpdateInventorySlot ( playerId, BarrelSlot.Id, barrelItemId, 1 );
-                }
-
-                if ( SightSlot != null )
-                {
-                    string sightItemId = SightSlot.IsEmpty () ? string.Empty : SightSlot.PlayerItem.Id;
-                    ServerSend.PlayerUpdateInventorySlot ( playerId, SightSlot.Id, sightItemId, 1 );
-                }
-
-                if ( MagazineSlot != null )
-                {
-                    string magazineItemId = MagazineSlot.IsEmpty () ? string.Empty : MagazineSlot.PlayerItem.Id;
-                    ServerSend.PlayerUpdateInventorySlot ( playerId, MagazineSlot.Id, magazineItemId, 1 );
-                }
-
-                if ( StockSlot != null )
-                {
-                    string stockItemId = StockSlot.IsEmpty () ? string.Empty : StockSlot.PlayerItem.Id;
-                    ServerSend.PlayerUpdateInventorySlot ( playerId, StockSlot.Id, stockItemId, 1 );
-                }
-            }
-
-            public void Clear ()
-            {
-                WeaponSlot.Clear ();
-                BarrelSlot.Clear ();
-                SightSlot.Clear ();
-                MagazineSlot.Clear ();
-                StockSlot.Clear ();
-            }
-        }
-
-        #endregion
     }
 }

@@ -43,4 +43,14 @@ public class PlayerItemDatabase : MonoBehaviour
         }
         return null;
     }
+
+    public string GetAmmoByCaliber ( Ammunition.Calibers caliber )
+    {
+        PlayerItem ammo = m_ammunitionPlayerItems.FirstOrDefault ( i => ( i as Ammunition ).Caliber == caliber );
+        if ( ammo != null )
+        {
+            return ammo.Id;
+        }
+        return null;
+    }
 }

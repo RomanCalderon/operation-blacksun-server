@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Collections.Generic;
 using InventorySystem.PlayerItems;
 using InventorySystem.Slots.Results;
+using UnityEngine;
 
 namespace InventorySystem.Slots
 {
@@ -62,17 +63,33 @@ namespace InventorySystem.Slots
         {
             if ( PlayerItem != null )
             {
-                return $"Weapon Slot [{Id}] - {PlayerItem.Name}";
+                return $"Weapon Slot ({Id}) - {PlayerItem.Name}";
             }
             else
             {
-                return $"Weapon Slot [{Id}] - Empty";
+                return $"Weapon Slot ({Id}) - Empty";
             }
         }
 
         public override void OnValidate ()
         {
             Name = ToString ();
+        }
+        
+        public override bool Equals ( object obj )
+        {
+            return Id == ( obj as WeaponSlot ).Id && PlayerItem == ( obj as WeaponSlot ).PlayerItem;
+        }
+
+        public override int GetHashCode ()
+        {
+            int hashCode = 1797897742;
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode ( Name );
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode ( Id );
+            hashCode = hashCode * -1521134295 + EqualityComparer<PlayerItem>.Default.GetHashCode ( PlayerItem );
+            hashCode = hashCode * -1521134295 + IsStackable.GetHashCode ();
+            hashCode = hashCode * -1521134295 + StackSize.GetHashCode ();
+            return hashCode;
         }
     }
 }

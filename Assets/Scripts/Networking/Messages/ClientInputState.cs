@@ -6,6 +6,7 @@ using NetworkMessages;
 [Serializable]
 public class ClientInputState : Message
 {
+    // Movement
     public bool MoveForward;
     public bool MoveBackward;
     public bool MoveRight;
@@ -13,6 +14,10 @@ public class ClientInputState : Message
     public bool Jump;
     public bool Run;
     public bool Crouch;
+    // Debug
+    public bool Shoot;
+    [SerializeField]
+    public Vector3 LookDirection;
 
     [SerializeField]
     public Quaternion Rotation;

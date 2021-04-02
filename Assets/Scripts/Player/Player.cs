@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
 using InventorySystem;
-using InventorySystem.Presets;
 
 [RequireComponent ( typeof ( PlayerMovementController ) )]
 [RequireComponent ( typeof ( Rigidbody ) )]
+[RequireComponent ( typeof ( InventoryManager ) )]
+[RequireComponent ( typeof ( WeaponsController ) )]
 public class Player : MonoBehaviour
 {
     #region Members
@@ -21,15 +22,13 @@ public class Player : MonoBehaviour
 
     public PlayerMovementController MovementController { get; private set; } = null;
     public LookOriginController LookOriginController { get; private set; } = null;
-    private Rigidbody m_rigidbody = null;
+    public Rigidbody Rigidbody { get; private set; } = null;
+    public InventoryManager InventoryManager { get; private set; } = null;
+    public WeaponsController WeaponsController { get; private set; } = null;
 
     [SerializeField]
     private float m_maxHealth = 100f;
 
-    // Inventory
-    [SerializeField]
-    private Preset m_inventoryPreset = null;
-    public Inventory Inventory { get; private set; } = null;
 
     #endregion
 
@@ -38,7 +37,9 @@ public class Player : MonoBehaviour
     {
         MovementController = GetComponent<PlayerMovementController> ();
         LookOriginController = GetComponent<LookOriginController> ();
-        m_rigidbody = GetComponent<Rigidbody> ();
+        Rigidbody = GetComponent<Rigidbody> ();
+        InventoryManager = GetComponent<InventoryManager> ();
+        WeaponsController = GetComponent<WeaponsController> ();
     }
 
     public void Initialize ( int _id, string _username )
@@ -48,73 +49,29 @@ public class Player : MonoBehaviour
         Health = m_maxHealth;
 
         LookOriginController.Initialize ();
-        Inventory = new Inventory ( this, m_inventoryPreset );
     }
 
     /// <summary>
-    /// Use when the player is being respawned.
+    /// Used when the player first spawns.
+    /// </summary>
+    public void SendInitializedInventory ()
+    {
+        InventoryManager.InitializeInventory ();
+    }
+
+    /// <summary>
+    /// Resets the player to max health and
+    /// reinitializes inventory.
     /// </summary>
     private void Reinitialize ()
     {
         Health = m_maxHealth;
-        Inventory = new Inventory ( this, m_inventoryPreset );
-        Inventory.SendInitializedInventory ();
+        InventoryManager.InitializeInventory ();
     }
 
-    public void SendInitializedInventory ()
+    public void Shoot ( bool shootInput )
     {
-        if ( Inventory == null )
-        {
-            return;
-        }
-        Inventory.SendInitializedInventory ();
-    }
-
-    public SimulationState CurrentSimulationState ( uint simulationFrame )
-    {
-        return new SimulationState
-        {
-            Position = m_rigidbody.position,
-            Rotation = m_rigidbody.rotation,
-            Velocity = MovementController.Velocity,
-            SimulationFrame = simulationFrame,
-            DeltaTime = Time.deltaTime
-        };
-    }
-
-    public void Shoot ( Vector3 _shootDirection, float _damage, string _gunshotClip, float _gunshotVolume, float _minDistance, float _maxDistance )
-    {
-        // Shoot audio
-        ServerSend.PlayAudioClip ( Id, _gunshotClip, _gunshotVolume, transform.position, _minDistance, _maxDistance );
-
-        // Adjust shoot origin position
-        Vector3 shootOrigin = transform.position + LookOriginController.ShootOrigin;
-
-        if ( Physics.Raycast ( shootOrigin, _shootDirection, out RaycastHit _hit, 500f ) )
-        {
-            if ( _hit.collider.CompareTag ( PLAYER_TAG ) )
-            {
-                // Get player hit
-                Player playerHit = _hit.collider.GetComponent<Player> ();
-
-                // Deal damage to player hit
-                playerHit.TakeDamage ( _damage );
-
-                // Send hitmarker to shooter
-                ServerSend.Hitmarker ( Id, playerHit.IsDead ? 1 : 0 );
-
-                // Player hit blood effect
-                ServerSend.SpawnHitObject ( ( int ) ShootableObjectsManager.HitObjects.Skin, _hit.point, _hit.normal );
-            }
-            else if ( _hit.collider.CompareTag ( "TestPlayer" ) ) // DEBUG
-            {
-                ServerSend.Hitmarker ( Id, 0 );
-            }
-            else
-            {
-                ShootableObjectsManager.Instance.ProjectileHit ( _hit, _damage );
-            }
-        }
+        WeaponsController.Shoot ( shootInput );
     }
 
     public void TakeDamage ( float _damage )
@@ -136,7 +93,7 @@ public class Player : MonoBehaviour
 
     public void SendPlayerStateAll ( ClientInputState state )
     {
-        if ( this == null)
+        if ( this == null )
         {
             return;
         }
@@ -146,7 +103,7 @@ public class Player : MonoBehaviour
         int inputMoveX = state.MoveRight ? 1 : state.MoveLeft ? -1 : 0;
         int inputMoveY = state.MoveForward ? 1 : state.MoveBackward ? -1 : 0;
         float moveSpeed = MovementController.Velocity.magnitude;
-        ServerSend.PlayerMovement ( Id, inputMoveX, inputMoveY, moveSpeed,  state.Run, state.Crouch );
+        ServerSend.PlayerMovement ( Id, inputMoveX, inputMoveY, moveSpeed, state.Run, state.Crouch );
     }
 
     private IEnumerator DeathSequence ()
@@ -169,10 +126,11 @@ public class Player : MonoBehaviour
 
     private void OnValidate ()
     {
-        if ( Inventory != null )
+        if ( InventoryManager == null )
         {
-            Inventory.OnValidate ();
+            InventoryManager = GetComponent<InventoryManager> ();
         }
+        InventoryManager.OnValidate ();
     }
 
     #endregion

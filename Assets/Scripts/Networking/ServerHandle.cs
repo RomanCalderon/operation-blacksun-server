@@ -1,9 +1,4 @@
-﻿using System;
-using System.Globalization;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System.Security.Cryptography;
+﻿using UnityEngine;
 
 public class ServerHandle
 {
@@ -77,7 +72,7 @@ public class ServerHandle
         float _minDistance = _packet.ReadFloat ();
         float _maxDistance = _packet.ReadFloat ();
 
-        Server.clients [ _fromClient ].player.Shoot ( _shootDirection, _damage, _gunshotClip, _gunshotVolume, _minDistance, _maxDistance );
+        //Server.clients [ _fromClient ].player.Shoot ( _shootDirection, _damage, _gunshotClip, _gunshotVolume, _minDistance, _maxDistance );
     }
 
     public static void PlayerTransferSlotContents ( int _fromClient, Packet _packet )
@@ -89,13 +84,13 @@ public class ServerHandle
         switch ( transferMode )
         {
             case 0: // Transfer ALL
-                Server.clients [ _fromClient ].player.Inventory.TransferContentsAll ( fromSlotId, toSlotId );
+                Server.clients [ _fromClient ].player.InventoryManager.TransferContentsAll ( fromSlotId, toSlotId );
                 break;
             case 1: // Transfer ONE
-                Server.clients [ _fromClient ].player.Inventory.TransferContentsSingle ( fromSlotId, toSlotId );
+                Server.clients [ _fromClient ].player.InventoryManager.TransferContentsSingle ( fromSlotId, toSlotId );
                 break;
             case 2: // Transfer HALF
-                Server.clients [ _fromClient ].player.Inventory.TransferContentsHalf ( fromSlotId, toSlotId );
+                Server.clients [ _fromClient ].player.InventoryManager.TransferContentsHalf ( fromSlotId, toSlotId );
                 break;
             default:
                 break;
@@ -107,6 +102,6 @@ public class ServerHandle
         string playerItemId = _packet.ReadString ();
         int reductionAmount = _packet.ReadInt ();
 
-        Server.clients [ _fromClient ].player.Inventory.ReduceItem ( playerItemId, reductionAmount );
+        Server.clients [ _fromClient ].player.InventoryManager.ReduceItem ( playerItemId, reductionAmount );
     }
 }

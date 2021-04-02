@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using InventorySystem.PlayerItems;
 using InventorySystem.Slots.Results;
 
 namespace InventorySystem.Slots
 {
+    #region Slot
+
     [Serializable]
     public class Slot
     {
@@ -323,6 +326,298 @@ namespace InventorySystem.Slots
 
         #endregion
     }
+
+    #endregion
+
+    #region WeaponSlots
+
+    /// <summary>
+    /// Weapon and attachment slots.
+    /// </summary>
+    [Serializable]
+    public class WeaponSlots
+    {
+        public string Id;
+        public WeaponSlot WeaponSlot;
+        public BarrelSlot BarrelSlot;
+        public SightSlot SightSlot;
+        public MagazineSlot MagazineSlot;
+        public StockSlot StockSlot;
+
+        #region Constructors
+
+        /// <summary>
+        /// Constructs new WeaponSlots with provided slot IDs.
+        /// </summary>
+        /// <param name="weaponSlotId"></param>
+        /// <param name="barrelSlotId"></param>
+        /// <param name="sightSlotId"></param>
+        /// <param name="magazineSlotId"></param>
+        /// <param name="stockSlotId"></param>
+        public WeaponSlots ( string weaponSlotId, string barrelSlotId, string sightSlotId, string magazineSlotId, string stockSlotId )
+        {
+            Id = weaponSlotId;
+            WeaponSlot = new WeaponSlot ( weaponSlotId );
+            BarrelSlot = new BarrelSlot ( barrelSlotId );
+            SightSlot = new SightSlot ( sightSlotId );
+            MagazineSlot = new MagazineSlot ( magazineSlotId );
+            StockSlot = new StockSlot ( stockSlotId );
+        }
+
+        public WeaponSlots ( string weaponSlotId, string barrelSlotId, string sightSlotId, string magazineSlotId, string stockSlotId,
+            Weapon weapon, Barrel barrel, Sight sight, Magazine magazine, Stock stock )
+        {
+            Id = weaponSlotId;
+            WeaponSlot = new WeaponSlot ( weaponSlotId, weapon );
+            BarrelSlot = new BarrelSlot ( barrelSlotId, barrel );
+            SightSlot = new SightSlot ( sightSlotId, sight );
+            MagazineSlot = new MagazineSlot ( magazineSlotId, magazine );
+            StockSlot = new StockSlot ( stockSlotId, stock );
+        }
+
+        public WeaponSlots ( WeaponSlots other )
+        {
+            if ( other.WeaponSlot != null && !other.WeaponSlot.IsEmpty () ) // Weapon
+            {
+                WeaponSlot = new WeaponSlot ( other.WeaponSlot.Id, other.WeaponSlot.PlayerItem as Weapon );
+            }
+            if ( other.BarrelSlot != null && !other.BarrelSlot.IsEmpty () ) // Barrel
+            {
+                BarrelSlot = new BarrelSlot ( other.BarrelSlot.Id, other.BarrelSlot.PlayerItem as Barrel );
+            }
+            if ( other.SightSlot != null && !other.SightSlot.IsEmpty () ) // Sight
+            {
+                SightSlot = new SightSlot ( other.SightSlot.Id, other.SightSlot.PlayerItem as Sight );
+            }
+            if ( other.MagazineSlot != null && !other.MagazineSlot.IsEmpty () ) // Magazine
+            {
+                MagazineSlot = new MagazineSlot ( other.MagazineSlot.Id, other.MagazineSlot.PlayerItem as Magazine );
+            }
+            if ( other.StockSlot != null && !other.StockSlot.IsEmpty () ) // Stock
+            {
+                StockSlot = new StockSlot ( other.StockSlot.Id, other.StockSlot.PlayerItem as Stock );
+            }
+        }
+
+        #endregion
+
+        public bool ContainsWeapon ()
+        {
+            return !WeaponSlot.IsEmpty ();
+        }
+
+        public bool ContainsBarrel ()
+        {
+            return !BarrelSlot.IsEmpty ();
+        }
+
+        public bool ContainsSight ()
+        {
+            return !SightSlot.IsEmpty ();
+        }
+
+        public bool ContainsMagazine ()
+        {
+            return !MagazineSlot.IsEmpty ();
+        }
+
+        public bool ContainsStock ()
+        {
+            return !StockSlot.IsEmpty ();
+        }
+
+        public bool ContainsSlot ( string slotId )
+        {
+            if ( WeaponSlot.Id == slotId )
+            {
+                return true;
+            }
+            if ( BarrelSlot.Id == slotId )
+            {
+                return true;
+            }
+            if ( SightSlot.Id == slotId )
+            {
+                return true;
+            }
+            if ( MagazineSlot.Id == slotId )
+            {
+                return true;
+            }
+            if ( StockSlot.Id == slotId )
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public void AssignContents ( Weapon weapon, Barrel barrel, Sight sight, Magazine magazine, Stock stock )
+        {
+            WeaponSlot.Insert ( weapon );
+            BarrelSlot.Insert ( barrel );
+            SightSlot.Insert ( sight );
+            MagazineSlot.Insert ( magazine );
+            StockSlot.Insert ( stock );
+        }
+
+        public void AssignContents ( WeaponSlots other )
+        {
+            if ( other == null )
+            {
+                return;
+            }
+            Clear ();
+
+            if ( other.WeaponSlot != null && !other.WeaponSlot.IsEmpty () )
+            {
+                WeaponSlot.Insert ( other.WeaponSlot.PlayerItem );
+            }
+            if ( other.BarrelSlot != null && !other.BarrelSlot.IsEmpty () )
+            {
+                BarrelSlot.Insert ( other.BarrelSlot.PlayerItem );
+            }
+            if ( other.SightSlot != null && !other.SightSlot.IsEmpty () )
+            {
+                SightSlot.Insert ( other.SightSlot.PlayerItem );
+            }
+            if ( other.MagazineSlot != null && !other.MagazineSlot.IsEmpty () )
+            {
+                MagazineSlot.Insert ( other.MagazineSlot.PlayerItem );
+            }
+            if ( other.StockSlot != null && !other.StockSlot.IsEmpty () )
+            {
+                StockSlot.Insert ( other.StockSlot.PlayerItem );
+            }
+        }
+
+        public Slot GetSlot ( string slotId )
+        {
+            if ( WeaponSlot.Id == slotId )
+            {
+                return WeaponSlot;
+            }
+            if ( BarrelSlot.Id == slotId )
+            {
+                return BarrelSlot;
+            }
+            if ( SightSlot.Id == slotId )
+            {
+                return SightSlot;
+            }
+            if ( MagazineSlot.Id == slotId )
+            {
+                return MagazineSlot;
+            }
+            if ( StockSlot.Id == slotId )
+            {
+                return StockSlot;
+            }
+            return null;
+        }
+
+        public List<Slot> GetSlotsWithItem ( string playerItemId )
+        {
+            List<Slot> slots = new List<Slot> ();
+
+            if ( WeaponSlot.PlayerItem && WeaponSlot.PlayerItem.Id == playerItemId )
+            {
+                slots.Add ( WeaponSlot );
+            }
+            if ( BarrelSlot.PlayerItem && BarrelSlot.PlayerItem.Id == playerItemId )
+            {
+                slots.Add ( BarrelSlot );
+            }
+            if ( SightSlot.PlayerItem && SightSlot.PlayerItem.Id == playerItemId )
+            {
+                slots.Add ( SightSlot );
+            }
+            if ( MagazineSlot.PlayerItem && MagazineSlot.PlayerItem.Id == playerItemId )
+            {
+                slots.Add ( MagazineSlot );
+            }
+            if ( StockSlot.PlayerItem && StockSlot.PlayerItem.Id == playerItemId )
+            {
+                slots.Add ( StockSlot );
+            }
+
+            return slots;
+        }
+
+        public int GetItemCount ( string playerItemId )
+        {
+            int count = 0;
+
+            if ( WeaponSlot.PlayerItem && WeaponSlot.PlayerItem.Id == playerItemId )
+            {
+                count++;
+            }
+            if ( BarrelSlot.PlayerItem && BarrelSlot.PlayerItem.Id == playerItemId )
+            {
+                count++;
+            }
+            if ( SightSlot.PlayerItem && SightSlot.PlayerItem.Id == playerItemId )
+            {
+                count++;
+            }
+            if ( MagazineSlot.PlayerItem && MagazineSlot.PlayerItem.Id == playerItemId )
+            {
+                count++;
+            }
+            if ( StockSlot.PlayerItem && StockSlot.PlayerItem.Id == playerItemId )
+            {
+                count++;
+            }
+
+            return count;
+        }
+
+        /// <summary>
+        /// Sends current Slot data to the client.
+        /// </summary>
+        public void Apply ( int playerId )
+        {
+            if ( WeaponSlot != null )
+            {
+                string weaponItemId = WeaponSlot.IsEmpty () ? string.Empty : WeaponSlot.PlayerItem.Id;
+                ServerSend.PlayerUpdateInventorySlot ( playerId, WeaponSlot.Id, weaponItemId, 1 );
+            }
+
+            if ( BarrelSlot != null )
+            {
+                string barrelItemId = BarrelSlot.IsEmpty () ? string.Empty : BarrelSlot.PlayerItem.Id;
+                ServerSend.PlayerUpdateInventorySlot ( playerId, BarrelSlot.Id, barrelItemId, 1 );
+            }
+
+            if ( SightSlot != null )
+            {
+                string sightItemId = SightSlot.IsEmpty () ? string.Empty : SightSlot.PlayerItem.Id;
+                ServerSend.PlayerUpdateInventorySlot ( playerId, SightSlot.Id, sightItemId, 1 );
+            }
+
+            if ( MagazineSlot != null )
+            {
+                string magazineItemId = MagazineSlot.IsEmpty () ? string.Empty : MagazineSlot.PlayerItem.Id;
+                ServerSend.PlayerUpdateInventorySlot ( playerId, MagazineSlot.Id, magazineItemId, 1 );
+            }
+
+            if ( StockSlot != null )
+            {
+                string stockItemId = StockSlot.IsEmpty () ? string.Empty : StockSlot.PlayerItem.Id;
+                ServerSend.PlayerUpdateInventorySlot ( playerId, StockSlot.Id, stockItemId, 1 );
+            }
+        }
+
+        public void Clear ()
+        {
+            WeaponSlot.Clear ();
+            BarrelSlot.Clear ();
+            SightSlot.Clear ();
+            MagazineSlot.Clear ();
+            StockSlot.Clear ();
+        }
+    }
+
+    #endregion
 }
 
 namespace InventorySystem.Slots.Results

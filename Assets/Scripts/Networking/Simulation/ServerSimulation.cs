@@ -1,23 +1,35 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
+[RequireComponent ( typeof ( SimulationHelper ) )]
 public class ServerSimulation : MonoBehaviour
 {
+    #region Constants
+
+    // State caching
+    public const uint STATE_CACHE_SIZE = 1024;
+
+    #endregion
+
+    #region Members
+
+    // Server tick
+    public static uint Tick { get; private set; } = 0;
+
+    // Player-ClientInputState input processing register
     private static Dictionary<Player, Queue<ClientInputState>> m_clientInputs = new Dictionary<Player, Queue<ClientInputState>> ();
-    private uint m_tick = 0;
+
+    #endregion
 
     private void FixedUpdate ()
     {
         // Run simulation loop on main thread
-        ThreadManager.ExecuteOnMainThread ( () =>
-            {
-                SimulationLoop ();
-                m_tick++;
-            }
-        );
+        ThreadManager.ExecuteOnMainThread ( SimulationLoop );
     }
 
     /// <summary>
@@ -31,8 +43,11 @@ public class ServerSimulation : MonoBehaviour
         // Simulate physics in the scene
         Physics.Simulate ( Time.fixedDeltaTime );
 
-        // Send new state back to the clients
-        SendStateUpdate ();
+        // Create new state and send to the clients
+        ApplyServerState ();
+
+        // Increment server tick
+        Tick++;
     }
 
     #region Simulation Sub-processes
@@ -45,27 +60,53 @@ public class ServerSimulation : MonoBehaviour
             ClientInputState [] inputArray = client.Value.ToArray ();
 
             // Null check
-            if ( player == null || inputArray == null )
+            if ( player == null || inputArray == null || inputArray.Length == 0 )
             {
                 continue;
             }
 
-            // Declare the ClientInputState that we're going to be using
-            ClientInputState inputState;
+            // Resimlutes any 'past' actions - lag compensation
+            RollbackSimulation ( player, inputArray );
+
+            // Used for indexing input state array
             int index = 0;
 
-            // Obtain ClientInputStates from the queue
-            while ( inputArray.Length > 0 && index < inputArray.Length && ( inputState = inputArray [ index ] ) != null )
+            // Process each input state from input array
+            while ( index < inputArray.Length && inputArray [ index ] != null )
             {
                 // Process the input
-                player.MovementController.ProcessInputs ( inputState );
-                player.LookOriginController.ProcessInput ( inputState );
+                player.MovementController.ProcessInputs ( inputArray [ index ] );
+                player.LookOriginController.ProcessInput ( inputArray [ index ] );
                 index++;
             }
         }
     }
 
-    private void SendStateUpdate ()
+    private void RollbackSimulation ( Player player, ClientInputState [] inputArray )
+    {
+        for ( int i = 0; i < inputArray.Length; i++ )
+        {
+            uint inputTick = inputArray [ i ].ServerTick;
+            Vector3 lookDirection = inputArray [ i ].LookDirection;
+            void action () => player.Shoot ( inputArray [ i ].Shoot );
+            SimulationHelper.Simulate ( Tick, inputTick, action, 0f );
+        }
+
+
+        //if ( inputArray.Any ( i => i.Shoot ) )
+        //{
+        //    for ( int i = 0; i < inputArray.Length; i++ )
+        //    {
+        //        uint inputTick = inputArray [ i ].ServerTick;
+        //        Vector3 lookDirection = inputArray [ i ].LookDirection;
+        //        Debug.Log ( $"inputArray [ i ].Shoot={inputArray [ i ].Shoot}" );
+        //        void action () => player.Shoot ( inputArray [ i ].Shoot );
+        //        SimulationHelper.Simulate ( Tick, inputTick, action, 0f );
+        //    }
+        //}
+    }
+
+    private void ApplyServerState ()
     {
         foreach ( KeyValuePair<Player, Queue<ClientInputState>> client in m_clientInputs )
         {
@@ -78,14 +119,22 @@ public class ServerSimulation : MonoBehaviour
                 continue;
             }
 
-            // Declare the ClientInputState that we're going to be using
+            // Stores a reference to the input state dequeued from the input array
             ClientInputState inputState;
 
-            // Dequeue inputs for player processing
+            // Process each input from input array
             while ( inputQueue.Count > 0 && ( inputState = inputQueue.Dequeue () ) != null )
             {
                 // Obtain the current SimulationState
-                SimulationState state = player.CurrentSimulationState ( inputState.SimulationFrame );
+                SimulationState state = new SimulationState
+                {
+                    Position = player.Rigidbody.position,
+                    Rotation = player.Rigidbody.rotation,
+                    Velocity = player.MovementController.Velocity,
+                    SimulationFrame = inputState.SimulationFrame,
+                    ServerTick = Tick,
+                    DeltaTime = Time.deltaTime
+                };
 
                 // Send the state back to the client
                 ServerSend.PlayerInputProcessed ( player.Id, StateToBytes ( state ) );
@@ -94,6 +143,8 @@ public class ServerSimulation : MonoBehaviour
                 player.SendPlayerStateAll ( inputState );
             }
         }
+        // Cache server state
+        SimulationHelper.AddState ( Tick );
     }
 
     #endregion
@@ -108,13 +159,12 @@ public class ServerSimulation : MonoBehaviour
         }
         ClientInputState message = BytesToState ( inputs );
 
+        // Client inputs
         // Ensure the key exists, if it doesn't, create it
-        if ( m_clientInputs.ContainsKey ( client.player ) == false )
+        if ( !m_clientInputs.ContainsKey ( client.player ) )
         {
-            Debug.Log ( "new client added to input processing queue" );
             m_clientInputs.Add ( client.player, new Queue<ClientInputState> () );
         }
-
         // Add the input to the appropriate queue
         m_clientInputs [ client.player ].Enqueue ( message );
     }
@@ -123,13 +173,9 @@ public class ServerSimulation : MonoBehaviour
     {
         if ( client == null )
         {
-            throw new System.NullReferenceException ( "Client is null." );
+            throw new NullReferenceException ( "Client is null." );
         }
-
-        if ( m_clientInputs.Remove ( client.player ) )
-        {
-            Debug.Log ( "Successfully removed client from input queue." );
-        }
+        m_clientInputs.Remove ( client.player );
     }
 
     #endregion

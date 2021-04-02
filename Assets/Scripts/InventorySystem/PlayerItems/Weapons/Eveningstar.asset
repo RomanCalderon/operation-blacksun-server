@@ -19,5 +19,5 @@ MonoBehaviour:
   WeaponClass: 4
   Caliber: 6
   BaseDamage: 110
-  FireRate: 1
+  FireRate: 1.4
   FireMode: 0

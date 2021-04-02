@@ -6,6 +6,7 @@ namespace NetworkMessages
     public abstract class Message
     {
         public uint SimulationFrame;
+        public uint ServerTick;
         public float DeltaTime;
     }
 }
