@@ -14,9 +14,6 @@ public class WeaponInstance : PlayerItemInstance
 
     public int BulletCount { get; private set; } = 0;
 
-    [SerializeField]
-    private LayerMask m_playerLayerMask;
-
     [Header ( "Reloading" )]
     [SerializeField]
     private float m_partialReloadTime = 0.5f;
@@ -28,9 +25,22 @@ public class WeaponInstance : PlayerItemInstance
 
     private float m_fireCooldown = 0f;
 
+    [Header ( "Raycast Mask" ), SerializeField]
+    private LayerMask m_playerLayerMask;
+
+    [Header ( "Audio" )]
+    [SerializeField]
+    private float m_audioMinDistance = 1f, m_audioMaxDistance = 300f;
+    private string m_shootStandardAudioClipName;
+    private string m_shootSuppressedAudioClipName;
+
+
     public void Initialize ( Player player )
     {
         m_player = player;
+
+        m_shootStandardAudioClipName = GameAssets.Instance.GetAudioClip ( "gunshot-" + PlayerItem.Id + "-standard" );
+        m_shootSuppressedAudioClipName = GameAssets.Instance.GetAudioClip ( "gunshot-" + PlayerItem.Id + "-suppressed" );
     }
 
     private void OnEnable ()
@@ -142,28 +152,27 @@ public class WeaponInstance : PlayerItemInstance
         // Shoot the weapon if it has ammo
         if ( BulletCount > 0 )
         {
-            Debug.Log ( "Shoot gun" );
-
             // Reset fireCooldown
             m_fireCooldown = ( PlayerItem as Weapon ).FireRate;
 
             // Subtract one bullet from the magazine
             BulletCount--;
 
-            // TODO: Perform gunshot
-            float bulletDamage = ( PlayerItem as Weapon ).BaseDamage;
-
+            // Raycasting
             Vector3 shootOrigin = m_player.LookOriginController.ShootOrigin;
             Ray shootRay = new Ray ( shootOrigin, lookDirection );
+            float bulletDamage = ( PlayerItem as Weapon ).BaseDamage;
+            bool hitPlayer = false, killedPlayer = false;
 
             // Shoot Raycast - LayerMask:Player
             if ( Physics.Raycast ( shootRay, out RaycastHit hit, 1000f, m_playerLayerMask ) )
             {
-                Player hitPlayer;
-                if ( hitPlayer = hit.collider.GetComponent<Player> () )
+                Player player = hit.collider.GetComponent<Player> ();
+                if ( player != null )
                 {
-                    hitPlayer.TakeDamage ( bulletDamage );
-                    Debug.Log ( $"{m_player.Username} shot {hitPlayer.Username}" );
+                    hitPlayer = true;
+                    player.TakeDamage ( bulletDamage, out killedPlayer );
+                    Debug.Log ( $"{m_player.Username} shot {player.Username}" );
                 }
             }
 
@@ -173,6 +182,16 @@ public class WeaponInstance : PlayerItemInstance
             //    float dist = Vector3.Distance ( shootRay.origin, debugHit.point );
             //    Debug.DrawRay ( shootOrigin, lookDirection * dist, Color.blue, 1f );
             //}
+
+            // Shoot SFX
+            ServerSend.PlayAudioClip ( m_player.Id, m_shootStandardAudioClipName, 1f, transform.position, m_audioMinDistance, m_audioMaxDistance );
+
+            // Hitmarker feedback
+            if ( hitPlayer )
+            {
+                int hitmarkerType = killedPlayer ? 1 : 0;
+                ServerSend.Hitmarker ( m_player.Id, hitmarkerType );
+            }
 
         }
     }
@@ -186,7 +205,6 @@ public class WeaponInstance : PlayerItemInstance
     /// </summary>
     public void Reload ()
     {
-        Debug.Log ( "Reload()" );
         if ( m_isReloading ) // Already reloading
         {
             return;
@@ -201,7 +219,6 @@ public class WeaponInstance : PlayerItemInstance
         }
         string ammoId = m_player.InventoryManager.PlayerItemDatabase.GetAmmoByCaliber ( ( PlayerItem as Weapon ).Caliber );
         int inventoryAmmoCount = m_player.InventoryManager.GetItemCount ( ammoId );
-        Debug.Log ( $"Reload() - inventoryAmmoCount={inventoryAmmoCount}" );
         if ( inventoryAmmoCount == 0 ) // Out of compatible ammo in inventory
         {
             return;

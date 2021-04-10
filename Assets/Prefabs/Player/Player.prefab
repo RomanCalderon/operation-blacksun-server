@@ -77,11 +77,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_playerItem: {fileID: 11400000, guid: 61109460dffeeaf469dddce79743a4bd, type: 2}
+  m_partialReloadTime: 1.61
+  m_fullReloadTime: 2.86
   m_playerLayerMask:
     serializedVersion: 2
     m_Bits: 256
-  m_partialReloadTime: 1.61
-  m_fullReloadTime: 2.86
+  m_audioMinDistance: 1
+  m_audioMaxDistance: 300
 --- !u!1 &2125540002954221418
 GameObject:
   m_ObjectHideFlags: 0
@@ -126,11 +128,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_playerItem: {fileID: 11400000, guid: 1c00435c2ebf94547911207f66ca53de, type: 2}
+  m_partialReloadTime: 4.96
+  m_fullReloadTime: 4.96
   m_playerLayerMask:
     serializedVersion: 2
     m_Bits: 256
-  m_partialReloadTime: 4.96
-  m_fullReloadTime: 4.96
+  m_audioMinDistance: 1
+  m_audioMaxDistance: 300
 --- !u!1 &2414371901970800181
 GameObject:
   m_ObjectHideFlags: 0
@@ -181,8 +185,8 @@ CapsuleCollider:
   m_Material: {fileID: 13400000, guid: f5ce2a25cc8890548b208ad0e4d807c9, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.26
-  m_Height: 2
+  m_Radius: 0.35
+  m_Height: 1.8
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &4610855524497323516
@@ -358,11 +362,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_playerItem: {fileID: 11400000, guid: 4c574b0b4a581d44a9449e88ddc9ecc7, type: 2}
+  m_partialReloadTime: 1.14
+  m_fullReloadTime: 1.42
   m_playerLayerMask:
     serializedVersion: 2
     m_Bits: 256
-  m_partialReloadTime: 1.14
-  m_fullReloadTime: 1.42
+  m_audioMinDistance: 1
+  m_audioMaxDistance: 300
 --- !u!1 &3933012078636783253
 GameObject:
   m_ObjectHideFlags: 0
@@ -421,8 +427,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5365141579528309816}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.52, y: 1, z: 0.52}
+  m_LocalPosition: {x: 0, y: -0.1, z: 0}
+  m_LocalScale: {x: 0.52, y: 0.9, z: 0.52}
   m_Children: []
   m_Father: {fileID: 1865876460998233276}
   m_RootOrder: 0
@@ -518,11 +524,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_playerItem: {fileID: 11400000, guid: 1c00435c2ebf94547911207f66ca53de, type: 2}
+  m_partialReloadTime: 4.96
+  m_fullReloadTime: 4.96
   m_playerLayerMask:
     serializedVersion: 2
     m_Bits: 256
-  m_partialReloadTime: 4.96
-  m_fullReloadTime: 4.96
+  m_audioMinDistance: 1
+  m_audioMaxDistance: 300
 --- !u!1 &7861488077618023955
 GameObject:
   m_ObjectHideFlags: 0
@@ -600,11 +608,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_playerItem: {fileID: 11400000, guid: 4c574b0b4a581d44a9449e88ddc9ecc7, type: 2}
+  m_partialReloadTime: 1.14
+  m_fullReloadTime: 1.42
   m_playerLayerMask:
     serializedVersion: 2
     m_Bits: 256
-  m_partialReloadTime: 1.14
-  m_fullReloadTime: 1.42
+  m_audioMinDistance: 1
+  m_audioMaxDistance: 300
 --- !u!1 &8615622848412493211
 GameObject:
   m_ObjectHideFlags: 0
@@ -649,8 +659,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_playerItem: {fileID: 11400000, guid: 61109460dffeeaf469dddce79743a4bd, type: 2}
+  m_partialReloadTime: 1.61
+  m_fullReloadTime: 2.86
   m_playerLayerMask:
     serializedVersion: 2
     m_Bits: 256
-  m_partialReloadTime: 1.61
-  m_fullReloadTime: 2.86
+  m_audioMinDistance: 1
+  m_audioMaxDistance: 300

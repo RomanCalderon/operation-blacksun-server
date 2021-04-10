@@ -84,10 +84,17 @@ public class Player : MonoBehaviour
         WeaponsController.Shoot ( shootInput, lookDirection );
     }
 
-    public void TakeDamage ( float _damage )
+    /// <summary>
+    /// Reduces health by <paramref name="_damage"/> and returns <paramref name="killedPlayer"/>
+    /// as true if this player has been killed.
+    /// </summary>
+    /// <param name="_damage">Amount of damage to deal to this player.</param>
+    /// <param name="killedPlayer">Flag for player death.</param>
+    public void TakeDamage ( float _damage, out bool killedPlayer )
     {
         if ( IsDead )
         {
+            killedPlayer = false;
             return;
         }
 
@@ -95,7 +102,7 @@ public class Player : MonoBehaviour
         Health = Mathf.Max ( 0, Health );
         ServerSend.PlayerHealth ( Id, Health );
 
-        if ( Health <= 0 )
+        if ( killedPlayer = Health <= 0 )
         {
             StartCoroutine ( DeathSequence () );
         }
