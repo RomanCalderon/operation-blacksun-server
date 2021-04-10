@@ -14,6 +14,8 @@ public class WeaponInstance : PlayerItemInstance
 
     public int BulletCount { get; private set; } = 0;
 
+    [SerializeField]
+    private LayerMask m_playerLayerMask;
 
     [Header ( "Reloading" )]
     [SerializeField]
@@ -25,7 +27,6 @@ public class WeaponInstance : PlayerItemInstance
     private Coroutine m_reloadCoroutine = null;
 
     private float m_fireCooldown = 0f;
-
 
     public void Initialize ( Player player )
     {
@@ -85,7 +86,6 @@ public class WeaponInstance : PlayerItemInstance
     /// <param name="magazine">The Magazine to equip.</param>
     public void EquipAttachment ( Magazine magazine )
     {
-        Debug.Log ( $"EquipAttachment ( {magazine} )" );
         Magazine = magazine;
 
         if ( Magazine == null )
@@ -96,7 +96,6 @@ public class WeaponInstance : PlayerItemInstance
         {
             string playerItemId = m_player.InventoryManager.PlayerItemDatabase.GetAmmoByCaliber ( ( PlayerItem as Weapon ).Caliber );
             int inventoryAmmoCount = m_player.InventoryManager.GetItemCount ( playerItemId );
-            Debug.Log ( $"inventoryAmmoCount={inventoryAmmoCount}" );
             BulletCount = Mathf.Min ( Magazine.AmmoCapacity, inventoryAmmoCount );
         }
     }
@@ -124,7 +123,7 @@ public class WeaponInstance : PlayerItemInstance
     /// Invoked by WeaponsController.
     /// </summary>
     /// <param name="direction">The direction the weapon is fired.</param>
-    public void Shoot ()
+    public void Shoot ( Vector3 lookDirection )
     {
         if ( m_isReloading && !m_isFullReload )
         {
@@ -143,7 +142,7 @@ public class WeaponInstance : PlayerItemInstance
         // Shoot the weapon if it has ammo
         if ( BulletCount > 0 )
         {
-            //Debug.Log ( "Shoot gun" );
+            Debug.Log ( "Shoot gun" );
 
             // Reset fireCooldown
             m_fireCooldown = ( PlayerItem as Weapon ).FireRate;
@@ -152,7 +151,29 @@ public class WeaponInstance : PlayerItemInstance
             BulletCount--;
 
             // TODO: Perform gunshot
-            float damage = ( PlayerItem as Weapon ).BaseDamage;
+            float bulletDamage = ( PlayerItem as Weapon ).BaseDamage;
+
+            Vector3 shootOrigin = m_player.LookOriginController.ShootOrigin;
+            Ray shootRay = new Ray ( shootOrigin, lookDirection );
+
+            // Shoot Raycast - LayerMask:Player
+            if ( Physics.Raycast ( shootRay, out RaycastHit hit, 1000f, m_playerLayerMask ) )
+            {
+                Player hitPlayer;
+                if ( hitPlayer = hit.collider.GetComponent<Player> () )
+                {
+                    hitPlayer.TakeDamage ( bulletDamage );
+                    Debug.Log ( $"{m_player.Username} shot {hitPlayer.Username}" );
+                }
+            }
+
+            // DEBUG
+            //if ( Physics.Raycast ( shootRay, out RaycastHit debugHit, 1000f ) )
+            //{
+            //    float dist = Vector3.Distance ( shootRay.origin, debugHit.point );
+            //    Debug.DrawRay ( shootOrigin, lookDirection * dist, Color.blue, 1f );
+            //}
+
         }
     }
 

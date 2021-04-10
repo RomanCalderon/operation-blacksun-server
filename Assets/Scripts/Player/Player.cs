@@ -79,9 +79,9 @@ public class Player : MonoBehaviour
         WeaponsController.ReloadWeapon ();
     }
 
-    public void Shoot ( bool shootInput )
+    public void Shoot ( bool shootInput, Vector3 lookDirection )
     {
-        WeaponsController.Shoot ( shootInput );
+        WeaponsController.Shoot ( shootInput, lookDirection );
     }
 
     public void TakeDamage ( float _damage )

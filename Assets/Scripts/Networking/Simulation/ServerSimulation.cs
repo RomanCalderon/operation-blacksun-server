@@ -87,23 +87,11 @@ public class ServerSimulation : MonoBehaviour
         for ( int i = 0; i < inputArray.Length; i++ )
         {
             uint inputTick = inputArray [ i ].ServerTick;
+            bool shootInput = inputArray [ i ].Shoot;
             Vector3 lookDirection = inputArray [ i ].LookDirection;
-            void action () => player.Shoot ( inputArray [ i ].Shoot );
+            void action () => player.Shoot ( shootInput, lookDirection );
             SimulationHelper.Simulate ( Tick, inputTick, action, 0f );
         }
-
-
-        //if ( inputArray.Any ( i => i.Shoot ) )
-        //{
-        //    for ( int i = 0; i < inputArray.Length; i++ )
-        //    {
-        //        uint inputTick = inputArray [ i ].ServerTick;
-        //        Vector3 lookDirection = inputArray [ i ].LookDirection;
-        //        Debug.Log ( $"inputArray [ i ].Shoot={inputArray [ i ].Shoot}" );
-        //        void action () => player.Shoot ( inputArray [ i ].Shoot );
-        //        SimulationHelper.Simulate ( Tick, inputTick, action, 0f );
-        //    }
-        //}
     }
 
     private void ApplyServerState ()

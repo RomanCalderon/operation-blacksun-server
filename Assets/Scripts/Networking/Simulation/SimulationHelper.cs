@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SimulationHelper : MonoBehaviour
 {
-    public static List<SimulationObject> SimulationObjects = null;
+    private static List<SimulationObject> SimulationObjects = null;
 
     void Awake ()
     {
@@ -24,7 +24,7 @@ public class SimulationHelper : MonoBehaviour
 
     public static void AddState ( uint serverTick )
     {
-        SimulationObjects.ForEach ( ( SimulationObject simulationObject ) => simulationObject.AddState ( serverTick ) );
+        SimulationObjects.ForEach ( simulationObject => simulationObject.AddState ( serverTick ) );
     }
 
     public static void Simulate ( uint tick, uint frameId, Action action, float clientSubFrame )

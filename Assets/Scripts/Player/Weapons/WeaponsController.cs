@@ -80,7 +80,7 @@ public class WeaponsController : MonoBehaviour
 
     #region Shooting
 
-    public void Shoot ( bool shootInput )
+    public void Shoot ( bool shootInput, Vector3 lookDirection )
     {
         if ( shootInput == false )
         {
@@ -95,12 +95,12 @@ public class WeaponsController : MonoBehaviour
                 case Weapon.FireModes.SemiAuto:
                     if ( !m_didShoot )
                     {
-                        ActiveWeapon.Shoot ();
+                        ActiveWeapon.Shoot ( lookDirection );
                         m_didShoot = true;
                     }
                     break;
                 case Weapon.FireModes.FullAuto:
-                    ActiveWeapon.Shoot ();
+                    ActiveWeapon.Shoot ( lookDirection );
                     break;
                 default:
                     break;

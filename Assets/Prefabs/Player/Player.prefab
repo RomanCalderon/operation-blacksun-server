@@ -77,6 +77,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_playerItem: {fileID: 11400000, guid: 61109460dffeeaf469dddce79743a4bd, type: 2}
+  m_playerLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
   m_partialReloadTime: 1.61
   m_fullReloadTime: 2.86
 --- !u!1 &2125540002954221418
@@ -123,6 +126,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_playerItem: {fileID: 11400000, guid: 1c00435c2ebf94547911207f66ca53de, type: 2}
+  m_playerLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
   m_partialReloadTime: 4.96
   m_fullReloadTime: 4.96
 --- !u!1 &2414371901970800181
@@ -352,6 +358,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_playerItem: {fileID: 11400000, guid: 4c574b0b4a581d44a9449e88ddc9ecc7, type: 2}
+  m_playerLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
   m_partialReloadTime: 1.14
   m_fullReloadTime: 1.42
 --- !u!1 &3933012078636783253
@@ -509,6 +518,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_playerItem: {fileID: 11400000, guid: 1c00435c2ebf94547911207f66ca53de, type: 2}
+  m_playerLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
   m_partialReloadTime: 4.96
   m_fullReloadTime: 4.96
 --- !u!1 &7861488077618023955
@@ -588,6 +600,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_playerItem: {fileID: 11400000, guid: 4c574b0b4a581d44a9449e88ddc9ecc7, type: 2}
+  m_playerLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
   m_partialReloadTime: 1.14
   m_fullReloadTime: 1.42
 --- !u!1 &8615622848412493211
@@ -634,5 +649,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_playerItem: {fileID: 11400000, guid: 61109460dffeeaf469dddce79743a4bd, type: 2}
+  m_playerLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
   m_partialReloadTime: 1.61
   m_fullReloadTime: 2.86
