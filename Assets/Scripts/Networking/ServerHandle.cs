@@ -63,16 +63,16 @@ public class ServerHandle
         ServerSimulation.OnClientInputStateReceived ( Server.clients [ _fromClient ], inputs );
     }
 
-    public static void PlayerShoot ( int _fromClient, Packet _packet )
+    public static void WeaponSwitch ( int _fromClient, Packet _packet )
     {
-        Vector3 _shootDirection = _packet.ReadVector3 ();
-        float _damage = _packet.ReadFloat ();
-        string _gunshotClip = _packet.ReadString ();
-        float _gunshotVolume = _packet.ReadFloat ();
-        float _minDistance = _packet.ReadFloat ();
-        float _maxDistance = _packet.ReadFloat ();
+        int activeWeaponIndex = _packet.ReadInt ();
 
-        //Server.clients [ _fromClient ].player.Shoot ( _shootDirection, _damage, _gunshotClip, _gunshotVolume, _minDistance, _maxDistance );
+        Server.clients [ _fromClient ].player.WeaponSwitch ( activeWeaponIndex );
+    }
+
+    public static void WeaponReload ( int _fromClient, Packet _packet )
+    {
+        Server.clients [ _fromClient ].player.WeaponReload ();
     }
 
     public static void PlayerTransferSlotContents ( int _fromClient, Packet _packet )

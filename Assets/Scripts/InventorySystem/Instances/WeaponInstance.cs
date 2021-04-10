@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using InventorySystem.PlayerItems;
 
@@ -26,12 +25,15 @@ public class WeaponInstance : PlayerItemInstance
     private Coroutine m_reloadCoroutine = null;
 
     private float m_fireCooldown = 0f;
-    
+
 
     public void Initialize ( Player player )
     {
         m_player = player;
+    }
 
+    private void OnEnable ()
+    {
         UpdateAttachments ();
     }
 
@@ -56,13 +58,16 @@ public class WeaponInstance : PlayerItemInstance
 
     #region Attachment Equipping/Unequipping
 
+    /// <summary>
+    /// Equips all currently-assigned attachments on the WeaponInstance
+    /// and their respective initializations.
+    /// </summary>
     public void UpdateAttachments ()
     {
-        // TODO
-        //m_attachmentsController.UpdateAttachment ( Barrel );
-        //m_attachmentsController.UpdateAttachment ( Magazine );
-        //m_attachmentsController.UpdateAttachment ( Sight );
-        //m_attachmentsController.UpdateAttachment ( Stock );
+        EquipAttachment ( Barrel );
+        EquipAttachment ( Magazine );
+        EquipAttachment ( Sight );
+        EquipAttachment ( Stock );
     }
 
     /// <summary>
@@ -72,9 +77,6 @@ public class WeaponInstance : PlayerItemInstance
     public void EquipAttachment ( Barrel barrel )
     {
         Barrel = barrel;
-
-        // Update attachment instance
-        //m_attachmentsController.UpdateAttachment ( Barrel );
     }
 
     /// <summary>
@@ -83,10 +85,8 @@ public class WeaponInstance : PlayerItemInstance
     /// <param name="magazine">The Magazine to equip.</param>
     public void EquipAttachment ( Magazine magazine )
     {
+        Debug.Log ( $"EquipAttachment ( {magazine} )" );
         Magazine = magazine;
-
-        // Update attachment instance
-        //m_attachmentsController.UpdateAttachment ( Magazine );
 
         if ( Magazine == null )
         {
@@ -94,8 +94,9 @@ public class WeaponInstance : PlayerItemInstance
         }
         else if ( BulletCount == 0 )
         {
-            string ammoId = m_player.InventoryManager.PlayerItemDatabase.GetAmmoByCaliber ( ( PlayerItem as Weapon ).Caliber );
-            int inventoryAmmoCount = m_player.InventoryManager.GetItemCount ( ammoId );
+            string playerItemId = m_player.InventoryManager.PlayerItemDatabase.GetAmmoByCaliber ( ( PlayerItem as Weapon ).Caliber );
+            int inventoryAmmoCount = m_player.InventoryManager.GetItemCount ( playerItemId );
+            Debug.Log ( $"inventoryAmmoCount={inventoryAmmoCount}" );
             BulletCount = Mathf.Min ( Magazine.AmmoCapacity, inventoryAmmoCount );
         }
     }
@@ -103,9 +104,6 @@ public class WeaponInstance : PlayerItemInstance
     public void EquipAttachment ( Sight sight )
     {
         Sight = sight;
-
-        // Update attachment instance
-        //m_attachmentsController.UpdateAttachment ( Sight );
     }
 
     /// <summary>
@@ -115,9 +113,6 @@ public class WeaponInstance : PlayerItemInstance
     public void EquipAttachment ( Stock stock )
     {
         Stock = stock;
-
-        // Update attachment instance
-        //m_attachmentsController.UpdateAttachment ( Stock );
     }
 
     #endregion
@@ -148,7 +143,7 @@ public class WeaponInstance : PlayerItemInstance
         // Shoot the weapon if it has ammo
         if ( BulletCount > 0 )
         {
-            Debug.Log ( "Shoot gun" );
+            //Debug.Log ( "Shoot gun" );
 
             // Reset fireCooldown
             m_fireCooldown = ( PlayerItem as Weapon ).FireRate;
@@ -170,6 +165,7 @@ public class WeaponInstance : PlayerItemInstance
     /// </summary>
     public void Reload ()
     {
+        Debug.Log ( "Reload()" );
         if ( m_isReloading ) // Already reloading
         {
             return;
@@ -184,6 +180,7 @@ public class WeaponInstance : PlayerItemInstance
         }
         string ammoId = m_player.InventoryManager.PlayerItemDatabase.GetAmmoByCaliber ( ( PlayerItem as Weapon ).Caliber );
         int inventoryAmmoCount = m_player.InventoryManager.GetItemCount ( ammoId );
+        Debug.Log ( $"Reload() - inventoryAmmoCount={inventoryAmmoCount}" );
         if ( inventoryAmmoCount == 0 ) // Out of compatible ammo in inventory
         {
             return;

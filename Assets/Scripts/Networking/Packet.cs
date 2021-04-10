@@ -32,7 +32,8 @@ public enum ClientPackets
     spawnPlayer,
     playerReady,
     playerInput,
-    playerShoot,
+    weaponSwitch,
+    weaponReload,
     playerTransferSlotContents,
     playerInventoryReduceItem
 }

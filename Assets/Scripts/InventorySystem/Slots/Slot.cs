@@ -322,6 +322,11 @@ namespace InventorySystem.Slots
             }
         }
 
+        public override bool Equals ( object obj )
+        {
+            return obj is Slot instance && PlayerItem.Equals ( instance.PlayerItem );
+        }
+
         #endregion
 
         #endregion

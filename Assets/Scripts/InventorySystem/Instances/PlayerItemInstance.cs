@@ -22,6 +22,6 @@ public class PlayerItemInstance : MonoBehaviour
 
     public override bool Equals ( object obj )
     {
-        return obj is PlayerItemInstance instance && m_playerItem == instance.m_playerItem;
+        return obj is PlayerItemInstance instance && m_playerItem.Equals ( instance.m_playerItem );
     }
 }

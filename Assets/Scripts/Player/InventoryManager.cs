@@ -13,6 +13,9 @@ public class InventoryManager : MonoBehaviour
 
     #region Delegates
 
+    public delegate void InventoryHandler ();
+    public InventoryHandler OnInventoryInitialized;
+
     public delegate void WeaponSlotHandler ( WeaponSlots weaponSlots );
     public WeaponSlotHandler OnWeaponSlotsUpdated;
 
@@ -40,6 +43,7 @@ public class InventoryManager : MonoBehaviour
     public void InitializeInventory ()
     {
         m_inventory = Inventory.Create ( this, m_player, m_inventoryPreset, OnWeaponSlotsUpdated.Invoke );
+        OnInventoryInitialized?.Invoke ();
     }
 
     #region Transfers

@@ -69,6 +69,16 @@ public class Player : MonoBehaviour
         InventoryManager.InitializeInventory ();
     }
 
+    public void WeaponSwitch ( int activeWeaponIndex )
+    {
+        WeaponsController.ActivateWeapon ( activeWeaponIndex );
+    }
+
+    public void WeaponReload ()
+    {
+        WeaponsController.ReloadWeapon ();
+    }
+
     public void Shoot ( bool shootInput )
     {
         WeaponsController.Shoot ( shootInput );

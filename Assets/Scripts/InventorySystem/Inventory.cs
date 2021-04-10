@@ -245,6 +245,7 @@ namespace InventorySystem
                     }
                 }
             }
+            Debug.Log ( "SendInitializedInventory()" );
         }
 
         public void TransferContentsAll ( string fromSlotId, string toSlotId )
@@ -272,9 +273,9 @@ namespace InventorySystem
             }
 
             // Sight swap
-            if ( fromSlot is SightSlot && toSlot is SightSlot )
+            if ( fromSlot is SightSlot fromSightSlot && toSlot is SightSlot toSightSlot )
             {
-                TransferSight ( fromSlot, toSlot );
+                TransferSight ( fromSightSlot, toSightSlot );
                 return;
             }
 
@@ -285,55 +286,54 @@ namespace InventorySystem
                 return;
             }
 
-            PlayerItem playerItem = fromSlot.PlayerItem;
-            if ( playerItem != null )
+            PlayerItem fromSlotItem = fromSlot.PlayerItem;
+            if ( fromSlotItem != null )
             {
-                RemovalResult removalResult = fromSlot.RemoveAll (); // Removal
-                switch ( removalResult.Result )
+                // Removal
+                RemovalResult removalResult = fromSlot.RemoveAll ();
+                if ( removalResult.Result != RemovalResult.Results.SUCCESS )
                 {
-                    case RemovalResult.Results.SUCCESS:
-                        break;
-                    case RemovalResult.Results.SLOT_EMPTY:
-                        return;
-                    default:
-                        Debug.LogError ( $"Unknown RemovalResult [{removalResult.Result}]" );
-                        return;
+                    Debug.LogError ( $"RemoveAll() error - RemovalResult [{removalResult.Result}]" );
+                    return;
                 }
 
+                // Insertion
                 int transferQuantity = removalResult.RemoveAmount;
-                InsertionResult insertionResult = toSlot.Insert ( playerItem, transferQuantity ); // Insertion
+                InsertionResult insertionResult = toSlot.Insert ( fromSlotItem, transferQuantity );
                 switch ( insertionResult.Result )
                 {
                     case InsertionResult.Results.SUCCESS:
-                        ServerSend.PlayerUpdateInventorySlot ( player.Id, toSlot.Id, playerItem.Id, toSlot.StackSize ); // toSlot
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, toSlot.Id, fromSlotItem.Id, toSlot.StackSize ); // toSlot
                         ServerSend.PlayerUpdateInventorySlot ( player.Id, fromSlot.Id, 0 ); // fromSlot
                         break;
                     case InsertionResult.Results.SLOT_FULL: // Swap
                         fromSlot.Insert ( toSlot.PlayerItem, toSlot.StackSize );
                         toSlot.Clear ();
-                        toSlot.Insert ( playerItem, removalResult.RemoveAmount );
-                        ServerSend.PlayerUpdateInventorySlot ( player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize ); // fromSlot
+                        toSlot.Insert ( fromSlotItem, removalResult.RemoveAmount );
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, fromSlot.Id, fromSlotItem.Id, fromSlot.StackSize ); // fromSlot
                         ServerSend.PlayerUpdateInventorySlot ( player.Id, toSlot.Id, toSlot.PlayerItem.Id, toSlot.StackSize ); // toSlot
                         break;
                     case InsertionResult.Results.OVERFLOW:
-                        fromSlot.Insert ( playerItem, insertionResult.OverflowAmount );
-                        ServerSend.PlayerUpdateInventorySlot ( player.Id, toSlot.Id, playerItem.Id, toSlot.StackSize ); // toSlot
-                        ServerSend.PlayerUpdateInventorySlot ( player.Id, fromSlot.Id, playerItem.Id, fromSlot.StackSize ); // fromSlot
+                        fromSlot.Insert ( fromSlotItem, insertionResult.OverflowAmount );
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, toSlot.Id, fromSlotItem.Id, toSlot.StackSize ); // toSlot
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, fromSlot.Id, fromSlotItem.Id, fromSlot.StackSize ); // fromSlot
                         break;
                     case InsertionResult.Results.INSERTION_FAILED:
                         Debug.Log ( "Insertion failed" );
-                        Debug.Log ( fromSlot.Insert ( playerItem, removalResult.RemoveAmount ) );
-                        ServerSend.PlayerUpdateInventorySlot ( player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize ); // fromSlot
+                        Debug.Log ( fromSlot.Insert ( fromSlotItem, removalResult.RemoveAmount ) );
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, fromSlot.Id, fromSlotItem.Id, fromSlot.StackSize ); // fromSlot
                         return;
                     case InsertionResult.Results.INVALID_TYPE:
                         Debug.Log ( "Invalid type" );
-                        fromSlot.Insert ( playerItem, removalResult.RemoveAmount );
-                        ServerSend.PlayerUpdateInventorySlot ( player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize ); // fromSlot
+                        fromSlot.Insert ( fromSlotItem, removalResult.RemoveAmount );
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, fromSlot.Id, fromSlotItem.Id, fromSlot.StackSize ); // fromSlot
                         return;
                     default:
                         Debug.LogError ( $"Unknown InsertionResult [{insertionResult.Result}]" );
                         break;
                 }
+                CheckWeaponSlotsUpdated ( removalResult.Origin );
+                CheckWeaponSlotsUpdated ( insertionResult.Slot );
             }
             OnValidate ();
         }
@@ -518,7 +518,7 @@ namespace InventorySystem
             OnValidate ();
         }
 
-        private void TransferSight ( Slot fromSlot, Slot toSlot )
+        private void TransferSight ( SightSlot fromSlot, SightSlot toSlot )
         {
             if ( fromSlot == null || toSlot == null )
             {
@@ -527,7 +527,7 @@ namespace InventorySystem
                 return;
             }
 
-            // Check if toSlot is associated with a weapon (Is WeaponSlot empty)
+            // Check if toSlot is associated with a weapon (Is primary WeaponSlot empty)
             if ( toSlot.Id.Contains ( "primary" ) )
             {
                 if ( !m_primaryWeaponSlots.ContainsWeapon () )
@@ -537,6 +537,7 @@ namespace InventorySystem
                     return;
                 }
             }
+            // Check if toSlot is associated with a weapon (Is secondary WeaponSlot empty)
             if ( toSlot.Id.Contains ( "secondary" ) )
             {
                 if ( !m_secondaryWeaponSlots.ContainsWeapon () )
@@ -549,12 +550,18 @@ namespace InventorySystem
 
             // TODO: Check weapon/sight compatibility
 
-            // Ignorant swap
-            if ( !fromSlot.IsEmpty () && !toSlot.IsEmpty () )
+            // Swap slot contents
+            SwapItems ( fromSlot, toSlot );
+
+            if ( fromSlot.Id.Contains ( "primary" ) || toSlot.Id.Contains ( "primary" ) )
             {
-                SwapItems ( fromSlot, toSlot );
-                ServerSend.PlayerUpdateInventorySlot ( player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize ); // fromSlot
-                ServerSend.PlayerUpdateInventorySlot ( player.Id, toSlot.Id, toSlot.PlayerItem.Id, toSlot.StackSize ); // toSlot
+                Debug.Log ( "update primary weapon slot - sight changed" );
+                inventoryManager.OnWeaponSlotsUpdated.Invoke ( m_primaryWeaponSlots );
+            }
+            if ( fromSlot.Id.Contains ( "secondary" ) || toSlot.Id.Contains ( "secondary" ) )
+            {
+                Debug.Log ( "update secondary weapon slot - sight changed" );
+                inventoryManager.OnWeaponSlotsUpdated.Invoke ( m_secondaryWeaponSlots );
             }
         }
 
@@ -612,6 +619,7 @@ namespace InventorySystem
 
                     ServerSend.PlayerUpdateInventorySlot ( player.Id, fromSlot.Id, 1 ); // fromSlot
                     ServerSend.PlayerUpdateInventorySlot ( player.Id, magazineSlot.Id, magazine.Id, 1 ); // magazineSlot
+                    CheckWeaponSlotsUpdated ( magazineSlot );
                 }
                 else // Swap magazines
                 {
@@ -627,14 +635,39 @@ namespace InventorySystem
 
         private void SwapItems ( Slot slotA, Slot slotB )
         {
-            PlayerItem tempItem = slotB.PlayerItem;
-            int tempSize = slotB.StackSize;
-            slotB.Clear ();
-            slotB.Insert ( slotA.PlayerItem, slotA.StackSize );
-            slotA.Clear ();
-            slotA.Insert ( tempItem, tempSize );
-            ServerSend.PlayerUpdateInventorySlot ( player.Id, slotA.Id, slotA.PlayerItem.Id, slotA.StackSize ); // slotA
-            ServerSend.PlayerUpdateInventorySlot ( player.Id, slotB.Id, slotB.PlayerItem.Id, slotB.StackSize ); // slotB
+            // Swaps both PlayerItems
+            if ( !slotA.IsEmpty () && !slotB.IsEmpty () )
+            {
+                PlayerItem tempItem = slotB.PlayerItem;
+                int tempSize = slotB.StackSize;
+                slotB.Clear ();
+                slotB.Insert ( slotA.PlayerItem, slotA.StackSize );
+                slotA.Clear ();
+                slotA.Insert ( tempItem, tempSize );
+                ServerSend.PlayerUpdateInventorySlot ( player.Id, slotA.Id, slotA.PlayerItem.Id, slotA.StackSize ); // slotA
+                ServerSend.PlayerUpdateInventorySlot ( player.Id, slotB.Id, slotB.PlayerItem.Id, slotB.StackSize ); // slotB
+            }
+            // Swaps slotA PlayerItem to empty slotB
+            else if ( !slotA.IsEmpty () && slotB.IsEmpty () )
+            {
+                slotB.Insert ( slotA.PlayerItem, slotA.StackSize );
+                slotA.Clear ();
+                ServerSend.PlayerUpdateInventorySlot ( player.Id, slotA.Id, 0 ); // slotA
+                ServerSend.PlayerUpdateInventorySlot ( player.Id, slotB.Id, slotB.PlayerItem.Id, slotB.StackSize ); // slotB
+            }
+            // Swaps slotB PlayerItem to empty slotA
+            else if ( slotA.IsEmpty () && !slotB.IsEmpty () )
+            {
+                slotA.Insert ( slotB.PlayerItem, slotB.StackSize );
+                slotB.Clear ();
+                ServerSend.PlayerUpdateInventorySlot ( player.Id, slotA.Id, slotA.PlayerItem.Id, slotA.StackSize ); // slotA
+                ServerSend.PlayerUpdateInventorySlot ( player.Id, slotB.Id, 0 ); // slotB
+            }
+            else
+            {
+                // Swapped two empty slots (invalid)
+                Debug.LogError ( "Invalid swap ( slotA and slotB are empty)" );
+            }
         }
 
         private void CancelSwap ( Slot fromSlot, Slot toSlot )
@@ -646,6 +679,26 @@ namespace InventorySystem
             // Magazine slot
             string magazineSlotItemId = toSlot.IsEmpty () ? string.Empty : toSlot.PlayerItem.Id;
             ServerSend.PlayerUpdateInventorySlot ( player.Id, toSlot.Id, magazineSlotItemId, 1 );
+        }
+
+        /// <summary>
+        /// Invokes InventoryManager.OnWeaponSlotsUpdated() with the associated WeaponSlots based on updated slot <paramref name="slot"/>.
+        /// </summary>
+        /// <param name="slot">The slot which was updated.</param>
+        private void CheckWeaponSlotsUpdated ( Slot slot )
+        {
+            if ( slot is WeaponSlot || slot is AttachmentSlot )
+            {
+                Debug.Log ( $"CheckWeaponSlotsUpdated() - slot.Id={slot.Id}" );
+                WeaponSlots weaponSlotsUpdated = slot.Id.Contains ( "primary" ) ? m_primaryWeaponSlots :
+                    ( slot.Id.Contains ( "secondary" ) ? m_secondaryWeaponSlots : null );
+                if ( weaponSlotsUpdated == null )
+                {
+                    Debug.LogError ( "weaponSlotsUpdated == null" );
+                    return;
+                }
+                inventoryManager.OnWeaponSlotsUpdated.Invoke ( weaponSlotsUpdated );
+            }
         }
 
         #endregion

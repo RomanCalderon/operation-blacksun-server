@@ -20,9 +20,9 @@ namespace InventorySystem.PlayerItems
 
         #region Overrides
 
-        public override bool Equals ( object other )
+        public override bool Equals ( object obj )
         {
-            return Id == ( ( PlayerItem ) other ).Id;
+            return obj is PlayerItem instance && Id == instance.Id;
         }
 
         public override int GetHashCode ()
