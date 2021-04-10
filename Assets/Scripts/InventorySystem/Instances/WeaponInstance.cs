@@ -5,6 +5,9 @@ using InventorySystem.PlayerItems;
 
 public class WeaponInstance : PlayerItemInstance
 {
+    private const string PLAYER_LAYER = "Player";
+    private const string IGNORE_RAYCAST_LAYER = "Ignore Raycast";
+
     private Player m_player = null;
 
     public Barrel Barrel { get; private set; } = null;
@@ -164,10 +167,15 @@ public class WeaponInstance : PlayerItemInstance
             float bulletDamage = ( PlayerItem as Weapon ).BaseDamage;
             bool hitPlayer = false, killedPlayer = false;
 
+            // Change layermask to prevent self-hit
+            m_player.gameObject.layer = LayerMask.NameToLayer ( IGNORE_RAYCAST_LAYER );
+
             // Shoot Raycast - LayerMask:Player
             if ( Physics.Raycast ( shootRay, out RaycastHit hit, 1000f, m_playerLayerMask ) )
             {
                 Player player = hit.collider.GetComponent<Player> ();
+
+                // Check if player component is null
                 if ( player != null )
                 {
                     hitPlayer = true;
@@ -175,6 +183,9 @@ public class WeaponInstance : PlayerItemInstance
                     Debug.Log ( $"{m_player.Username} shot {player.Username}" );
                 }
             }
+
+            // Change layermask back to original
+            m_player.gameObject.layer = LayerMask.NameToLayer ( PLAYER_LAYER );
 
             // DEBUG
             //if ( Physics.Raycast ( shootRay, out RaycastHit debugHit, 1000f ) )
