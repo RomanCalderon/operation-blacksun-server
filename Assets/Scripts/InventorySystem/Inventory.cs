@@ -245,7 +245,6 @@ namespace InventorySystem
                     }
                 }
             }
-            Debug.Log ( "SendInitializedInventory()" );
         }
 
         public void TransferContentsAll ( string fromSlotId, string toSlotId )

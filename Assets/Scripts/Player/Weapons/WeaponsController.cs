@@ -57,8 +57,6 @@ public class WeaponsController : MonoBehaviour
     private List<WeaponInstance> m_secondaryWeapons = new List<WeaponInstance> ();
     private WeaponInstance m_secondaryEquipped = null;
 
-    // Shooting
-    private bool m_didShoot = false;
 
     private void OnEnable ()
     {
@@ -80,31 +78,11 @@ public class WeaponsController : MonoBehaviour
 
     #region Shooting
 
-    public void Shoot ( bool shootInput, Vector3 lookDirection )
+    public void Shoot ( Vector3 lookDirection )
     {
-        if ( shootInput == false )
-        {
-            m_didShoot = false;
-            return;
-        }
-
         if ( ActiveWeapon != null )
         {
-            switch ( ( ActiveWeapon.PlayerItem as Weapon ).FireMode )
-            {
-                case Weapon.FireModes.SemiAuto:
-                    if ( !m_didShoot )
-                    {
-                        ActiveWeapon.Shoot ( lookDirection );
-                        m_didShoot = true;
-                    }
-                    break;
-                case Weapon.FireModes.FullAuto:
-                    ActiveWeapon.Shoot ( lookDirection );
-                    break;
-                default:
-                    break;
-            }
+            ActiveWeapon.Shoot ( lookDirection );
         }
     }
 
@@ -128,6 +106,14 @@ public class WeaponsController : MonoBehaviour
         if ( ActiveWeapon != null )
         {
             ActiveWeapon.Reload ();
+        }
+    }
+
+    public void CancelWeaponReload ()
+    {
+        if ( ActiveWeapon != null )
+        {
+            ActiveWeapon.CancelReload ();
         }
     }
 

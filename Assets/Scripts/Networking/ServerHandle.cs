@@ -63,6 +63,14 @@ public class ServerHandle
         ServerSimulation.OnClientInputStateReceived ( Server.clients [ _fromClient ], inputs );
     }
 
+    public static void WeaponShoot ( int _fromClient, Packet _packet )
+    {
+        uint tick = _packet.ReadUInt ();
+        float clientSubFrame = _packet.ReadFloat ();
+
+        LagCompensationHandler.OnClientWeaponShoot ( Server.clients [ _fromClient ], tick, clientSubFrame );
+    }
+
     public static void WeaponSwitch ( int _fromClient, Packet _packet )
     {
         int activeWeaponIndex = _packet.ReadInt ();
@@ -73,6 +81,11 @@ public class ServerHandle
     public static void WeaponReload ( int _fromClient, Packet _packet )
     {
         Server.clients [ _fromClient ].player.WeaponReload ();
+    }
+
+    public static void WeaponCancelReload ( int _fromClient, Packet _packet )
+    {
+        Server.clients [ _fromClient ].player.CancelWeaponReload ();
     }
 
     public static void PlayerTransferSlotContents ( int _fromClient, Packet _packet )

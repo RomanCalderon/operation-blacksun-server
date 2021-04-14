@@ -27,11 +27,11 @@ public class SimulationHelper : MonoBehaviour
         SimulationObjects.ForEach ( simulationObject => simulationObject.AddState ( serverTick ) );
     }
 
-    public static void Simulate ( uint tick, uint frameId, Action action, float clientSubFrame )
+    public static void Simulate ( uint serverTick, uint frameId, Action action, float clientSubFrame )
     {
         for ( int i = 0; i < SimulationObjects.Count; i++ )
         {
-            SimulationObjects [ i ].SetStateTransform ( tick, frameId, clientSubFrame );
+            SimulationObjects [ i ].SetStateTransform ( serverTick, frameId, clientSubFrame );
         }
 
         action?.Invoke ();

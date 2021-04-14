@@ -82,8 +82,8 @@ MonoBehaviour:
   m_playerLayerMask:
     serializedVersion: 2
     m_Bits: 256
-  m_audioMinDistance: 1
-  m_audioMaxDistance: 300
+  m_audioMinDistance: 2
+  m_audioMaxDistance: 400
 --- !u!1 &2125540002954221418
 GameObject:
   m_ObjectHideFlags: 0
@@ -133,8 +133,8 @@ MonoBehaviour:
   m_playerLayerMask:
     serializedVersion: 2
     m_Bits: 256
-  m_audioMinDistance: 1
-  m_audioMaxDistance: 300
+  m_audioMinDistance: 2
+  m_audioMaxDistance: 400
 --- !u!1 &2414371901970800181
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,7 +257,7 @@ MonoBehaviour:
         Name: Attachment Slot (Magazine) - Empty
       StockSlot:
         Name: Attachment Slot (Stock) - Empty
-  m_inventoryPreset: {fileID: 11400000, guid: 358c8604032b6dd488084fb08fb8689e, type: 2}
+  m_inventoryPreset: {fileID: 11400000, guid: 51bc0d62c2679d44197c0f08bc6ab4aa, type: 2}
 --- !u!114 &954063703753984901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -367,8 +367,8 @@ MonoBehaviour:
   m_playerLayerMask:
     serializedVersion: 2
     m_Bits: 256
-  m_audioMinDistance: 1
-  m_audioMaxDistance: 300
+  m_audioMinDistance: 2
+  m_audioMaxDistance: 400
 --- !u!1 &3933012078636783253
 GameObject:
   m_ObjectHideFlags: 0
@@ -529,8 +529,8 @@ MonoBehaviour:
   m_playerLayerMask:
     serializedVersion: 2
     m_Bits: 256
-  m_audioMinDistance: 1
-  m_audioMaxDistance: 300
+  m_audioMinDistance: 2
+  m_audioMaxDistance: 400
 --- !u!1 &7861488077618023955
 GameObject:
   m_ObjectHideFlags: 0
@@ -613,8 +613,8 @@ MonoBehaviour:
   m_playerLayerMask:
     serializedVersion: 2
     m_Bits: 256
-  m_audioMinDistance: 1
-  m_audioMaxDistance: 300
+  m_audioMinDistance: 2
+  m_audioMaxDistance: 400
 --- !u!1 &8615622848412493211
 GameObject:
   m_ObjectHideFlags: 0
@@ -664,5 +664,5 @@ MonoBehaviour:
   m_playerLayerMask:
     serializedVersion: 2
     m_Bits: 256
-  m_audioMinDistance: 1
-  m_audioMaxDistance: 300
+  m_audioMinDistance: 2
+  m_audioMaxDistance: 400

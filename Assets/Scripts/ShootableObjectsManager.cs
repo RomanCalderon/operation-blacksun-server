@@ -87,6 +87,10 @@ public class ShootableObjectsManager : MonoBehaviour
                 ServerSend.SpawnHitObject ( ( int ) HitObjects.Mud, hit.point, hit.normal );
                 break;
 
+            case "Player":
+                ServerSend.SpawnHitObject ( ( int ) HitObjects.Skin, hit.point, hit.normal );
+                break;
+
             case "Plywood":
                 ServerSend.SpawnHitObject ( ( int ) HitObjects.Plywood, hit.point, hit.normal );
                 break;

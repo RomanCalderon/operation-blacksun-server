@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
@@ -19,7 +19,7 @@ public class ServerSimulation : MonoBehaviour
     #region Members
 
     // Server tick
-    public static uint Tick { get; private set; } = 0;
+    public static uint ServerTick { get; private set; } = 0;
 
     // Player-ClientInputState input processing register
     private static Dictionary<Player, Queue<ClientInputState>> m_clientInputs = new Dictionary<Player, Queue<ClientInputState>> ();
@@ -47,7 +47,7 @@ public class ServerSimulation : MonoBehaviour
         ApplyServerState ();
 
         // Increment server tick
-        Tick++;
+        ServerTick++;
     }
 
     #region Simulation Sub-processes
@@ -66,7 +66,7 @@ public class ServerSimulation : MonoBehaviour
             }
 
             // Resimlutes any 'past' actions - lag compensation
-            RollbackSimulation ( player, inputArray );
+            LagCompensationHandler.Resimulate ( ServerTick, player.Id, inputArray );
 
             // Used for indexing input state array
             int index = 0;
@@ -79,18 +79,6 @@ public class ServerSimulation : MonoBehaviour
                 player.LookOriginController.ProcessInput ( inputArray [ index ] );
                 index++;
             }
-        }
-    }
-
-    private void RollbackSimulation ( Player player, ClientInputState [] inputArray )
-    {
-        for ( int i = 0; i < inputArray.Length; i++ )
-        {
-            uint inputTick = inputArray [ i ].ServerTick;
-            bool shootInput = inputArray [ i ].Shoot;
-            Vector3 lookDirection = inputArray [ i ].LookDirection;
-            void action () => player.Shoot ( shootInput, lookDirection );
-            SimulationHelper.Simulate ( Tick, inputTick, action, 0f );
         }
     }
 
@@ -120,7 +108,7 @@ public class ServerSimulation : MonoBehaviour
                     Rotation = player.Rigidbody.rotation,
                     Velocity = player.MovementController.Velocity,
                     SimulationFrame = inputState.SimulationFrame,
-                    ServerTick = Tick,
+                    ServerTick = ServerTick,
                     DeltaTime = Time.deltaTime
                 };
 
@@ -132,13 +120,14 @@ public class ServerSimulation : MonoBehaviour
             }
         }
         // Cache server state
-        SimulationHelper.AddState ( Tick );
+        SimulationHelper.AddState ( ServerTick );
     }
 
     #endregion
 
     #region Client Events
 
+    // Movement inputs
     public static void OnClientInputStateReceived ( Client client, byte [] inputs )
     {
         if ( client == null || client.player == null )

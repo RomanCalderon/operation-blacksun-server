@@ -133,8 +133,10 @@ public class Server
             { (int)ClientPackets.spawnPlayer, ServerHandle.SpawnPlayer },
             { (int)ClientPackets.playerReady, ServerHandle.PlayerReady },
             { (int)ClientPackets.playerInput, ServerHandle.PlayerInput },
+            { (int)ClientPackets.weaponShoot, ServerHandle.WeaponShoot },
             { (int)ClientPackets.weaponSwitch, ServerHandle.WeaponSwitch },
             { (int)ClientPackets.weaponReload, ServerHandle.WeaponReload },
+            { (int)ClientPackets.weaponCancelReload, ServerHandle.WeaponCancelReload },
             { (int)ClientPackets.playerTransferSlotContents, ServerHandle.PlayerTransferSlotContents },
             { (int)ClientPackets.playerInventoryReduceItem, ServerHandle.PlayerInventoryReduceItem }
         };

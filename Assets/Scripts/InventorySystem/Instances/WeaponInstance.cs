@@ -5,6 +5,7 @@ using InventorySystem.PlayerItems;
 
 public class WeaponInstance : PlayerItemInstance
 {
+    private const string PLAYER_TAG = "Player";
     private const string PLAYER_LAYER = "Player";
     private const string IGNORE_RAYCAST_LAYER = "Ignore Raycast";
 
@@ -26,14 +27,13 @@ public class WeaponInstance : PlayerItemInstance
     private bool m_isFullReload = false;
     private Coroutine m_reloadCoroutine = null;
 
-    private float m_fireCooldown = 0f;
-
     [Header ( "Raycast Mask" ), SerializeField]
     private LayerMask m_playerLayerMask;
+    private int m_ignoreRaycastLayer, m_playerLayer;
 
     [Header ( "Audio" )]
     [SerializeField]
-    private float m_audioMinDistance = 1f, m_audioMaxDistance = 300f;
+    private float m_audioMinDistance = 8f, m_audioMaxDistance = 400f;
     private string m_shootStandardAudioClipName;
     private string m_shootSuppressedAudioClipName;
 
@@ -41,6 +41,9 @@ public class WeaponInstance : PlayerItemInstance
     public void Initialize ( Player player )
     {
         m_player = player;
+
+        m_ignoreRaycastLayer = LayerMask.NameToLayer ( IGNORE_RAYCAST_LAYER );
+        m_playerLayer = LayerMask.NameToLayer ( PLAYER_LAYER );
 
         m_shootStandardAudioClipName = GameAssets.Instance.GetAudioClip ( "gunshot-" + PlayerItem.Id + "-standard" );
         m_shootSuppressedAudioClipName = GameAssets.Instance.GetAudioClip ( "gunshot-" + PlayerItem.Id + "-suppressed" );
@@ -55,19 +58,6 @@ public class WeaponInstance : PlayerItemInstance
     {
         // Cancel reload if this gun gets disabled
         CancelReload ();
-    }
-
-    // Update is called once per frame
-    void Update ()
-    {
-        if ( m_fireCooldown > 0f )
-        {
-            m_fireCooldown -= Time.deltaTime;
-        }
-        else
-        {
-            m_fireCooldown = 0f;
-        }
     }
 
     #region Attachment Equipping/Unequipping
@@ -147,17 +137,10 @@ public class WeaponInstance : PlayerItemInstance
         {
             return;
         }
-        if ( m_fireCooldown > 0f )
-        {
-            return;
-        }
 
         // Shoot the weapon if it has ammo
         if ( BulletCount > 0 )
         {
-            // Reset fireCooldown
-            m_fireCooldown = ( PlayerItem as Weapon ).FireRate;
-
             // Subtract one bullet from the magazine
             BulletCount--;
 
@@ -167,32 +150,38 @@ public class WeaponInstance : PlayerItemInstance
             float bulletDamage = ( PlayerItem as Weapon ).BaseDamage;
             bool hitPlayer = false, killedPlayer = false;
 
-            // Change layermask to prevent self-hit
-            m_player.gameObject.layer = LayerMask.NameToLayer ( IGNORE_RAYCAST_LAYER );
+            // Change player layer to Ignore 
+            m_player.gameObject.layer = m_ignoreRaycastLayer;
 
-            // Shoot Raycast - LayerMask:Player
-            if ( Physics.Raycast ( shootRay, out RaycastHit hit, 1000f, m_playerLayerMask ) )
+            // Shoot Raycast
+            if ( Physics.Raycast ( shootRay, out RaycastHit hit, 1000f ) )
             {
-                Player player = hit.collider.GetComponent<Player> ();
-
-                // Check if player component is null
-                if ( player != null )
+                if ( hit.collider.CompareTag ( PLAYER_TAG ) )
                 {
-                    hitPlayer = true;
-                    player.TakeDamage ( bulletDamage, out killedPlayer );
-                    Debug.Log ( $"{m_player.Username} shot {player.Username}" );
+                    Player player = hit.collider.GetComponent<Player> ();
+
+                    // Check if player component is null
+                    if ( player != null )
+                    {
+                        hitPlayer = true;
+                        player.TakeDamage ( bulletDamage, out killedPlayer );
+
+                        if ( killedPlayer )
+                        {
+                            Debug.Log ( $"{m_player.Username} [{PlayerItem.Id}] {player.Username}" );
+                        }
+                    }
                 }
+
+                // Projectile hit
+                ShootableObjectsManager.Instance.ProjectileHit ( hit, bulletDamage );
             }
 
-            // Change layermask back to original
-            m_player.gameObject.layer = LayerMask.NameToLayer ( PLAYER_LAYER );
+            //float dist = Vector3.Distance ( shootRay.origin, hit.point );
+            //Debug.DrawRay ( shootOrigin, lookDirection * dist, Color.blue, 1f );
 
-            // DEBUG
-            //if ( Physics.Raycast ( shootRay, out RaycastHit debugHit, 1000f ) )
-            //{
-            //    float dist = Vector3.Distance ( shootRay.origin, debugHit.point );
-            //    Debug.DrawRay ( shootOrigin, lookDirection * dist, Color.blue, 1f );
-            //}
+            // Change layermask back to original
+            m_player.gameObject.layer = m_playerLayer;
 
             // Shoot SFX
             ServerSend.PlayAudioClip ( m_player.Id, m_shootStandardAudioClipName, 1f, transform.position, m_audioMinDistance, m_audioMaxDistance );
@@ -276,11 +265,8 @@ public class WeaponInstance : PlayerItemInstance
         m_isFullReload = false;
     }
 
-    private void CancelReload ()
+    public void CancelReload ()
     {
-        // Stop the reload animation
-        //WeaponsController.OnSetTrigger?.Invoke ( "CancelReload" );
-
         // Stop the reload coroutine
         if ( m_reloadCoroutine != null )
         {
