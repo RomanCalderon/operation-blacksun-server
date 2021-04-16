@@ -257,7 +257,7 @@ MonoBehaviour:
         Name: Attachment Slot (Magazine) - Empty
       StockSlot:
         Name: Attachment Slot (Stock) - Empty
-  m_inventoryPreset: {fileID: 11400000, guid: 358c8604032b6dd488084fb08fb8689e, type: 2}
+  m_inventoryPreset: {fileID: 11400000, guid: 4b35af7fcc28bd341a448c70a278f312, type: 2}
 --- !u!114 &954063703753984901
 MonoBehaviour:
   m_ObjectHideFlags: 0
