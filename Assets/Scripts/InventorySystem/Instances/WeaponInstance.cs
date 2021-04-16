@@ -16,7 +16,9 @@ public class WeaponInstance : PlayerItemInstance
     public Sight Sight { get; private set; } = null;
     public Stock Stock { get; private set; } = null;
 
+    // Ammo
     public int BulletCount { get; private set; } = 0;
+    private string m_ammoId;
 
     [Header ( "Reloading" )]
     [SerializeField]
@@ -41,6 +43,8 @@ public class WeaponInstance : PlayerItemInstance
     public void Initialize ( Player player )
     {
         m_player = player;
+
+        m_ammoId = m_player.InventoryManager.PlayerItemDatabase.GetAmmoByCaliber ( ( PlayerItem as Weapon ).Caliber );
 
         m_ignoreRaycastLayer = LayerMask.NameToLayer ( IGNORE_RAYCAST_LAYER );
         m_playerLayer = LayerMask.NameToLayer ( PLAYER_LAYER );
@@ -217,8 +221,8 @@ public class WeaponInstance : PlayerItemInstance
         {
             return;
         }
-        string ammoId = m_player.InventoryManager.PlayerItemDatabase.GetAmmoByCaliber ( ( PlayerItem as Weapon ).Caliber );
-        int inventoryAmmoCount = m_player.InventoryManager.GetItemCount ( ammoId );
+
+        int inventoryAmmoCount = m_player.InventoryManager.GetItemCount ( m_ammoId );
         if ( inventoryAmmoCount == 0 ) // Out of compatible ammo in inventory
         {
             return;
@@ -232,33 +236,34 @@ public class WeaponInstance : PlayerItemInstance
 
         if ( m_isFullReload )
         {
-            m_reloadCoroutine = StartCoroutine ( ReloadCoroutine ( m_fullReloadTime ) );
+            m_reloadCoroutine = StartCoroutine ( ReloadCoroutine ( m_fullReloadTime, inventoryAmmoCount ) );
         }
         else
         {
-            m_reloadCoroutine = StartCoroutine ( ReloadCoroutine ( m_partialReloadTime ) );
+            m_reloadCoroutine = StartCoroutine ( ReloadCoroutine ( m_partialReloadTime, inventoryAmmoCount ) );
         }
     }
 
-    private IEnumerator ReloadCoroutine ( float reloadTime )
+    private IEnumerator ReloadCoroutine ( float reloadTime, int inventoryAmmoCount )
     {
         yield return new WaitForSeconds ( reloadTime );
 
-        FinishReload ();
+        FinishReload ( inventoryAmmoCount );
     }
 
-    private void FinishReload ()
+    private void FinishReload ( int inventoryAmmoCount )
     {
         if ( !m_isReloading )
         {
             return;
         }
 
-        string ammoId = m_player.InventoryManager.PlayerItemDatabase.GetAmmoByCaliber ( ( PlayerItem as Weapon ).Caliber );
-        int inventoryAmmoCount = m_player.InventoryManager.GetItemCount ( ammoId );
         int shotsFired = Magazine.AmmoCapacity - BulletCount;
         int refillAmount = Mathf.Min ( shotsFired, inventoryAmmoCount );
         BulletCount += refillAmount;
+
+        // Reduce ammo from inventory
+        m_player.InventoryManager.ReduceItem ( m_ammoId, refillAmount );
 
         // Reset reload flags
         m_isReloading = false;

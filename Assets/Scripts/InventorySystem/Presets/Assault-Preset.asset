@@ -22,8 +22,6 @@ MonoBehaviour:
   BackpackItems:
   - PlayerItem: {fileID: 11400000, guid: 879dfc462633c8d47aaa88faaf4e47f5, type: 2}
     Quantity: 256
-  - PlayerItem: {fileID: 11400000, guid: 879dfc462633c8d47aaa88faaf4e47f5, type: 2}
-    Quantity: 256
   - PlayerItem: {fileID: 11400000, guid: 74dfd6db20ba2e0489b00e96408e9592, type: 2}
     Quantity: 256
   PrimaryWeapon:
