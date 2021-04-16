@@ -33,6 +33,6 @@ MonoBehaviour:
   SecondaryWeapon:
     Weapon: {fileID: 11400000, guid: 4c574b0b4a581d44a9449e88ddc9ecc7, type: 2}
     Barrel: {fileID: 0}
-    Sight: {fileID: 0}
+    Sight: {fileID: 11400000, guid: d24e30af99c8fe74f9be73469c934a27, type: 2}
     Magazine: {fileID: 11400000, guid: 08ae076a907243d409e5aca62c7a8d25, type: 2}
     Stock: {fileID: 0}
