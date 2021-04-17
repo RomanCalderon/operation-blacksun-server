@@ -172,12 +172,17 @@ public class PlayerMovementController : MonoBehaviour
         // Updates collider height and position when crouching
         UpdateCrouchPosition ( crouching, Time.deltaTime );
 
+<<<<<<< master
         // Prevents rigidbody from sticking to walls
         FinalCollisionCheck ();
 
         // Update player rotation
         m_rigidbody.MoveRotation ( state.Rotation );
     }
+=======
+            // Movement velocity boost
+        float movementSpeed = WALK_SPEED * ( crouching ? CROUCH_SPEED_MULTIPLIER : running && moveForward ? RUN_SPEED_MULTIPLIER : 1f );
+>>>>>>> local
 
     private bool SlideControl ( Vector3 velocity, bool crouchInput )
     {
