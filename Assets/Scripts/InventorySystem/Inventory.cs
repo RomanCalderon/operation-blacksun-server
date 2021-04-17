@@ -306,11 +306,19 @@ namespace InventorySystem
                         ServerSend.PlayerUpdateInventorySlot ( player.Id, fromSlot.Id, 0 ); // fromSlot
                         break;
                     case InsertionResult.Results.SLOT_FULL: // Swap
-                        fromSlot.Insert ( toSlot.PlayerItem, toSlot.StackSize );
-                        toSlot.Clear ();
-                        toSlot.Insert ( fromSlotItem, removalResult.RemoveAmount );
-                        ServerSend.PlayerUpdateInventorySlot ( player.Id, fromSlot.Id, fromSlotItem.Id, fromSlot.StackSize ); // fromSlot
-                        ServerSend.PlayerUpdateInventorySlot ( player.Id, toSlot.Id, toSlot.PlayerItem.Id, toSlot.StackSize ); // toSlot
+                        if ( fromSlot is BarrelSlot || fromSlot is SightSlot || fromSlot is MagazineSlot || fromSlot is StockSlot )
+                        {
+                            fromSlot.Insert ( removalResult.Contents );
+                            TransferContentsAll ( toSlot.Id, fromSlot.Id );
+                        }
+                        else
+                        {
+                            fromSlot.Insert ( toSlot.PlayerItem, toSlot.StackSize );
+                            toSlot.Clear ();
+                            toSlot.Insert ( fromSlotItem, removalResult.RemoveAmount );
+                            ServerSend.PlayerUpdateInventorySlot ( player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize ); // fromSlot
+                            ServerSend.PlayerUpdateInventorySlot ( player.Id, toSlot.Id, toSlot.PlayerItem.Id, toSlot.StackSize ); // toSlot
+                        }
                         break;
                     case InsertionResult.Results.OVERFLOW:
                         fromSlot.Insert ( fromSlotItem, insertionResult.OverflowAmount );
@@ -325,6 +333,10 @@ namespace InventorySystem
                     case InsertionResult.Results.INVALID_TYPE:
                         Debug.Log ( "Invalid type" );
                         fromSlot.Insert ( fromSlotItem, removalResult.RemoveAmount );
+                        if ( !toSlot.IsEmpty() )
+                        {
+                            ServerSend.PlayerUpdateInventorySlot ( player.Id, toSlot.Id, toSlot.PlayerItem.Id, toSlot.StackSize ); // toSlot
+                        }
                         ServerSend.PlayerUpdateInventorySlot ( player.Id, fromSlot.Id, fromSlotItem.Id, fromSlot.StackSize ); // fromSlot
                         return;
                     default:
@@ -688,7 +700,6 @@ namespace InventorySystem
         {
             if ( slot is WeaponSlot || slot is AttachmentSlot )
             {
-                Debug.Log ( $"CheckWeaponSlotsUpdated() - slot.Id={slot.Id}" );
                 WeaponSlots weaponSlotsUpdated = slot.Id.Contains ( "primary" ) ? m_primaryWeaponSlots :
                     ( slot.Id.Contains ( "secondary" ) ? m_secondaryWeaponSlots : null );
                 if ( weaponSlotsUpdated == null )
