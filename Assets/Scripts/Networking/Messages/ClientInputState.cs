@@ -14,8 +14,9 @@ public class ClientInputState : Message
     public bool Jump;
     public bool Run;
     public bool Crouch;
-    // Debug
+    // Weapons
     public bool Shoot;
+    public bool Aiming;
     [SerializeField]
     public Vector3 LookDirection;
 

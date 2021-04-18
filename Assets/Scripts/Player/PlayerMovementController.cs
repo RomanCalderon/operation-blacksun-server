@@ -120,13 +120,15 @@ public class PlayerMovementController : MonoBehaviour
         bool jumping = state.Jump;
         bool running = state.Run;
         bool crouching = state.Crouch;
+        bool aiming = state.Aiming;
+        bool shooting = state.Shoot;
 
         // Convert movement input to linear values
         float inputX = moveRight ? 1 : moveLeft ? -1 : 0;
         float inputZ = moveForward ? 1 : moveBackward ? -1 : 0;
 
         // Calculate movement speed
-        float movementSpeed = WALK_SPEED * ( crouching ? CROUCH_SPEED_MULTIPLIER : running && moveForward ? RUN_SPEED_MULTIPLIER : 1f );
+        float movementSpeed = WALK_SPEED * ( crouching ? CROUCH_SPEED_MULTIPLIER : running && moveForward && !aiming && !shooting ? RUN_SPEED_MULTIPLIER : 1f );
 
         // Set target velocity
         Vector3 targetVelocity = ( transform.right * inputX + transform.forward * inputZ ).normalized * movementSpeed;
