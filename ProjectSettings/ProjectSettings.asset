@@ -659,10 +659,10 @@ PlayerSettings:
     m_VersionCode: 1
     m_VersionName: 
   apiCompatibilityLevel: 6
-  cloudProjectId: 
+  cloudProjectId: f9f96479-9f93-4fde-bdb8-39d1ccb09fa8
   framebufferDepthMemorylessMode: 0
-  projectName: 
-  organizationId: 
+  projectName: operation-blacksun-server
+  organizationId: silver-dog-games
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0
