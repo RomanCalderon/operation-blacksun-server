@@ -185,6 +185,11 @@ public class ServerSend
         }
     }
 
+    public static void PlayerUpdateInventorySlot ( int _playerId, string _slotId )
+    {
+        PlayerUpdateInventorySlot ( _playerId, _slotId, 0 );
+    }
+
     public static void PlayerUpdateInventorySlot ( int _playerId, string _slotId, int _quantity )
     {
         PlayerUpdateInventorySlot ( _playerId, _slotId, string.Empty, _quantity );

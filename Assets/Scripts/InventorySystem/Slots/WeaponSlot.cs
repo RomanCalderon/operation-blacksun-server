@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using InventorySystem.PlayerItems;
 using InventorySystem.Slots.Results;
-using UnityEngine;
 
 namespace InventorySystem.Slots
 {
@@ -21,6 +20,7 @@ namespace InventorySystem.Slots
         {
             Id = id;
             PlayerItem = weapon;
+            StackSize = 1;
         }
 
         #endregion
@@ -52,11 +52,7 @@ namespace InventorySystem.Slots
 
         protected override bool IsValidPlayerItem ( PlayerItem playerItem )
         {
-            if ( playerItem == null )
-            {
-                return false;
-            }
-            return playerItem is Weapon;
+            return playerItem != null && playerItem is Weapon;
         }
 
         public override string ToString ()

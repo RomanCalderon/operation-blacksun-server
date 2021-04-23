@@ -54,7 +54,7 @@ public class Player : MonoBehaviour
     /// <summary>
     /// Used when the player first spawns.
     /// </summary>
-    public void SendInitializedInventory ()
+    public void InitializeInventory ()
     {
         InventoryManager.InitializeInventory ();
     }

@@ -12,6 +12,8 @@ namespace InventorySystem
     [Serializable]
     public class Inventory
     {
+        #region Members
+
         private readonly Player player;
         private readonly InventoryManager inventoryManager;
 
@@ -28,6 +30,7 @@ namespace InventorySystem
         [SerializeField]
         private WeaponSlots m_secondaryWeaponSlots;
 
+        #endregion
 
         #region Constructors/Destructor
 
@@ -61,7 +64,7 @@ namespace InventorySystem
         {
             if ( manager == null || player == null || preset == null )
             {
-                return;
+                throw new NullReferenceException ( $"manager, player or preset is null." );
             }
             this.player = player;
             inventoryManager = manager;
@@ -292,18 +295,17 @@ namespace InventorySystem
                 RemovalResult removalResult = fromSlot.RemoveAll ();
                 if ( removalResult.Result != RemovalResult.Results.SUCCESS )
                 {
-                    Debug.LogError ( $"RemoveAll() error - RemovalResult [{removalResult.Result}]" );
+                    Debug.LogError ( $"fromSlot.RemoveAll() error - RemovalResult [{removalResult.Result}]" );
                     return;
                 }
 
                 // Insertion
-                int transferQuantity = removalResult.RemoveAmount;
-                InsertionResult insertionResult = toSlot.Insert ( fromSlotItem, transferQuantity );
+                InsertionResult insertionResult = toSlot.Insert ( fromSlotItem, removalResult.RemoveAmount );
                 switch ( insertionResult.Result )
                 {
                     case InsertionResult.Results.SUCCESS:
                         ServerSend.PlayerUpdateInventorySlot ( player.Id, toSlot.Id, fromSlotItem.Id, toSlot.StackSize ); // toSlot
-                        ServerSend.PlayerUpdateInventorySlot ( player.Id, fromSlot.Id, 0 ); // fromSlot
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, fromSlot.Id ); // fromSlot
                         break;
                     case InsertionResult.Results.SLOT_FULL: // Swap
                         if ( fromSlot is BarrelSlot || fromSlot is SightSlot || fromSlot is MagazineSlot || fromSlot is StockSlot )
@@ -316,8 +318,8 @@ namespace InventorySystem
                             fromSlot.Insert ( toSlot.PlayerItem, toSlot.StackSize );
                             toSlot.Clear ();
                             toSlot.Insert ( fromSlotItem, removalResult.RemoveAmount );
-                            ServerSend.PlayerUpdateInventorySlot ( player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize ); // fromSlot
                             ServerSend.PlayerUpdateInventorySlot ( player.Id, toSlot.Id, toSlot.PlayerItem.Id, toSlot.StackSize ); // toSlot
+                            ServerSend.PlayerUpdateInventorySlot ( player.Id, fromSlot.Id, fromSlot.PlayerItem.Id, fromSlot.StackSize ); // fromSlot
                         }
                         break;
                     case InsertionResult.Results.OVERFLOW:
@@ -326,17 +328,16 @@ namespace InventorySystem
                         ServerSend.PlayerUpdateInventorySlot ( player.Id, fromSlot.Id, fromSlotItem.Id, fromSlot.StackSize ); // fromSlot
                         break;
                     case InsertionResult.Results.INSERTION_FAILED:
-                        Debug.Log ( "Insertion failed" );
                         Debug.Log ( fromSlot.Insert ( fromSlotItem, removalResult.RemoveAmount ) );
                         ServerSend.PlayerUpdateInventorySlot ( player.Id, fromSlot.Id, fromSlotItem.Id, fromSlot.StackSize ); // fromSlot
                         return;
                     case InsertionResult.Results.INVALID_TYPE:
-                        Debug.Log ( "Invalid type" );
                         fromSlot.Insert ( fromSlotItem, removalResult.RemoveAmount );
-                        if ( !toSlot.IsEmpty() )
-                        {
+                        if ( toSlot.IsEmpty () )
+                            ServerSend.PlayerUpdateInventorySlot ( player.Id, toSlot.Id ); // toSlot
+                        else
                             ServerSend.PlayerUpdateInventorySlot ( player.Id, toSlot.Id, toSlot.PlayerItem.Id, toSlot.StackSize ); // toSlot
-                        }
+
                         ServerSend.PlayerUpdateInventorySlot ( player.Id, fromSlot.Id, fromSlotItem.Id, fromSlot.StackSize ); // fromSlot
                         return;
                     default:
@@ -450,8 +451,7 @@ namespace InventorySystem
                         return;
                 }
 
-                int transferQuantity = removalResult.RemoveAmount;
-                InsertionResult insertionResult = toSlot.Insert ( playerItem, transferQuantity ); // Insertion
+                InsertionResult insertionResult = toSlot.Insert ( playerItem, removalResult.RemoveAmount ); // Insertion
                 switch ( insertionResult.Result )
                 {
                     case InsertionResult.Results.SUCCESS:
@@ -996,6 +996,8 @@ namespace InventorySystem
 
         #endregion
 
+        #region Util
+
         /// <summary>
         /// Updates the inspector when a change to the inventory is made.
         /// </summary>
@@ -1069,5 +1071,7 @@ namespace InventorySystem
                 }
             }
         }
+
+        #endregion
     }
 }

@@ -50,7 +50,7 @@ public class ServerHandle
         {
             if ( Server.clients [ _fromClient ].player != null )
             {
-                Server.clients [ _fromClient ].player.SendInitializedInventory ();
+                Server.clients [ _fromClient ].player.InitializeInventory ();
             }
         }
     }
