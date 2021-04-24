@@ -54,7 +54,9 @@ public class ServerSimulation : MonoBehaviour
 
     private void ProcessClientInput ()
     {
-        foreach ( KeyValuePair<Player, Queue<ClientInputState>> client in m_clientInputs )
+        IEnumerable<KeyValuePair<Player, Queue<ClientInputState>>> clientInputStates = m_clientInputs;
+
+        foreach ( KeyValuePair<Player, Queue<ClientInputState>> client in clientInputStates )
         {
             Player player = client.Key;
             ClientInputState [] inputArray = client.Value.ToArray ();
@@ -84,7 +86,9 @@ public class ServerSimulation : MonoBehaviour
 
     private void ApplyServerState ()
     {
-        foreach ( KeyValuePair<Player, Queue<ClientInputState>> client in m_clientInputs )
+        IEnumerable<KeyValuePair<Player, Queue<ClientInputState>>> clientInputStates = m_clientInputs;
+
+        foreach ( KeyValuePair<Player, Queue<ClientInputState>> client in clientInputStates )
         {
             Player player = client.Key;
             Queue<ClientInputState> inputQueue = client.Value;
