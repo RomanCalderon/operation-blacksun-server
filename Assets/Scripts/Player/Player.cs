@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
+﻿using System.Collections;
 using UnityEngine;
-using InventorySystem;
 
 [RequireComponent ( typeof ( PlayerMovementController ) )]
 [RequireComponent ( typeof ( Rigidbody ) )]
@@ -71,11 +67,21 @@ public class Player : MonoBehaviour
 
     public void WeaponSwitch ( int activeWeaponIndex )
     {
+        if ( IsDead )
+        {
+            return;
+        }
+
         WeaponsController.ActivateWeapon ( activeWeaponIndex );
     }
 
     public void WeaponReload ()
     {
+        if ( IsDead )
+        {
+            return;
+        }
+
         WeaponsController.ReloadWeapon ();
     }
 
@@ -86,6 +92,11 @@ public class Player : MonoBehaviour
 
     public void Shoot ( Vector3 lookDirection )
     {
+        if ( IsDead )
+        {
+            return;
+        }
+
         WeaponsController.Shoot ( lookDirection );
     }
 
