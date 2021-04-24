@@ -138,7 +138,8 @@ public class Server
             { (int)ClientPackets.weaponReload, ServerHandle.WeaponReload },
             { (int)ClientPackets.weaponCancelReload, ServerHandle.WeaponCancelReload },
             { (int)ClientPackets.playerTransferSlotContents, ServerHandle.PlayerTransferSlotContents },
-            { (int)ClientPackets.playerInventoryReduceItem, ServerHandle.PlayerInventoryReduceItem }
+            { (int)ClientPackets.playerInventoryReduceItem, ServerHandle.PlayerInventoryReduceItem },
+            { (int)ClientPackets.playerKillSelf, ServerHandle.PlayerKillSelf }
         };
         Debug.Log ( "Initialized packets." );
     }

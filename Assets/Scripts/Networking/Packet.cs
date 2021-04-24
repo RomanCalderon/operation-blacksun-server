@@ -37,7 +37,8 @@ public enum ClientPackets
     weaponReload,
     weaponCancelReload,
     playerTransferSlotContents,
-    playerInventoryReduceItem
+    playerInventoryReduceItem,
+    playerKillSelf
 }
 
 public class Packet : IDisposable

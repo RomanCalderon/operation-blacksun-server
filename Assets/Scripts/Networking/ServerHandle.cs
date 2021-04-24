@@ -117,4 +117,21 @@ public class ServerHandle
 
         Server.clients [ _fromClient ].player.InventoryManager.ReduceItem ( playerItemId, reductionAmount );
     }
+
+    public static void PlayerKillSelf ( int _fromClient, Packet _packet )
+    {
+        int _clientIdCheck = _packet.ReadInt ();
+
+        if ( _fromClient != _clientIdCheck )
+        {
+            Debug.Log ( $"Player [{_fromClient}] has assumed the wrong client ID ({_clientIdCheck})!" );
+        }
+        else
+        {
+            if ( Server.clients [ _fromClient ].player != null )
+            {
+                Server.clients [ _fromClient ].player.TakeDamage ( 9999, out bool _ );
+            }
+        }
+    }
 }
