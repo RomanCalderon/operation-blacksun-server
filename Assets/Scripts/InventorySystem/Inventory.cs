@@ -131,121 +131,149 @@ namespace InventorySystem
             // Rig slots
             for ( int i = 0; i < m_rigSlots.Length; i++ )
             {
+                string slotId = m_rigSlots [ i ].Id;
                 if ( !m_rigSlots [ i ].IsEmpty () )
                 {
-                    string slotId = m_rigSlots [ i ].Id;
                     string playerItemId = m_rigSlots [ i ].PlayerItem.Id;
                     int quantity = m_rigSlots [ i ].StackSize;
                     ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId, playerItemId, quantity );
+                }
+                else
+                {
+                    ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId );
                 }
             }
             // Backpack slots
             for ( int i = 0; i < m_backpackSlots.Length; i++ )
             {
+                string slotId = m_backpackSlots [ i ].Id;
                 if ( !m_backpackSlots [ i ].IsEmpty () )
                 {
-                    string slotId = m_backpackSlots [ i ].Id;
                     string playerItemId = m_backpackSlots [ i ].PlayerItem.Id;
                     int quantity = m_backpackSlots [ i ].StackSize;
                     ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId, playerItemId, quantity );
+                }
+                else
+                {
+                    ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId );
                 }
             }
             // Primary weapon slots
             if ( m_primaryWeaponSlots != null )
             {
-                if ( m_primaryWeaponSlots.WeaponSlot != null )
+                if ( !m_primaryWeaponSlots.WeaponSlot.IsEmpty () )
                 {
-                    if ( m_primaryWeaponSlots.WeaponSlot.PlayerItem != null )
-                    {
-                        string slotId = m_primaryWeaponSlots.WeaponSlot.Id;
-                        string playerItemId = m_primaryWeaponSlots.WeaponSlot.PlayerItem.Id;
-                        ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId, playerItemId, 1 );
-                    }
+                    string slotId = m_primaryWeaponSlots.WeaponSlot.Id;
+                    string playerItemId = m_primaryWeaponSlots.WeaponSlot.PlayerItem.Id;
+                    ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId, playerItemId, 1 );
                 }
-                if ( m_primaryWeaponSlots.BarrelSlot != null )
+                else
                 {
-                    if ( m_primaryWeaponSlots.BarrelSlot.PlayerItem != null )
-                    {
-                        string slotId = m_primaryWeaponSlots.BarrelSlot.Id;
-                        string playerItemId = m_primaryWeaponSlots.BarrelSlot.PlayerItem.Id;
-                        ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId, playerItemId, 1 );
-                    }
+                    string slotId = m_primaryWeaponSlots.WeaponSlot.Id;
+                    ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId );
                 }
-                if ( m_primaryWeaponSlots.SightSlot != null )
+                if ( !m_primaryWeaponSlots.BarrelSlot.IsEmpty () )
                 {
-                    if ( m_primaryWeaponSlots.SightSlot.PlayerItem != null )
-                    {
-                        string slotId = m_primaryWeaponSlots.SightSlot.Id;
-                        string playerItemId = m_primaryWeaponSlots.SightSlot.PlayerItem.Id;
-                        ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId, playerItemId, 1 );
-                    }
+                    string slotId = m_primaryWeaponSlots.BarrelSlot.Id;
+                    string playerItemId = m_primaryWeaponSlots.BarrelSlot.PlayerItem.Id;
+                    ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId, playerItemId, 1 );
                 }
-                if ( m_primaryWeaponSlots.MagazineSlot != null )
+                else
                 {
-                    if ( m_primaryWeaponSlots.MagazineSlot.PlayerItem != null )
-                    {
-                        string slotId = m_primaryWeaponSlots.MagazineSlot.Id;
-                        string playerItemId = m_primaryWeaponSlots.MagazineSlot.PlayerItem.Id;
-                        ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId, playerItemId, 1 );
-                    }
+                    string slotId = m_primaryWeaponSlots.BarrelSlot.Id;
+                    ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId );
                 }
-                if ( m_primaryWeaponSlots.StockSlot != null )
+                if ( !m_primaryWeaponSlots.SightSlot.IsEmpty () )
                 {
-                    if ( m_primaryWeaponSlots.StockSlot.PlayerItem != null )
-                    {
-                        string slotId = m_primaryWeaponSlots.StockSlot.Id;
-                        string playerItemId = m_primaryWeaponSlots.StockSlot.PlayerItem.Id;
-                        ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId, playerItemId, 1 );
-                    }
+                    string slotId = m_primaryWeaponSlots.SightSlot.Id;
+                    string playerItemId = m_primaryWeaponSlots.SightSlot.PlayerItem.Id;
+                    ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId, playerItemId, 1 );
+                }
+                else
+                {
+                    string slotId = m_primaryWeaponSlots.SightSlot.Id;
+                    ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId );
+                }
+                if ( !m_primaryWeaponSlots.MagazineSlot.IsEmpty () )
+                {
+                    string slotId = m_primaryWeaponSlots.MagazineSlot.Id;
+                    string playerItemId = m_primaryWeaponSlots.MagazineSlot.PlayerItem.Id;
+                    ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId, playerItemId, 1 );
+                }
+                else
+                {
+                    string slotId = m_primaryWeaponSlots.MagazineSlot.Id;
+                    ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId );
+                }
+                if ( !m_primaryWeaponSlots.StockSlot.IsEmpty () )
+                {
+                    string slotId = m_primaryWeaponSlots.StockSlot.Id;
+                    string playerItemId = m_primaryWeaponSlots.StockSlot.PlayerItem.Id;
+                    ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId, playerItemId, 1 );
+                }
+                else
+                {
+                    string slotId = m_primaryWeaponSlots.StockSlot.Id;
+                    ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId );
                 }
             }
             // Secondary weapon slots
             if ( m_secondaryWeaponSlots != null )
             {
-                if ( m_secondaryWeaponSlots.WeaponSlot != null )
+                if ( !m_secondaryWeaponSlots.WeaponSlot.IsEmpty () )
                 {
-                    if ( m_secondaryWeaponSlots.WeaponSlot.PlayerItem != null )
-                    {
-                        string slotId = m_secondaryWeaponSlots.WeaponSlot.Id;
-                        string playerItemId = m_secondaryWeaponSlots.WeaponSlot.PlayerItem.Id;
-                        ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId, playerItemId, 1 );
-                    }
+                    string slotId = m_secondaryWeaponSlots.WeaponSlot.Id;
+                    string playerItemId = m_secondaryWeaponSlots.WeaponSlot.PlayerItem.Id;
+                    ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId, playerItemId, 1 );
                 }
-                if ( m_secondaryWeaponSlots.BarrelSlot != null )
+                else
                 {
-                    if ( m_secondaryWeaponSlots.BarrelSlot.PlayerItem != null )
-                    {
-                        string slotId = m_secondaryWeaponSlots.BarrelSlot.Id;
-                        string playerItemId = m_secondaryWeaponSlots.BarrelSlot.PlayerItem.Id;
-                        ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId, playerItemId, 1 );
-                    }
+                    string slotId = m_secondaryWeaponSlots.WeaponSlot.Id;
+                    ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId );
                 }
-                if ( m_secondaryWeaponSlots.SightSlot != null )
+                if ( !m_secondaryWeaponSlots.BarrelSlot.IsEmpty () )
                 {
-                    if ( m_secondaryWeaponSlots.SightSlot.PlayerItem != null )
-                    {
-                        string slotId = m_secondaryWeaponSlots.SightSlot.Id;
-                        string playerItemId = m_secondaryWeaponSlots.SightSlot.PlayerItem.Id;
-                        ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId, playerItemId, 1 );
-                    }
+                    string slotId = m_secondaryWeaponSlots.BarrelSlot.Id;
+                    string playerItemId = m_secondaryWeaponSlots.BarrelSlot.PlayerItem.Id;
+                    ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId, playerItemId, 1 );
                 }
-                if ( m_secondaryWeaponSlots.MagazineSlot != null )
+                else
                 {
-                    if ( m_secondaryWeaponSlots.MagazineSlot.PlayerItem != null )
-                    {
-                        string slotId = m_secondaryWeaponSlots.MagazineSlot.Id;
-                        string playerItemId = m_secondaryWeaponSlots.MagazineSlot.PlayerItem.Id;
-                        ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId, playerItemId, 1 );
-                    }
+                    string slotId = m_secondaryWeaponSlots.BarrelSlot.Id;
+                    ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId );
                 }
-                if ( m_secondaryWeaponSlots.StockSlot != null )
+                if ( !m_secondaryWeaponSlots.SightSlot.IsEmpty () )
                 {
-                    if ( m_secondaryWeaponSlots.StockSlot.PlayerItem != null )
-                    {
-                        string slotId = m_secondaryWeaponSlots.StockSlot.Id;
-                        string playerItemId = m_secondaryWeaponSlots.StockSlot.PlayerItem.Id;
-                        ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId, playerItemId, 1 );
-                    }
+                    string slotId = m_secondaryWeaponSlots.SightSlot.Id;
+                    string playerItemId = m_secondaryWeaponSlots.SightSlot.PlayerItem.Id;
+                    ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId, playerItemId, 1 );
+                }
+                else
+                {
+                    string slotId = m_secondaryWeaponSlots.SightSlot.Id;
+                    ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId );
+                }
+                if ( !m_secondaryWeaponSlots.MagazineSlot.IsEmpty () )
+                {
+                    string slotId = m_secondaryWeaponSlots.MagazineSlot.Id;
+                    string playerItemId = m_secondaryWeaponSlots.MagazineSlot.PlayerItem.Id;
+                    ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId, playerItemId, 1 );
+                }
+                else
+                {
+                    string slotId = m_secondaryWeaponSlots.MagazineSlot.Id;
+                    ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId );
+                }
+                if ( !m_secondaryWeaponSlots.StockSlot.IsEmpty () )
+                {
+                    string slotId = m_secondaryWeaponSlots.StockSlot.Id;
+                    string playerItemId = m_secondaryWeaponSlots.StockSlot.PlayerItem.Id;
+                    ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId, playerItemId, 1 );
+                }
+                else
+                {
+                    string slotId = m_secondaryWeaponSlots.StockSlot.Id;
+                    ServerSend.PlayerUpdateInventorySlot ( player.Id, slotId );
                 }
             }
         }
