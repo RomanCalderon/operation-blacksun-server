@@ -62,7 +62,7 @@ public class PickupInstance : Interactable
         Debug.Log ( $"Interactable [{m_playerItem}] - StartInteract" );
     }
 
-    public override void StartInteract ( int clientId, string [] accessKeys = null )
+    public override void StartInteract ( int clientId, string [] accessKeys )
     {
         base.StartInteract ( clientId, accessKeys );
         if ( !IsInteracting )
@@ -93,7 +93,7 @@ public class PickupInstance : Interactable
         Debug.Log ( $"Interactable [{m_playerItem}] - StopInteract" );
     }
 
-    public override void EndHover ()
+    public override void StopHover ()
     {
         // Hide Interactable UI
         Debug.Log ( $"Interactable [{m_playerItem}] - StopHover" );

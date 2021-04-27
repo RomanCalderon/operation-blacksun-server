@@ -14,9 +14,9 @@ internal interface IInteractable
 
     void StartInteract ( int clientId, string accessKey = null );
 
-    void StartInteract ( int clientId, string [] accessKeys = null );
+    void StartInteract ( int clientId, string [] accessKeys );
 
     void StopInteract ();
 
-    void EndHover ();
+    void StopHover ();
 }

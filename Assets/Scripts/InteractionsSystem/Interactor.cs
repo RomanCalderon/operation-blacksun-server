@@ -1,0 +1,134 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Interactor : MonoBehaviour
+{
+    private const float CHECK_RADIUS = 2f;
+    private const float CHECK_ANGLE = 15f;
+
+    [SerializeField]
+    private Player m_player = null;
+    [SerializeField]
+    private LookOriginController m_lookOriginController = null;
+    [SerializeField]
+    private LayerMask m_interactableMask;
+
+    private IInteractable m_target = null;
+    private bool m_lastInput = false;
+
+
+    private void OnEnable ()
+    {
+        ServerSimulation.OnInputReceived += CheckClientInput;
+    }
+
+    private void OnDisable ()
+    {
+        ServerSimulation.OnInputReceived -= CheckClientInput;
+    }
+
+    // Start is called before the first frame update
+    void Start ()
+    {
+        Debug.Assert ( m_player != null, "m_player is null." );
+        Debug.Assert ( m_lookOriginController != null, "m_lookOriginController is null." );
+    }
+
+    // Update is called once per frame
+    private void FixedUpdate ()
+    {
+        IInteractable target = GetTargetInteractable ();
+        if ( IsNewTarget ( target ) )
+        {
+            if ( m_target != null )
+            {
+                m_target.StopHover ();
+                m_target = null;
+            }
+            m_target = target;
+            if ( m_target != null )
+            {
+                m_target.StartHover ();
+            }
+        }
+        if ( m_target != null )
+        {
+            Vector3 lookDirection = m_lookOriginController.LookDirection;
+            Vector3 headPosition = m_lookOriginController.ShootOrigin;
+            Debug.DrawRay ( headPosition, lookDirection * CHECK_RADIUS, Color.green, Time.fixedDeltaTime );
+        }
+    }
+
+    #region Event Listeners
+
+    private void CheckClientInput ( int clientId, ClientInputState clientInputState )
+    {
+        if ( m_player.Id != clientId || m_target == null )
+        {
+            return;
+        }
+
+        if ( clientInputState.Interact != m_lastInput )
+        {
+            if ( clientInputState.Interact )
+            {
+                m_target.StartInteract ( m_player.Id, null as string );
+            }
+            else
+            {
+                m_target.StopInteract ();
+            }
+        }
+        m_lastInput = clientInputState.Interact;
+    }
+
+    #endregion
+
+    #region Util
+
+    private bool IsNewTarget ( IInteractable target )
+    {
+        if ( m_target == null && target != null )
+        {
+            return true;
+        }
+        if ( m_target == target )
+        {
+            return false;
+        }
+        return true;
+    }
+
+    private IInteractable GetTargetInteractable ()
+    {
+        Collider [] allInteractables = Physics.OverlapSphere ( transform.position, CHECK_RADIUS, m_interactableMask );
+        Vector3 lookDirection = m_lookOriginController.LookDirection;
+        Vector3 headPosition = m_lookOriginController.ShootOrigin;
+        IInteractable target = null;
+        float closest = CHECK_ANGLE;
+
+        // Debug
+        Debug.DrawRay ( headPosition, lookDirection * CHECK_RADIUS, Color.blue, Time.fixedDeltaTime );
+
+        // Find closest Interactable
+        foreach ( Collider collider in allInteractables )
+        {
+            float viewDistance = Vector3.Angle ( lookDirection, collider.transform.position - headPosition );
+            if ( viewDistance < closest )
+            {
+                IInteractable interactable = collider.GetComponent<IInteractable> ();
+                if ( interactable == null )
+                {
+                    Debug.LogError ( $"Collider ({collider.name}) with layer [Interactable] is missing an Interactable component." );
+                    continue;
+                }
+                closest = viewDistance;
+                target = interactable;
+            }
+        }
+        return target;
+    }
+
+    #endregion
+}

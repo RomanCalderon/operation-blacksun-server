@@ -60,9 +60,9 @@ public abstract class Interactable : MonoBehaviour, IInteractable
     /// </summary>
     /// <param name="clientId">The ID of the client interacting with Interactable.</param>
     /// <param name="accessKeys">An array of access keys used to compare against Interactable's AccessKey.</param>
-    public virtual void StartInteract ( int clientId, string [] accessKeys = null )
+    public virtual void StartInteract ( int clientId, string [] accessKeys )
     {
-        if ( m_isInteracting )
+        if ( m_isInteracting || accessKeys == null )
         {
             StopInteract ();
             return;
@@ -101,7 +101,7 @@ public abstract class Interactable : MonoBehaviour, IInteractable
     /// <summary>
     /// Called when Interactable becomes inaccessible.
     /// </summary>
-    public abstract void EndHover ();
+    public abstract void StopHover ();
 
     #endregion
 

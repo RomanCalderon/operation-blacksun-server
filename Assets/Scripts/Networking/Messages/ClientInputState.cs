@@ -19,6 +19,8 @@ public class ClientInputState : Message
     public bool Aiming;
     [SerializeField]
     public Vector3 LookDirection;
+    // Interactions
+    public bool Interact;
 
     [SerializeField]
     public Quaternion Rotation;
