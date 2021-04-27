@@ -4,15 +4,17 @@ internal interface IInteractable
 
     bool IsInteracting { get; }
 
-    float MinRange { get; }
+    int ClientId { get; }
 
     string AccessKey { get; set; }
 
+    void Initialize ( bool isInteractable = true, string accessKey = null );
+
     void StartHover ();
 
-    void StartInteract ( string accessKey );
+    void StartInteract ( int clientId, string accessKey = null );
 
-    void StartInteract ( string [] accessKeys = null );
+    void StartInteract ( int clientId, string [] accessKeys = null );
 
     void StopInteract ();
 

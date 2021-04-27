@@ -4,31 +4,42 @@ using UnityEngine;
 using InventorySystem.PlayerItems;
 
 [RequireComponent ( typeof ( BoxCollider ) )]
+[RequireComponent ( typeof ( Rigidbody ) )]
 public class PickupInstance : Interactable
 {
     public PlayerItem PlayerItem { get => m_playerItem; }
 
+    private const float m_rigidbodyMass = 20f;
     private PlayerItem m_playerItem = null;
+    private int m_quantity = 1;
+    private Transform m_container = null;
     private BoxCollider m_boxCollider = null;
+    private Rigidbody m_rigidbody = null;
 
     private void Awake ()
     {
         m_boxCollider = GetComponent<BoxCollider> ();
+        m_rigidbody = GetComponent<Rigidbody> ();
+        m_container = transform.GetChild ( 0 );
     }
 
-    private void OnEnable ()
+    public void Initialize ( PlayerItem playerItem, int quantity = 1, bool isInteractable = true, string accessKey = null )
     {
-        SetColliderBounds ( gameObject );
-    }
+        base.Initialize ( isInteractable, accessKey );
 
-    public void Initialize ( PlayerItem playerItem )
-    {
         if ( playerItem == null )
         {
             Debug.LogWarning ( "playerItem is null." );
             return;
         }
         m_playerItem = playerItem;
+        m_quantity = quantity;
+        m_rigidbody.mass = m_rigidbodyMass;
+        m_rigidbody.collisionDetectionMode = CollisionDetectionMode.Discrete;
+
+        // Instantiate PlayerItem object/model into container
+
+        SetColliderBounds ( gameObject );
     }
 
     #region Interactable
@@ -39,17 +50,25 @@ public class PickupInstance : Interactable
         Debug.Log ( $"Interactable [{m_playerItem}] - StartHover" );
     }
 
-    public override void StartInteract ( string accessKey )
+    public override void StartInteract ( int clientId, string accessKey = null )
     {
-        base.StartInteract ( accessKey );
+        base.StartInteract ( clientId, accessKey );
+        if ( !IsInteracting )
+        {
+            return;
+        }
 
         // Display Interactable interaction UI
         Debug.Log ( $"Interactable [{m_playerItem}] - StartInteract" );
     }
 
-    public override void StartInteract ( string [] accessKeys )
+    public override void StartInteract ( int clientId, string [] accessKeys = null )
     {
-        base.StartInteract ( accessKeys );
+        base.StartInteract ( clientId, accessKeys );
+        if ( !IsInteracting )
+        {
+            return;
+        }
 
         // Display Interactable interaction UI
         Debug.Log ( $"Interactable [{m_playerItem}] - StartInteract" );
@@ -58,9 +77,12 @@ public class PickupInstance : Interactable
     protected override void OnInteract ()
     {
         // Add PlayerItem to Inventory
-
         Debug.Log ( $"Interactable [{m_playerItem}] - OnInteract" );
-        throw new System.NotImplementedException ();
+
+        Server.clients [ ClientId ].player.InventoryManager.Inventory.AddToBackpack ( m_playerItem, m_quantity );
+
+        // Destroy this PickupInstance
+        Destroy ( gameObject );
     }
 
     public override void StopInteract ()

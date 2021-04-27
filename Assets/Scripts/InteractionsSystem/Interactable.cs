@@ -2,18 +2,31 @@ using UnityEngine;
 
 public abstract class Interactable : MonoBehaviour, IInteractable
 {
-    public bool IsInteractable { get; set; } = true;
+    public bool IsInteractable { get; set; } = false;
     public bool IsInteracting { get => m_isInteracting; }
-    public float MinRange { get => m_minRange; }
+    public int ClientId { get => m_clientId; }
     public string AccessKey { get; set; }
     public float InteractTimer { get => m_interactTimer; }
 
     private const float m_minRange = 2.5f;
     private const float m_interactTimeThreshold = 0.5f;
+    private int m_clientId = 0;
     private bool m_isInteracting = false;
+    private bool m_hasInteracted = false;
     private float m_interactTimer = 0f;
 
     #region Interface
+
+    /// <summary>
+    /// Initializes Interactable with an optional <paramref name="isInteractable"/> flag and <paramref name="accessKey"/>.
+    /// </summary>
+    /// <param name="isInteractable">Is this Interactable interactable? Default is true.</param>
+    /// <param name="accessKey">A prerequisite 'passcode' in the form of a string. Omitting a value (null) disables this prerequisite. Default is null.</param>
+    public virtual void Initialize ( bool isInteractable = true, string accessKey = null )
+    {
+        IsInteractable = isInteractable;
+        AccessKey = accessKey;
+    }
 
     /// <summary>
     /// Called when Interactable becomes accessible.
@@ -23,24 +36,35 @@ public abstract class Interactable : MonoBehaviour, IInteractable
     /// <summary>
     /// Called when Interactable begins interaction.
     /// </summary>
-    public virtual void StartInteract ( string accessKey = null )
+    /// <param name="clientId">The ID of the client interacting with Interactable.</param>
+    /// <param name="accessKey">An access key used to compare against Interactable's AccessKey.</param>
+    public virtual void StartInteract ( int clientId, string accessKey = null )
     {
         if ( m_isInteracting )
         {
+            StopInteract ();
             return;
         }
         if ( !string.IsNullOrEmpty ( AccessKey ) && !accessKey.Equals ( AccessKey ) )
         {
+            StopInteract ();
             return;
         }
+        m_clientId = clientId;
         m_isInteracting = true;
         m_interactTimer = m_interactTimeThreshold;
     }
 
-    public virtual void StartInteract ( string [] accessKeys = null )
+    /// <summary>
+    /// Called when Interactable begins interaction.
+    /// </summary>
+    /// <param name="clientId">The ID of the client interacting with Interactable.</param>
+    /// <param name="accessKeys">An array of access keys used to compare against Interactable's AccessKey.</param>
+    public virtual void StartInteract ( int clientId, string [] accessKeys = null )
     {
         if ( m_isInteracting )
         {
+            StopInteract ();
             return;
         }
         if ( !string.IsNullOrEmpty ( AccessKey ) )
@@ -49,11 +73,13 @@ public abstract class Interactable : MonoBehaviour, IInteractable
             {
                 if ( accessKey.Equals ( AccessKey ) )
                 {
+                    m_clientId = clientId;
                     m_isInteracting = true;
                     m_interactTimer = m_interactTimeThreshold;
                     return;
                 }
             }
+            StopInteract ();
         }
     }
 
@@ -68,7 +94,7 @@ public abstract class Interactable : MonoBehaviour, IInteractable
     /// </summary>
     public virtual void StopInteract ()
     {
-        m_isInteracting = false;
+        m_isInteracting = m_hasInteracted = false;
         m_interactTimer = 0f;
     }
 
@@ -90,6 +116,10 @@ public abstract class Interactable : MonoBehaviour, IInteractable
     {
         if ( m_isInteracting )
         {
+            if ( m_hasInteracted )
+            {
+                return;
+            }
             // Increment interact timer
             if ( m_interactTimer > 0f )
             {
@@ -98,7 +128,7 @@ public abstract class Interactable : MonoBehaviour, IInteractable
             }
             // Interaction timer is complete
             OnInteract ();
-            StopInteract ();
+            m_hasInteracted = true;
         }
     }
 

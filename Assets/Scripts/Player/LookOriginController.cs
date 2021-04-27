@@ -16,6 +16,9 @@ public class LookOriginController : MonoBehaviour
     }
     private Vector3 m_localShootOrigin;
 
+    public Vector3 LookDirection { get => m_lookDirection; }
+    private Vector3 m_lookDirection;
+
     private Vector3 m_headPositionTarget;
     private Vector3 m_headOffset;
 
@@ -27,6 +30,7 @@ public class LookOriginController : MonoBehaviour
 
     public void ProcessInput( ClientInputState state )
     {
+        m_lookDirection = state.LookDirection;
         UpdateMovementChanges ( state.Crouch, Time.fixedDeltaTime );
     }
 

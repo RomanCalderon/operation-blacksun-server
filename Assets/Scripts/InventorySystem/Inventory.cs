@@ -91,7 +91,7 @@ namespace InventorySystem
             // Add PlayerItems to the backpack
             foreach ( PlayerItemPreset playerItemPreset in preset.BackpackItems )
             {
-                AddToBackpackAny ( playerItemPreset.PlayerItem, playerItemPreset.Quantity );
+                AddToBackpack ( playerItemPreset.PlayerItem, playerItemPreset.Quantity );
             }
 
             // Primary weapon
@@ -960,7 +960,7 @@ namespace InventorySystem
         /// <param name="playerItem">The PlayerItem being added to the backpack.</param>
         /// <param name="quantity">The amount of items being added.</param>
         /// <returns>An InsertionResult for this operation.</returns>
-        public InsertionResult AddToBackpackAny ( PlayerItem playerItem, int quantity )
+        public InsertionResult AddToBackpack ( PlayerItem playerItem, int quantity = 1 )
         {
             if ( playerItem == null || quantity <= 0 )
             {
@@ -977,6 +977,7 @@ namespace InventorySystem
                 {
                     // Insert
                     insertionResult = slot.Insert ( playerItem, quantity );
+                    ServerSend.PlayerUpdateInventorySlot ( player.Id, slot.Id, playerItem.Id, slot.StackSize );
 
                     // Update quantity
                     quantity = insertionResult.OverflowAmount;
@@ -984,6 +985,7 @@ namespace InventorySystem
                 }
             } while ( slot != null && insertionResult.Result == InsertionResult.Results.OVERFLOW );
 
+            OnValidate ();
             return insertionResult;
         }
 
@@ -994,19 +996,24 @@ namespace InventorySystem
         /// <param name="quantity">The amount of items to add.</param>
         /// <param name="slotIndex">The backpack slot index.</param>
         /// <returns>An InsertionResult for this operation.</returns>
-        public InsertionResult AddToBackpack ( PlayerItem playerItem, int quantity = 1 )
+        public InsertionResult AddToBackpack ( PlayerItem playerItem, int backpackSlotIndex, int quantity = 1 )
         {
             if ( playerItem == null || quantity <= 0 )
             {
                 return new InsertionResult ( playerItem, InsertionResult.Results.INSERTION_FAILED );
             }
-            Slot slot = m_backpackSlots.FirstOrDefault ( s => s.IsAvailable ( playerItem ) );
+
+            Slot slot = m_backpackSlots [ backpackSlotIndex ];
+            InsertionResult result;
 
             if ( slot == null ) // No slots available
             {
                 return new InsertionResult ( InsertionResult.Results.INSERTION_FAILED );
             }
-            return slot.Insert ( playerItem, quantity );
+            result = slot.Insert ( playerItem, quantity );
+            ServerSend.PlayerUpdateInventorySlot ( player.Id, slot.Id, playerItem.Id, slot.StackSize );
+            OnValidate ();
+            return result;
         }
 
         /// <summary>
