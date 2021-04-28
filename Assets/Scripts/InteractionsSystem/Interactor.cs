@@ -17,15 +17,6 @@ public class Interactor : MonoBehaviour
     private IInteractable m_target = null;
     private bool m_lastInput = false;
 
-    private void OnEnable ()
-    {
-        ServerSimulation.OnInputReceived += CheckClientInput;
-    }
-
-    private void OnDisable ()
-    {
-        ServerSimulation.OnInputReceived -= CheckClientInput;
-    }
 
     // Start is called before the first frame update
     void Start ()
@@ -53,9 +44,7 @@ public class Interactor : MonoBehaviour
         }
     }
 
-    #region Event Listeners
-
-    private void CheckClientInput ( int clientId, ClientInputState clientInputState )
+    public void ProcessClientInput ( int clientId, ClientInputState clientInputState )
     {
         if ( m_player.Id != clientId || m_target == null )
         {
@@ -75,8 +64,6 @@ public class Interactor : MonoBehaviour
         }
         m_lastInput = clientInputState.Interact;
     }
-
-    #endregion
 
     #region Util
 

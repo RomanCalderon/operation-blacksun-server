@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent ( typeof ( Rigidbody ) )]
 [RequireComponent ( typeof ( InventoryManager ) )]
 [RequireComponent ( typeof ( WeaponsController ) )]
+[RequireComponent ( typeof ( Interactor ) )]
 public class Player : MonoBehaviour
 {
     #region Members
@@ -21,6 +22,7 @@ public class Player : MonoBehaviour
     public Rigidbody Rigidbody { get; private set; } = null;
     public InventoryManager InventoryManager { get; private set; } = null;
     public WeaponsController WeaponsController { get; private set; } = null;
+    public Interactor Interactor { get; private set; } = null;
 
     [SerializeField]
     private float m_maxHealth = 100f;
@@ -36,6 +38,7 @@ public class Player : MonoBehaviour
         Rigidbody = GetComponent<Rigidbody> ();
         InventoryManager = GetComponent<InventoryManager> ();
         WeaponsController = GetComponent<WeaponsController> ();
+        Interactor = GetComponent<Interactor> ();
     }
 
     public void Initialize ( int _id, string _username )

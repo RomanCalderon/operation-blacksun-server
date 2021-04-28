@@ -9,16 +9,8 @@ using UnityEngine;
 [RequireComponent ( typeof ( SimulationHelper ) )]
 public class ServerSimulation : MonoBehaviour
 {
-    #region Delegates
-
-    public delegate void ClientInputHandler ( int clientId, ClientInputState clientInputState );
-    public static ClientInputHandler OnInputReceived;
-
-    #endregion
-
     #region Constants
 
-    // State caching
     public const uint STATE_CACHE_SIZE = 1024;
 
     #endregion
@@ -82,7 +74,7 @@ public class ServerSimulation : MonoBehaviour
             while ( index < inputArray.Length && inputArray [ index ] != null )
             {
                 // Process interaction input
-                OnInputReceived?.Invoke ( player.Id, inputArray [ index ] );
+                player.Interactor.ProcessClientInput ( player.Id, inputArray [ index ] );
 
                 // Process movement input
                 player.MovementController.ProcessInputs ( inputArray [ index ] );
