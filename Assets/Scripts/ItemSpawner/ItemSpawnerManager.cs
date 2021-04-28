@@ -30,12 +30,8 @@ public class ItemSpawnerManager : PersistentLazySingleton<ItemSpawnerManager>
     {
         foreach ( ItemSpawner itemSpawner in m_spawners.Values )
         {
-            int spawnerId = itemSpawner.SpawnerId;
-            Vector3 spawnerPosition = itemSpawner.transform.position;
-            Vector3 spawnerRotation = itemSpawner.transform.eulerAngles;
-            string itemId = itemSpawner.ItemId;
-            int quantity = itemSpawner.ItemQuantity;
-            ServerSend.CreateItemSpawner ( clientId, spawnerId, spawnerPosition, spawnerRotation, itemId, quantity );
+            byte [] spawnerData = itemSpawner.GetSpawnerData ();
+            ServerSend.CreateItemSpawner ( clientId, spawnerData );
         }
     }
 }

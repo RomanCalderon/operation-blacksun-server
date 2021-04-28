@@ -62,6 +62,7 @@ public class ServerSend
     #endregion
 
     #region Packets
+
     public static void Welcome ( int _toClient, string _msg )
     {
         using ( Packet _packet = new Packet ( ( int ) ServerPackets.welcome ) )
@@ -74,6 +75,7 @@ public class ServerSend
     }
 
     #region Player
+
     public static void ConnectPlayer ( int _toClient, int _clientId, string _username )
     {
         using ( Packet _packet = new Packet ( ( int ) ServerPackets.playerConnected ) )
@@ -249,15 +251,12 @@ public class ServerSend
         }
     }
 
-    public static void CreateItemSpawner ( int _toClient, int _spawnerId, Vector3 _spawnerPosition, Vector3 _spawnerRotation, string _itemId, int _quantity )
+    public static void CreateItemSpawner ( int _toClient, byte [] _spawnerData )
     {
         using ( Packet _packet = new Packet ( ( int ) ServerPackets.createItemSpawner ) )
         {
-            _packet.Write ( _spawnerId );
-            _packet.Write ( _spawnerPosition );
-            _packet.Write ( _spawnerRotation );
-            _packet.Write ( _itemId );
-            _packet.Write ( _quantity );
+            _packet.Write ( _spawnerData.Length );
+            _packet.Write ( _spawnerData );
 
             SendTCPData ( _toClient, _packet );
         }

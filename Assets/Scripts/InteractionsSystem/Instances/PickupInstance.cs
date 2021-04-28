@@ -80,7 +80,10 @@ public class PickupInstance : Interactable
         base.StopInteract ();
     }
 
-    public override void StopHover () { }
+    public override void StopHover ()
+    {
+        base.StopInteract ();
+    }
 
     #endregion
 

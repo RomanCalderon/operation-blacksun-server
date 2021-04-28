@@ -1,7 +1,47 @@
+using System.IO;
 using UnityEngine;
 
 public abstract class Interactable : MonoBehaviour, IInteractable
 {
+    #region Models
+
+    [System.Serializable]
+    public struct InteractableData
+    {
+        public bool IsInteractable;
+        public string AccessKey;
+
+        public InteractableData ( bool isInteractable, string accessKey )
+        {
+            IsInteractable = isInteractable;
+            AccessKey = accessKey;
+        }
+
+        public byte [] ToArray ()
+        {
+            MemoryStream stream = new MemoryStream ();
+            BinaryWriter writer = new BinaryWriter ( stream );
+
+            writer.Write ( IsInteractable );
+            writer.Write ( AccessKey );
+
+            return stream.ToArray ();
+        }
+
+        public static InteractableData FromArray ( byte [] bytes )
+        {
+            BinaryReader reader = new BinaryReader ( new MemoryStream ( bytes ) );
+            InteractableData s = default;
+
+            s.IsInteractable = reader.ReadBoolean ();
+            s.AccessKey = reader.ReadString ();
+
+            return s;
+        }
+    }
+
+    #endregion
+
     public bool IsInteractable { get; set; } = false;
     public bool IsInteracting { get => m_isInteracting; }
     public int ClientId { get => m_clientId; }
@@ -39,12 +79,16 @@ public abstract class Interactable : MonoBehaviour, IInteractable
     /// <param name="accessKey">An access key used to compare against Interactable's AccessKey.</param>
     public virtual void StartInteract ( int clientId, string accessKey = null )
     {
+        if ( !IsInteractable )
+        {
+            return;
+        }
         if ( m_isInteracting )
         {
             StopInteract ();
             return;
         }
-        if ( !string.IsNullOrEmpty ( AccessKey ) && !accessKey.Equals ( AccessKey ) )
+        if ( !string.IsNullOrEmpty ( AccessKey ) && accessKey != AccessKey )
         {
             StopInteract ();
             return;
@@ -87,7 +131,6 @@ public abstract class Interactable : MonoBehaviour, IInteractable
     /// </summary>
     protected abstract void OnInteract ();
 
-
     /// <summary>
     /// Called when Interactable interaction has ended or got interrupted.
     /// </summary>
@@ -129,6 +172,15 @@ public abstract class Interactable : MonoBehaviour, IInteractable
             OnInteract ();
             m_hasInteracted = true;
         }
+    }
+
+    #endregion
+
+    #region Accessors
+
+    public byte [] GetData ()
+    {
+        return new InteractableData ( IsInteractable, AccessKey ).ToArray ();
     }
 
     #endregion
