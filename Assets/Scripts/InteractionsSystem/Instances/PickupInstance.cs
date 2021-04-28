@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using InventorySystem.PlayerItems;
 
@@ -12,6 +11,7 @@ public class PickupInstance : Interactable
     private const float m_rigidbodyMass = 20f;
     private PlayerItem m_playerItem = null;
     private int m_quantity = 1;
+    private Action m_pickupCallback = null;
     private Transform m_container = null;
     private BoxCollider m_boxCollider = null;
     private Rigidbody m_rigidbody = null;
@@ -23,7 +23,7 @@ public class PickupInstance : Interactable
         m_container = transform.GetChild ( 0 );
     }
 
-    public void Initialize ( PlayerItem playerItem, int quantity = 1, bool isInteractable = true, string accessKey = null )
+    public void Initialize ( PlayerItem playerItem, Action pickupCallback, int quantity = 1, bool isInteractable = true, string accessKey = null )
     {
         base.Initialize ( isInteractable, accessKey );
 
@@ -33,22 +33,17 @@ public class PickupInstance : Interactable
             return;
         }
         m_playerItem = playerItem;
+        m_pickupCallback = pickupCallback;
         m_quantity = quantity;
         m_rigidbody.mass = m_rigidbodyMass;
         m_rigidbody.collisionDetectionMode = CollisionDetectionMode.Discrete;
-
-        // Instantiate PlayerItem object/model into container
 
         SetColliderBounds ( gameObject );
     }
 
     #region Interactable
 
-    public override void StartHover ()
-    {
-        // Display Interactable access UI
-        Debug.Log ( $"Interactable [{m_playerItem}] - StartHover" );
-    }
+    public override void StartHover () { }
 
     public override void StartInteract ( int clientId, string accessKey = null )
     {
@@ -57,9 +52,6 @@ public class PickupInstance : Interactable
         {
             return;
         }
-
-        // Display Interactable interaction UI
-        Debug.Log ( $"Interactable [{m_playerItem}] - StartInteract" );
     }
 
     public override void StartInteract ( int clientId, string [] accessKeys )
@@ -69,9 +61,6 @@ public class PickupInstance : Interactable
         {
             return;
         }
-
-        // Display Interactable interaction UI
-        Debug.Log ( $"Interactable [{m_playerItem}] - StartInteract" );
     }
 
     protected override void OnInteract ()
@@ -79,25 +68,19 @@ public class PickupInstance : Interactable
         // Add PlayerItem to Inventory
         Debug.Log ( $"Interactable [{m_playerItem}] - OnInteract" );
 
+        m_pickupCallback?.Invoke ();
         Server.clients [ ClientId ].player.InventoryManager.Inventory.AddToBackpack ( m_playerItem, m_quantity );
 
-        // Destroy this PickupInstance
+        // Destroy this instance
         Destroy ( gameObject );
     }
 
     public override void StopInteract ()
     {
         base.StopInteract ();
-
-        // Hide Interactable interaction UI
-        Debug.Log ( $"Interactable [{m_playerItem}] - StopInteract" );
     }
 
-    public override void StopHover ()
-    {
-        // Hide Interactable UI
-        Debug.Log ( $"Interactable [{m_playerItem}] - StopHover" );
-    }
+    public override void StopHover () { }
 
     #endregion
 

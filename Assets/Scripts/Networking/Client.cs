@@ -223,6 +223,9 @@ public class Client
                 ServerSend.ConnectPlayer ( _client.id, id, username ); // To all players
             }
         }
+
+        // Spawn all items for the new player
+        ItemSpawnerManager.Instance.SendSpawners ( id );
     }
 
     /// <summary>Sends the client into the game and informs other clients of the new player.</summary>

@@ -17,7 +17,6 @@ public class Interactor : MonoBehaviour
     private IInteractable m_target = null;
     private bool m_lastInput = false;
 
-
     private void OnEnable ()
     {
         ServerSimulation.OnInputReceived += CheckClientInput;
@@ -51,12 +50,6 @@ public class Interactor : MonoBehaviour
             {
                 m_target.StartHover ();
             }
-        }
-        if ( m_target != null )
-        {
-            Vector3 lookDirection = m_lookOriginController.LookDirection;
-            Vector3 headPosition = m_lookOriginController.ShootOrigin;
-            Debug.DrawRay ( headPosition, lookDirection * CHECK_RADIUS, Color.green, Time.fixedDeltaTime );
         }
     }
 

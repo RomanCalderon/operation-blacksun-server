@@ -249,5 +249,29 @@ public class ServerSend
         }
     }
 
+    public static void CreateItemSpawner ( int _toClient, int _spawnerId, Vector3 _spawnerPosition, Vector3 _spawnerRotation, string _itemId, int _quantity )
+    {
+        using ( Packet _packet = new Packet ( ( int ) ServerPackets.createItemSpawner ) )
+        {
+            _packet.Write ( _spawnerId );
+            _packet.Write ( _spawnerPosition );
+            _packet.Write ( _spawnerRotation );
+            _packet.Write ( _itemId );
+            _packet.Write ( _quantity );
+
+            SendTCPData ( _toClient, _packet );
+        }
+    }
+
+    public static void DestroyItem ( int _spawnerId )
+    {
+        using ( Packet _packet = new Packet ( ( int ) ServerPackets.destroyItem ) )
+        {
+            _packet.Write ( _spawnerId );
+
+            SendTCPDataToAll ( _packet );
+        }
+    }
+
     #endregion
 }

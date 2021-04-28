@@ -8,7 +8,6 @@ public abstract class Interactable : MonoBehaviour, IInteractable
     public string AccessKey { get; set; }
     public float InteractTimer { get => m_interactTimer; }
 
-    private const float m_minRange = 2.5f;
     private const float m_interactTimeThreshold = 0.5f;
     private int m_clientId = 0;
     private bool m_isInteracting = false;
