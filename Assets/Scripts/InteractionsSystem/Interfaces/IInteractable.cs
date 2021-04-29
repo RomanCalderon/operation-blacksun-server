@@ -4,11 +4,13 @@ internal interface IInteractable
 
     bool IsInteracting { get; }
 
-    int ClientId { get; }
+    float InteractTime { get; set; }
 
     string AccessKey { get; set; }
 
-    void Initialize ( bool isInteractable = true, string accessKey = null );
+    int ClientId { get; }
+
+    void Initialize ( bool isInteractable = true, float interactTime = 0f, string accessKey = null );
 
     void StartHover ();
 

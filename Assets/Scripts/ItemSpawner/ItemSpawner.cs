@@ -75,6 +75,8 @@ public class ItemSpawner : MonoBehaviour
     [SerializeField]
     private bool m_isInteractable = true;
     [SerializeField]
+    private float m_interactTime = 0f;
+    [SerializeField]
     private string m_accessKey = null;
 
     [SerializeField]
@@ -102,7 +104,7 @@ public class ItemSpawner : MonoBehaviour
     {
         Quaternion rotation = randomRotationY ? Quaternion.Euler ( 0, UnityEngine.Random.value * 360, 0 ) : Quaternion.identity;
         PickupInstance instance = Instantiate ( m_pickupInstancePrefab, position, rotation, transform );
-        instance.Initialize ( item, pickupCallback, m_quantity, m_isInteractable, m_accessKey );
+        instance.Initialize ( item, pickupCallback, m_quantity, m_isInteractable, m_interactTime, m_accessKey );
         m_interactableInstance = instance;
     }
 
@@ -115,7 +117,7 @@ public class ItemSpawner : MonoBehaviour
     private void SpawnItem ( PlayerItem item, Vector3 position, Quaternion rotation, Action pickupCallback )
     {
         PickupInstance instance = Instantiate ( m_pickupInstancePrefab, position, rotation, transform );
-        instance.Initialize ( item, pickupCallback, m_quantity, m_isInteractable, m_accessKey );
+        instance.Initialize ( item, pickupCallback, m_quantity, m_isInteractable, m_interactTime, m_accessKey );
         m_interactableInstance = instance;
     }
 

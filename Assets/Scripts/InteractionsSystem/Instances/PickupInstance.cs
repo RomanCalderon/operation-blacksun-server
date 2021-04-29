@@ -23,9 +23,9 @@ public class PickupInstance : Interactable
         m_container = transform.GetChild ( 0 );
     }
 
-    public void Initialize ( PlayerItem playerItem, Action pickupCallback, int quantity = 1, bool isInteractable = true, string accessKey = null )
+    public void Initialize ( PlayerItem playerItem, Action pickupCallback, int quantity = 1, bool isInteractable = true, float interactTime = 0f, string accessKey = null )
     {
-        base.Initialize ( isInteractable, accessKey );
+        base.Initialize ( isInteractable, interactTime, accessKey );
 
         if ( playerItem == null )
         {

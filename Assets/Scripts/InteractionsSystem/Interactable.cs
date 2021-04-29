@@ -9,11 +9,13 @@ public abstract class Interactable : MonoBehaviour, IInteractable
     public struct InteractableData
     {
         public bool IsInteractable;
+        public float InteractTime;
         public string AccessKey;
 
-        public InteractableData ( bool isInteractable, string accessKey )
+        public InteractableData ( bool isInteractable, float interactTime, string accessKey )
         {
             IsInteractable = isInteractable;
+            InteractTime = interactTime;
             AccessKey = accessKey;
         }
 
@@ -23,6 +25,7 @@ public abstract class Interactable : MonoBehaviour, IInteractable
             BinaryWriter writer = new BinaryWriter ( stream );
 
             writer.Write ( IsInteractable );
+            writer.Write ( InteractTime );
             writer.Write ( AccessKey );
 
             return stream.ToArray ();
@@ -34,6 +37,7 @@ public abstract class Interactable : MonoBehaviour, IInteractable
             InteractableData s = default;
 
             s.IsInteractable = reader.ReadBoolean ();
+            s.InteractTime = reader.ReadSingle ();
             s.AccessKey = reader.ReadString ();
 
             return s;
@@ -44,11 +48,10 @@ public abstract class Interactable : MonoBehaviour, IInteractable
 
     public bool IsInteractable { get; set; } = false;
     public bool IsInteracting { get => m_isInteracting; }
-    public int ClientId { get => m_clientId; }
+    public float InteractTime { get; set; }
     public string AccessKey { get; set; }
-    public float InteractTimer { get => m_interactTimer; }
+    public int ClientId { get => m_clientId; }
 
-    private const float m_interactTimeThreshold = 0.5f;
     private int m_clientId = 0;
     private bool m_isInteracting = false;
     private bool m_hasInteracted = false;
@@ -61,9 +64,10 @@ public abstract class Interactable : MonoBehaviour, IInteractable
     /// </summary>
     /// <param name="isInteractable">Is this Interactable interactable? Default is true.</param>
     /// <param name="accessKey">A prerequisite 'passcode' in the form of a string. Omitting a value (null) disables this prerequisite. Default is null.</param>
-    public virtual void Initialize ( bool isInteractable = true, string accessKey = null )
+    public virtual void Initialize ( bool isInteractable = true, float interactTime = 0f, string accessKey = null )
     {
         IsInteractable = isInteractable;
+        InteractTime = interactTime;
         AccessKey = accessKey;
     }
 
@@ -95,7 +99,7 @@ public abstract class Interactable : MonoBehaviour, IInteractable
         }
         m_clientId = clientId;
         m_isInteracting = true;
-        m_interactTimer = m_interactTimeThreshold;
+        m_interactTimer = InteractTime;
     }
 
     /// <summary>
@@ -118,7 +122,7 @@ public abstract class Interactable : MonoBehaviour, IInteractable
                 {
                     m_clientId = clientId;
                     m_isInteracting = true;
-                    m_interactTimer = m_interactTimeThreshold;
+                    m_interactTimer = InteractTime;
                     return;
                 }
             }
@@ -180,7 +184,7 @@ public abstract class Interactable : MonoBehaviour, IInteractable
 
     public byte [] GetData ()
     {
-        return new InteractableData ( IsInteractable, AccessKey ).ToArray ();
+        return new InteractableData ( IsInteractable, InteractTime, AccessKey ).ToArray ();
     }
 
     #endregion
