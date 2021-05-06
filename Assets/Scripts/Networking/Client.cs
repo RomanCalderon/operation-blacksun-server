@@ -15,6 +15,9 @@ public class Client
     public TCP tcp;
     public UDP udp;
 
+    // Player-related data
+    private List<string> m_accessKeys = new List<string> ();
+
     public Client ( int _clientId )
     {
         id = _clientId;
@@ -244,6 +247,29 @@ public class Client
             }
         }
     }
+
+    #region Access Keys
+
+    public void AddAccessKey ( string key )
+    {
+        if ( string.IsNullOrEmpty ( key ) )
+        {
+            return;
+        }
+        m_accessKeys.Add ( key );
+    }
+
+    public void RemoveAccessKey ( string key )
+    {
+        m_accessKeys.Remove ( key );
+    }
+
+    public string [] GetAccessKeys ()
+    {
+        return m_accessKeys.ToArray ();
+    }
+
+    #endregion
 
     /// <summary>Disconnects the client and stops all network traffic.</summary>
     private void Disconnect ()

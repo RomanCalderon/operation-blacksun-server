@@ -7,6 +7,8 @@ public class Interactor : MonoBehaviour
     private const float CHECK_RADIUS = 2f;
     private const float CHECK_ANGLE = 15f;
 
+    public bool CanInteract { get; set; } = true;
+
     [SerializeField]
     private Player m_player = null;
     [SerializeField]
@@ -28,20 +30,7 @@ public class Interactor : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate ()
     {
-        IInteractable target = GetTargetInteractable ();
-        if ( IsNewTarget ( target ) )
-        {
-            if ( m_target != null )
-            {
-                m_target.StopHover ();
-                m_target = null;
-            }
-            m_target = target;
-            if ( m_target != null )
-            {
-                m_target.StartHover ();
-            }
-        }
+        LookForTarget ();
     }
 
     public void ProcessClientInput ( int clientId, ClientInputState clientInputState )
@@ -63,6 +52,35 @@ public class Interactor : MonoBehaviour
             }
         }
         m_lastInput = clientInputState.Interact;
+    }
+
+    private void LookForTarget ()
+    {
+        // Check if the player can interact
+        if ( !CanInteract )
+        {
+            if ( m_target != null )
+            {
+                m_target.StopInteract ();
+                m_target = null;
+            }
+            return;
+        }
+
+        IInteractable target = GetTargetInteractable ();
+        if ( IsNewTarget ( target ) )
+        {
+            if ( m_target != null )
+            {
+                m_target.StopHover ();
+                m_target = null;
+            }
+            m_target = target;
+            if ( m_target != null )
+            {
+                m_target.StartHover ();
+            }
+        }
     }
 
     #region Util

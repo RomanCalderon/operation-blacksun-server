@@ -22,6 +22,8 @@ public class ServerHandle
         ServerSend.Ping ( _fromClient );
     }
 
+    #region Player
+
     public static void SpawnPlayer ( int _fromClient, Packet _packet )
     {
         int _clientIdCheck = _packet.ReadInt ();
@@ -134,4 +136,6 @@ public class ServerHandle
             }
         }
     }
+
+    #endregion
 }

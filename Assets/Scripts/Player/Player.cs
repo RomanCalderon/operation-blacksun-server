@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent ( typeof ( PlayerMovementController ) )]
@@ -26,7 +27,6 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private float m_maxHealth = 100f;
-
 
     #endregion
 

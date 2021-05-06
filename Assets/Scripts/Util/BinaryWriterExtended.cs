@@ -1,5 +1,6 @@
 using System.IO;
 using UnityEngine;
+using InteractionData;
 
 public class BinaryWriterExtended : BinaryWriter
 {
@@ -10,5 +11,14 @@ public class BinaryWriterExtended : BinaryWriter
         Write ( value.x );
         Write ( value.y );
         Write ( value.z );
+    }
+
+    public void Write ( Color value )
+    {
+        ColorVector colorVector = new ColorVector ( value );
+        Write ( colorVector.r );
+        Write ( colorVector.g );
+        Write ( colorVector.b );
+        Write ( colorVector.a );
     }
 }

@@ -30,7 +30,8 @@ public class ItemSpawnerManager : PersistentLazySingleton<ItemSpawnerManager>
     {
         foreach ( ItemSpawner itemSpawner in m_spawners.Values )
         {
-            byte [] spawnerData = itemSpawner.GetSpawnerData ();
+            string [] accessKeys = Server.clients [ clientId ].GetAccessKeys ();
+            byte [] spawnerData = itemSpawner.GetSpawnerData ( accessKeys );
             ServerSend.CreateItemSpawner ( clientId, spawnerData );
         }
     }
