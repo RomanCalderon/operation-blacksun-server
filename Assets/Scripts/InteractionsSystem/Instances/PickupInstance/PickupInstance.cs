@@ -48,7 +48,7 @@ public class PickupInstance : Interactable
 
         // Initialize Rigidbody
         m_rigidbody.mass = RIGIDBODY_MASS;
-        m_rigidbody.isKinematic = false;
+        m_rigidbody.isKinematic = data.Size == Vector3.zero;
         m_rigidbody.collisionDetectionMode = CollisionDetectionMode.Continuous;
     }
 
