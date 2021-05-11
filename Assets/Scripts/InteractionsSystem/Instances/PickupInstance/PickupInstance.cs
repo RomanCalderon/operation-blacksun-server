@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using InventorySystem.PlayerItems;
 using InteractionData;
+using PlayerItemExporter;
 
 [RequireComponent ( typeof ( BoxCollider ) )]
 [RequireComponent ( typeof ( Rigidbody ) )]
@@ -12,7 +13,6 @@ public class PickupInstance : Interactable
     private PlayerItem m_playerItem = null;
     private int m_quantity = 1;
     private Action m_pickupCallback = null;
-    private Transform m_container = null;
     private BoxCollider m_boxCollider = null;
     private Rigidbody m_rigidbody = null;
 
@@ -20,7 +20,6 @@ public class PickupInstance : Interactable
     {
         m_boxCollider = GetComponent<BoxCollider> ();
         m_rigidbody = GetComponent<Rigidbody> ();
-        m_container = transform.GetChild ( 0 );
     }
 
     public void Initialize ( PickupInstanceConfig config, Action pickupCallback )
@@ -38,13 +37,19 @@ public class PickupInstance : Interactable
             Debug.LogWarning ( "playerItem is null." );
             return;
         }
+        // Initialize PlayerItem data
         m_playerItem = config.PlayerItem;
         m_pickupCallback = pickupCallback;
         m_quantity = config.Quantity;
-        m_rigidbody.mass = RIGIDBODY_MASS;
-        m_rigidbody.collisionDetectionMode = CollisionDetectionMode.Discrete;
 
-        SetColliderBounds ( gameObject );
+        // Initialize instance Bounds
+        BoundsData data = PlayerItemBoundsData.Instance.GetBoundsData ( config.PlayerItem.Id );
+        SetColliderBounds ( data );
+
+        // Initialize Rigidbody
+        m_rigidbody.mass = RIGIDBODY_MASS;
+        m_rigidbody.isKinematic = false;
+        m_rigidbody.collisionDetectionMode = CollisionDetectionMode.Continuous;
     }
 
     #region Interactable
@@ -65,45 +70,15 @@ public class PickupInstance : Interactable
 
     #region Util
 
-    protected void SetColliderBounds ( GameObject assetModel )
+    protected void SetColliderBounds ( BoundsData data )
     {
-        Vector3 pos = assetModel.transform.localPosition;
-        Quaternion rot = assetModel.transform.localRotation;
-        Vector3 scale = assetModel.transform.localScale;
-
-        // Need to clear out transforms while encapsulating bounds
-        assetModel.transform.localPosition = Vector3.zero;
-        assetModel.transform.localRotation = Quaternion.identity;
-        assetModel.transform.localScale = Vector3.one;
-
-        // Start with root object's bounds
-        Bounds bounds = new Bounds ( Vector3.zero, Vector3.zero );
-        if ( assetModel.transform.TryGetComponent ( out Renderer mainRenderer ) )
+        if ( m_playerItem == null )
         {
-            // New Bounds() will include 0,0,0 which you may not want to Encapsulate
-            // because the vertices of the mesh may be way off the model's origin,
-            // so instead start with the first renderer bounds and Encapsulate from there
-            bounds = mainRenderer.bounds;
+            return;
         }
 
-        Transform [] descendants = assetModel.GetComponentsInChildren<Transform> ();
-        foreach ( Transform desc in descendants )
-        {
-            if ( desc.TryGetComponent ( out Renderer childRenderer ) )
-            {
-                if ( bounds.extents == Vector3.zero )
-                    bounds = childRenderer.bounds;
-                bounds.Encapsulate ( childRenderer.bounds );
-            }
-        }
-
-        m_boxCollider.center = bounds.center - assetModel.transform.position;
-        m_boxCollider.size = bounds.size;
-
-        // Restore transforms
-        assetModel.transform.localPosition = pos;
-        assetModel.transform.localRotation = rot;
-        assetModel.transform.localScale = scale;
+        m_boxCollider.center = data.Center/* - transform.position*/;
+        m_boxCollider.size = data.Size;
     }
 
     #endregion

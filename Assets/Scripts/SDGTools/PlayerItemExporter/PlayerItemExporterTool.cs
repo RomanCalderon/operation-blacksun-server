@@ -1,11 +1,12 @@
 using System.IO;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using InventorySystem.PlayerItems;
 using PlayerItemExporter;
 
-public class PlayerItemExporterTool : EditorWindow
+public class PlayerItemExporterTool : EditorWindowSingleton<PlayerItemExporterTool>
 {
     #region Constants
 
@@ -256,11 +257,24 @@ public class PlayerItemExporterTool : EditorWindow
 
     public BoundsData [] GetBoundsData ()
     {
+        if ( m_boundsData == null || m_boundsData.Count == 0 )
+        {
+            ImportData ();
+        }
         if ( m_boundsData == null )
         {
             return null;
         }
         return m_boundsData.ToArray ();
+    }
+
+    public BoundsData GetBoundsData ( string id )
+    {
+        if ( m_boundsData == null || string.IsNullOrEmpty ( id ) )
+        {
+            return new BoundsData ();
+        }
+        return m_boundsData.FirstOrDefault ( b => b.Id == id );
     }
 
     #endregion
