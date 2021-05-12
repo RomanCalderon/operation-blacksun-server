@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using UnityEngine;
 using InteractionData;
@@ -6,6 +7,7 @@ public class Interactable : MonoBehaviour, IInteractable
 {
     #region Members
 
+    public string InstanceId { get => m_instanceId; }
     public int InteractionType { get => m_interactionType; }
     public bool IsInteractable { get => m_isInteractable; }
     public string InteractionContext { get => m_interactionContext; }
@@ -15,6 +17,7 @@ public class Interactable : MonoBehaviour, IInteractable
     public string AccessKey { get => m_accessKey; }
     public int ClientId { get => m_clientId; }
 
+    private string m_instanceId = null;
     private int m_interactionType = 0;
     private bool m_isInteractable = false;
     private string m_interactionContext;
@@ -37,6 +40,7 @@ public class Interactable : MonoBehaviour, IInteractable
     /// <param name="accessKey">A prerequisite 'passcode' in the form of a string. Omitting a value (null) disables this prerequisite. Default is null.</param>
     public virtual void Initialize ( int interactionType, bool isInteractable, string interactionContext, Color interactionLabelColor, float interactTime = 0f, string accessKey = null )
     {
+        m_instanceId = Guid.NewGuid ().ToString ();
         m_interactionType = interactionType;
         m_isInteractable = isInteractable;
         m_interactionContext = interactionContext;
@@ -159,6 +163,7 @@ public class Interactable : MonoBehaviour, IInteractable
     public byte [] GetData ( string [] accessKeys )
     {
         return new InteractableData (
+            m_instanceId,
             m_interactionType,
             m_isInteractable,
             m_interactionContext,

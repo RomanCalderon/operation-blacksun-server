@@ -9,6 +9,7 @@ namespace InteractionData
     [Serializable]
     public struct InteractableData
     {
+        public string InstanceId;
         public int InteractionType;
         public bool IsInteractable;
         public string InteractionLabel;
@@ -16,8 +17,9 @@ namespace InteractionData
         public float InteractTime;
         public bool HasAccessKey;
 
-        public InteractableData ( int interactionType, bool isInteractable, string interactionLabel, Color interactionLabelColor, float interactTime, bool hasAccessKey )
+        public InteractableData ( string instanceId, int interactionType, bool isInteractable, string interactionLabel, Color interactionLabelColor, float interactTime, bool hasAccessKey )
         {
+            InstanceId = instanceId;
             InteractionType = interactionType;
             IsInteractable = isInteractable;
             InteractionLabel = interactionLabel;
@@ -31,6 +33,7 @@ namespace InteractionData
             MemoryStream stream = new MemoryStream ();
             BinaryWriterExtended writer = new BinaryWriterExtended ( stream );
 
+            writer.Write ( InstanceId );
             writer.Write ( InteractionType );
             writer.Write ( IsInteractable );
             writer.Write ( InteractionLabel );
@@ -46,6 +49,7 @@ namespace InteractionData
             BinaryReaderExtended reader = new BinaryReaderExtended ( new MemoryStream ( bytes ) );
             InteractableData s = default;
 
+            s.InstanceId = reader.ReadString ();
             s.InteractionType = reader.ReadInt32 ();
             s.IsInteractable = reader.ReadBoolean ();
             s.InteractionLabel = reader.ReadString ();

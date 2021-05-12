@@ -1,11 +1,11 @@
 using System;
 using UnityEngine;
 using InventorySystem.PlayerItems;
-using InteractionData;
 using PlayerItemExporter;
 
 [RequireComponent ( typeof ( BoxCollider ) )]
 [RequireComponent ( typeof ( Rigidbody ) )]
+[RequireComponent ( typeof ( NetworkedRigidbody ) )]
 public class PickupInstance : Interactable
 {
     private const float RIGIDBODY_MASS = 20f;
@@ -15,11 +15,13 @@ public class PickupInstance : Interactable
     private Action m_pickupCallback = null;
     private BoxCollider m_boxCollider = null;
     private Rigidbody m_rigidbody = null;
+    private NetworkedRigidbody m_networkedRigidbody = null;
 
     private void Awake ()
     {
         m_boxCollider = GetComponent<BoxCollider> ();
         m_rigidbody = GetComponent<Rigidbody> ();
+        m_networkedRigidbody = GetComponent<NetworkedRigidbody> ();
     }
 
     public void Initialize ( PickupInstanceConfig config, Action pickupCallback )
@@ -50,6 +52,9 @@ public class PickupInstance : Interactable
         m_rigidbody.mass = RIGIDBODY_MASS;
         m_rigidbody.isKinematic = data.Size == Vector3.zero;
         m_rigidbody.collisionDetectionMode = CollisionDetectionMode.Continuous;
+
+        // Initialize NetworkedRigidbody
+        m_networkedRigidbody.Initialize ( InstanceId );
     }
 
     #region Interactable

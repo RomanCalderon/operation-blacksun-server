@@ -2,6 +2,8 @@ using UnityEngine;
 
 public interface IInteractable
 {
+    public string InstanceId { get; }
+
     int InteractionType { get; }
 
     bool IsInteractable { get; }

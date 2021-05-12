@@ -23,6 +23,18 @@ public class ServerSimulation : MonoBehaviour
     // Player-ClientInputState input processing register
     private static Dictionary<Player, Queue<ClientInputState>> m_clientInputs = new Dictionary<Player, Queue<ClientInputState>> ();
 
+    // Networked Rigidbody Manager instance
+    private NetworkedRigidbodyManager m_networkedRigidbodyManager = null;
+
+    #endregion
+
+    #region Initialization
+
+    private void Awake ()
+    {
+        m_networkedRigidbodyManager = NetworkedRigidbodyManager.Instance;
+    }
+
     #endregion
 
     private void FixedUpdate ()
@@ -41,6 +53,9 @@ public class ServerSimulation : MonoBehaviour
 
         // Simulate physics in the scene
         Physics.Simulate ( Time.fixedDeltaTime );
+
+        // Update Networked Rigidbody Manager
+        m_networkedRigidbodyManager.SendData ();
 
         // Create new state and send to the clients
         ApplyServerState ();

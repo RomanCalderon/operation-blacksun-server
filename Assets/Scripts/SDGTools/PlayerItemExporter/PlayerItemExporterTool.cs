@@ -21,6 +21,7 @@ public class PlayerItemExporterTool : EditorWindowSingleton<PlayerItemExporterTo
     private const string EXPORT_FILENAME = "player-item-bounds.json";
 
     // Save/Load keys
+    private const string IMPORT_PATH_KEY = "import-path";
     private const string EXPORT_DIRECTORY_KEY = "export-path";
 
     #endregion
@@ -285,6 +286,9 @@ public class PlayerItemExporterTool : EditorWindowSingleton<PlayerItemExporterTo
     {
         if ( JsonFileUtility.ReadFromFile ( m_importFile, out string json ) )
         {
+            // Save import path
+            PlayerPrefs.SetString ( IMPORT_PATH_KEY, m_importFile );
+
             if ( TryConvertFromJson ( json, out BoundsDataCollection data ) )
             {
                 m_boundsData = new List<BoundsData> ( data.BoundsData );
@@ -377,6 +381,7 @@ public class PlayerItemExporterTool : EditorWindowSingleton<PlayerItemExporterTo
             m_boundsData = new List<BoundsData> ( data.BoundsData );
         }
 
+        m_importFile = PlayerPrefs.GetString ( IMPORT_PATH_KEY );
         m_exportDirectory = PlayerPrefs.GetString ( EXPORT_DIRECTORY_KEY );
     }
 

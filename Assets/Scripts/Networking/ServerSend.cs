@@ -251,6 +251,8 @@ public class ServerSend
         }
     }
 
+    #region Item Spawner
+
     public static void CreateItemSpawner ( int _toClient, byte [] _spawnerData )
     {
         using ( Packet _packet = new Packet ( ( int ) ServerPackets.createItemSpawner ) )
@@ -271,6 +273,23 @@ public class ServerSend
             SendTCPDataToAll ( _packet );
         }
     }
+
+    #endregion
+
+    #region Networked Rigidbody
+
+    public static void NetworkedRigidbodyData ( byte [] _data )
+    {
+        using ( Packet _packet = new Packet ( ( int ) ServerPackets.networkedRigidbodyData ) )
+        {
+            _packet.Write ( _data.Length );
+            _packet.Write ( _data );
+
+            SendUDPDataToAll ( _packet );
+        }
+    }
+
+    #endregion
 
     #endregion
 }
