@@ -46,8 +46,47 @@ public class NetworkedRigidbody : MonoBehaviour
 
     #endregion
 
+    private const float NEW_POSITION_THRESHOLD = 0.01f;
+    private const float NEW_ROTATION_THRESHOLD = 0.1f;
+
+    /// <summary>
+    /// True if this body has moved more than NEW_POSITION_THRESHOLD.
+    /// </summary>
+    public bool HasMoved
+    {
+        get
+        {
+            float positionDelta = ( transform.position - m_previousPosition ).sqrMagnitude;
+            if ( positionDelta > NEW_POSITION_THRESHOLD * NEW_POSITION_THRESHOLD )
+            {
+                m_previousPosition = transform.position;
+                return true;
+            }
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// True if this body has rotated more than NEW_ROTATION_THRESHOLD.
+    /// </summary>
+    public bool HasRotated
+    {
+        get
+        {
+            float rotationDelta = ( transform.eulerAngles - m_previousRotation ).sqrMagnitude;
+            if ( rotationDelta > NEW_ROTATION_THRESHOLD * NEW_ROTATION_THRESHOLD )
+            {
+                m_previousRotation = transform.eulerAngles;
+                return true;
+            }
+            return false;
+        }
+    }
+
     private string m_id = null;
     private bool m_isInitialized = false;
+    private Vector3 m_previousPosition = Vector3.zero;
+    private Vector3 m_previousRotation = Vector3.zero;
 
     public void Initialize ( string id )
     {

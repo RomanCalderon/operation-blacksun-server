@@ -20,13 +20,24 @@ public class NetworkedRigidbodyManager : LazySingleton<NetworkedRigidbodyManager
         }
     }
 
-    public void SendData ()
+    public void SendDataAll ( bool forceSend = false )
     {
         foreach ( NetworkedRigidbody networkedBody in m_networkBodies.Values )
         {
-            if ( networkedBody != null )
+            if ( networkedBody != null && ( networkedBody.HasMoved || networkedBody.HasRotated || forceSend ) )
             {
                 ServerSend.NetworkedRigidbodyData ( networkedBody.GetData () );
+            }
+        }
+    }
+
+    public void SendData ( int clientId, bool forceSend = false )
+    {
+        foreach ( NetworkedRigidbody networkedBody in m_networkBodies.Values )
+        {
+            if ( networkedBody != null && ( networkedBody.HasMoved || networkedBody.HasRotated || forceSend ) )
+            {
+                ServerSend.NetworkedRigidbodyData ( clientId, networkedBody.GetData () );
             }
         }
     }

@@ -55,7 +55,7 @@ public class ServerSimulation : MonoBehaviour
         Physics.Simulate ( Time.fixedDeltaTime );
 
         // Update Networked Rigidbody Manager
-        m_networkedRigidbodyManager.SendData ();
+        m_networkedRigidbodyManager.SendDataAll ();
 
         // Create new state and send to the clients
         ApplyServerState ();

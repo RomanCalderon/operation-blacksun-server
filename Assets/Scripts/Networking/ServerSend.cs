@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using InventorySystem;
+﻿using UnityEngine;
 
 public class ServerSend
 {
@@ -286,6 +283,17 @@ public class ServerSend
             _packet.Write ( _data );
 
             SendUDPDataToAll ( _packet );
+        }
+    }
+
+    public static void NetworkedRigidbodyData ( int _toClient, byte [] _data )
+    {
+        using ( Packet _packet = new Packet ( ( int ) ServerPackets.networkedRigidbodyData ) )
+        {
+            _packet.Write ( _data.Length );
+            _packet.Write ( _data );
+
+            SendTCPData ( _toClient, _packet );
         }
     }
 
