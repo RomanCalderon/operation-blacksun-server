@@ -8,7 +8,7 @@ using PlayerItemExporter;
 [RequireComponent ( typeof ( NetworkedRigidbody ) )]
 public class PickupInstance : Interactable
 {
-    private const float RIGIDBODY_MASS = 20f;
+    private const float RIGIDBODY_MASS = 10f;
 
     private PlayerItem m_playerItem = null;
     private int m_quantity = 1;
