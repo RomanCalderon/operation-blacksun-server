@@ -49,6 +49,22 @@ public class WeaponsController : MonoBehaviour
         }
     }
 
+    public bool CanUseWeapons
+    {
+        get
+        {
+            return !m_player.IsDead && ActiveWeapon != null;
+        }
+    }
+
+    public bool CanShootWeapon
+    {
+        get
+        {
+            return CanUseWeapons && ActiveWeapon.BulletCount > 0;
+        }
+    }
+
     [Space]
     [SerializeField]
     private List<WeaponInstance> m_primaryWeapons = new List<WeaponInstance> ();

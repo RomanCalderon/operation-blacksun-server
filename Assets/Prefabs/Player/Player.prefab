@@ -271,6 +271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0776afed1b0bd40abbc7090da5fc7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_weaponsController: {fileID: -1832554668036075320}
   m_groundMask:
     serializedVersion: 2
     m_Bits: 1
