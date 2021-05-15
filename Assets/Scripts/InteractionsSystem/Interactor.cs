@@ -101,7 +101,7 @@ public class Interactor : MonoBehaviour
     private IInteractable GetTargetInteractable ()
     {
         Collider [] allInteractables = Physics.OverlapSphere ( transform.position, CHECK_RADIUS, m_interactableMask );
-        Vector3 lookDirection = m_lookOriginController.GunDirection;
+        Vector3 lookDirection = m_lookOriginController.LookDirection;
         Vector3 headPosition = m_lookOriginController.ShootOrigin;
         IInteractable target = null;
         float closest = CHECK_ANGLE;
