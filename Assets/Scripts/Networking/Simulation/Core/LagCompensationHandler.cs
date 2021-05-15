@@ -54,7 +54,6 @@ public class LagCompensationHandler
     #region Client Event Handlers
 
     // Weapon shooting
-    // TODO: Add clientSubFrame [0f-1f]
     public static void OnClientWeaponShoot ( Client client, uint tick, float clientSubFrame )
     {
         if ( client == null || client.player == null )

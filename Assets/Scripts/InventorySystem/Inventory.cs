@@ -683,24 +683,24 @@ namespace InventorySystem
                 slotB.Insert ( slotA.PlayerItem, slotA.StackSize );
                 slotA.Clear ();
                 slotA.Insert ( tempItem, tempSize );
-                ServerSend.PlayerUpdateInventorySlot ( player.Id, slotA.Id, slotA.PlayerItem.Id, slotA.StackSize ); // slotA
-                ServerSend.PlayerUpdateInventorySlot ( player.Id, slotB.Id, slotB.PlayerItem.Id, slotB.StackSize ); // slotB
+                ServerSend.PlayerUpdateInventorySlot ( player.Id, slotA.Id, slotA.PlayerItem.Id, slotA.StackSize ); // slotA - insert
+                ServerSend.PlayerUpdateInventorySlot ( player.Id, slotB.Id, slotB.PlayerItem.Id, slotB.StackSize ); // slotB - insert
             }
             // Swaps slotA PlayerItem to empty slotB
             else if ( !slotA.IsEmpty () && slotB.IsEmpty () )
             {
                 slotB.Insert ( slotA.PlayerItem, slotA.StackSize );
                 slotA.Clear ();
-                ServerSend.PlayerUpdateInventorySlot ( player.Id, slotA.Id, 0 ); // slotA
-                ServerSend.PlayerUpdateInventorySlot ( player.Id, slotB.Id, slotB.PlayerItem.Id, slotB.StackSize ); // slotB
+                ServerSend.PlayerUpdateInventorySlot ( player.Id, slotA.Id ); // slotA - clear
+                ServerSend.PlayerUpdateInventorySlot ( player.Id, slotB.Id, slotB.PlayerItem.Id, slotB.StackSize ); // slotB - insert
             }
             // Swaps slotB PlayerItem to empty slotA
             else if ( slotA.IsEmpty () && !slotB.IsEmpty () )
             {
                 slotA.Insert ( slotB.PlayerItem, slotB.StackSize );
                 slotB.Clear ();
-                ServerSend.PlayerUpdateInventorySlot ( player.Id, slotA.Id, slotA.PlayerItem.Id, slotA.StackSize ); // slotA
-                ServerSend.PlayerUpdateInventorySlot ( player.Id, slotB.Id, 0 ); // slotB
+                ServerSend.PlayerUpdateInventorySlot ( player.Id, slotA.Id, slotA.PlayerItem.Id, slotA.StackSize ); // slotA - insert
+                ServerSend.PlayerUpdateInventorySlot ( player.Id, slotB.Id ); // slotB - clear
             }
             else
             {
@@ -834,9 +834,6 @@ namespace InventorySystem
                 return;
             }
 
-            // Keep track of amount of items reduced from slots
-            int itemsReduced = 0;
-
             // Get all slots that contain PlayerItem with matching IDs
             List<Slot> slots = new List<Slot> ();
             slots.AddRange ( m_rigSlots.Where ( s => s.PlayerItem && s.PlayerItem.Id == playerItemId ) );
@@ -856,6 +853,9 @@ namespace InventorySystem
             // Create a queue
             Queue<Slot> slotQueue = new Queue<Slot> ( slots );
             List<Slot> affectedSlots = new List<Slot> ();
+
+            // Keep track of amount of items reduced from slots
+            int itemsReduced = 0;
 
             while ( itemsReduced < reductionAmount )
             {
@@ -881,6 +881,83 @@ namespace InventorySystem
                 ServerSend.PlayerUpdateInventorySlot ( player.Id, slot.Id, itemId, slot.StackSize );
             }
         }
+
+        #region Item Removal
+
+        public void RemoveItem ( string slotId, int transferMode )
+        {
+            if ( string.IsNullOrEmpty ( slotId ) )
+            {
+                return;
+            }
+
+            Slot removalSlot = GetSlot ( slotId );
+            RemovalResult removalResult = null;
+
+            // Weapon removal
+            if ( removalSlot is WeaponSlot weaponSlot )
+            {
+                RemoveWeapon ( weaponSlot );
+                return;
+            }
+            else if ( removalSlot is AttachmentSlot )
+            {
+                removalSlot.Remove ();
+                ServerSend.PlayerUpdateInventorySlot ( player.Id, removalSlot.Id );
+                return;
+            }
+
+            switch ( transferMode )
+            {
+                case 0: // Remove ALL
+                    removalResult = removalSlot.RemoveAll ();
+                    ServerSend.PlayerUpdateInventorySlot ( player.Id, removalSlot.Id );
+                    break;
+                case 1: // Remove ONE
+                    removalResult = removalSlot.Remove ();
+                    if ( removalSlot.IsEmpty () )
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, removalSlot.Id );
+                    else
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, removalSlot.Id, removalSlot.PlayerItem.Id, removalSlot.StackSize );
+                    break;
+                case 2: // Remove HALF
+                    removalResult = removalSlot.RemoveHalf ();
+                    ServerSend.PlayerUpdateInventorySlot ( player.Id, removalSlot.Id, removalSlot.PlayerItem.Id, removalSlot.StackSize );
+                    break;
+                default:
+                    break;
+            }
+            OnValidate ();
+            Debug.Log ( $"RemovalResult={removalResult}" );
+        }
+
+        /// <summary>
+        /// Removes a specified weapon and all of its attachments
+        /// from the player's inventory.
+        /// </summary>
+        /// <param name="weaponSlots"></param>
+        private void RemoveWeapon ( WeaponSlot weaponSlot )
+        {
+            if ( weaponSlot.Id.Contains ( "primary" ) )
+            {
+                // Clear all slots
+                m_primaryWeaponSlots.Clear ();
+                // Apply changes
+                m_primaryWeaponSlots.Apply ( player.Id );
+                inventoryManager.OnWeaponSlotsUpdated.Invoke ( m_primaryWeaponSlots );
+            }
+            else if ( weaponSlot.Id.Contains ( "secondary" ) )
+            {
+                // Clear all slots
+                m_secondaryWeaponSlots.Clear ();
+                // Apply changes
+                m_secondaryWeaponSlots.Apply ( player.Id );
+                inventoryManager.OnWeaponSlotsUpdated.Invoke ( m_secondaryWeaponSlots );
+            }
+            OnValidate ();
+        }
+
+        #endregion
 
         #region Rig
 

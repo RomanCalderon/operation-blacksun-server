@@ -577,38 +577,58 @@ namespace InventorySystem.Slots
         }
 
         /// <summary>
-        /// Sends current Slot data to the client.
+        /// Sends current WeaponSlot data to the client.
         /// </summary>
         public void Apply ( int playerId )
         {
-            if ( WeaponSlot != null )
+            // WeaponSlot
+            if ( WeaponSlot.IsEmpty () )
             {
-                string weaponItemId = WeaponSlot.IsEmpty () ? string.Empty : WeaponSlot.PlayerItem.Id;
-                ServerSend.PlayerUpdateInventorySlot ( playerId, WeaponSlot.Id, weaponItemId, 1 );
+                ServerSend.PlayerUpdateInventorySlot ( playerId, WeaponSlot.Id );
+            }
+            else
+            {
+                ServerSend.PlayerUpdateInventorySlot ( playerId, WeaponSlot.Id, WeaponSlot.PlayerItem.Id, 1 );
             }
 
-            if ( BarrelSlot != null )
+            // BarrelSlot
+            if ( BarrelSlot.IsEmpty () )
             {
-                string barrelItemId = BarrelSlot.IsEmpty () ? string.Empty : BarrelSlot.PlayerItem.Id;
-                ServerSend.PlayerUpdateInventorySlot ( playerId, BarrelSlot.Id, barrelItemId, 1 );
+                ServerSend.PlayerUpdateInventorySlot ( playerId, BarrelSlot.Id );
+            }
+            else
+            {
+                ServerSend.PlayerUpdateInventorySlot ( playerId, BarrelSlot.Id, BarrelSlot.PlayerItem.Id, 1 );
             }
 
-            if ( SightSlot != null )
+            // SightSlot
+            if ( SightSlot.IsEmpty () )
             {
-                string sightItemId = SightSlot.IsEmpty () ? string.Empty : SightSlot.PlayerItem.Id;
-                ServerSend.PlayerUpdateInventorySlot ( playerId, SightSlot.Id, sightItemId, 1 );
+                ServerSend.PlayerUpdateInventorySlot ( playerId, SightSlot.Id );
+            }
+            else
+            {
+                ServerSend.PlayerUpdateInventorySlot ( playerId, SightSlot.Id, SightSlot.PlayerItem.Id, 1 );
             }
 
-            if ( MagazineSlot != null )
+            // MagazineSlot
+            if ( MagazineSlot.IsEmpty () )
             {
-                string magazineItemId = MagazineSlot.IsEmpty () ? string.Empty : MagazineSlot.PlayerItem.Id;
-                ServerSend.PlayerUpdateInventorySlot ( playerId, MagazineSlot.Id, magazineItemId, 1 );
+                ServerSend.PlayerUpdateInventorySlot ( playerId, MagazineSlot.Id );
+            }
+            else
+            {
+                ServerSend.PlayerUpdateInventorySlot ( playerId, MagazineSlot.Id, MagazineSlot.PlayerItem.Id, 1 );
             }
 
-            if ( StockSlot != null )
+            // StockSlot
+            if ( StockSlot.IsEmpty () )
             {
-                string stockItemId = StockSlot.IsEmpty () ? string.Empty : StockSlot.PlayerItem.Id;
-                ServerSend.PlayerUpdateInventorySlot ( playerId, StockSlot.Id, stockItemId, 1 );
+                ServerSend.PlayerUpdateInventorySlot ( playerId, StockSlot.Id );
+            }
+            else
+            {
+                ServerSend.PlayerUpdateInventorySlot ( playerId, StockSlot.Id, StockSlot.PlayerItem.Id, 1 );
             }
         }
 

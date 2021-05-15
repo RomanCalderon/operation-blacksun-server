@@ -48,19 +48,22 @@ public class InventoryManager : MonoBehaviour
 
     #region Transfers
 
-    public void TransferContentsAll ( string fromSlot, string toSlot )
+    public void TransferContents ( string fromSlot, string toSlot, int transferMode )
     {
-        m_inventory.TransferContentsAll ( fromSlot, toSlot );
-    }
-
-    public void TransferContentsSingle ( string fromSlot, string toSlot )
-    {
-        m_inventory.TransferContentsSingle ( fromSlot, toSlot );
-    }
-
-    public void TransferContentsHalf ( string fromSlot, string toSlot )
-    {
-        m_inventory.TransferContentsHalf ( fromSlot, toSlot );
+        switch ( transferMode )
+        {
+            case 0: // Transfer ALL
+                m_inventory.TransferContentsAll ( fromSlot, toSlot );
+                break;
+            case 1: // Transfer ONE
+                m_inventory.TransferContentsSingle ( fromSlot, toSlot );
+                break;
+            case 2: // Transfer HALF
+                m_inventory.TransferContentsHalf ( fromSlot, toSlot );
+                break;
+            default:
+                break;
+        }
     }
 
     #endregion
@@ -73,6 +76,11 @@ public class InventoryManager : MonoBehaviour
     public void ReduceItem ( string playerItemId, int reductionAmount )
     {
         m_inventory.ReduceItem ( playerItemId, reductionAmount );
+    }
+
+    public void RemoveItem ( string slotId, int transferMode )
+    {
+        m_inventory.RemoveItem ( slotId, transferMode );
     }
 
     public void OnValidate ()

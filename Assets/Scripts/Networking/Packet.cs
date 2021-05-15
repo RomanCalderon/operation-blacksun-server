@@ -41,6 +41,7 @@ public enum ClientPackets
     weaponCancelReload,
     playerTransferSlotContents,
     playerInventoryReduceItem,
+    playerDropItem,
     playerKillSelf
 }
 

@@ -22,7 +22,6 @@ public class ServerHandle
         ServerSend.Ping ( _fromClient );
     }
 
-    #region Player
 
     public static void SpawnPlayer ( int _fromClient, Packet _packet )
     {
@@ -39,6 +38,8 @@ public class ServerHandle
             Server.clients [ _fromClient ].SendIntoGame ( _username );
         }
     }
+
+    #region Player
 
     public static void PlayerReady ( int _fromClient, Packet _packet )
     {
@@ -90,26 +91,15 @@ public class ServerHandle
         Server.clients [ _fromClient ].player.CancelWeaponReload ();
     }
 
+    #region Inventory
+
     public static void PlayerTransferSlotContents ( int _fromClient, Packet _packet )
     {
         string fromSlotId = _packet.ReadString ();
         string toSlotId = _packet.ReadString ();
         int transferMode = _packet.ReadInt ();
 
-        switch ( transferMode )
-        {
-            case 0: // Transfer ALL
-                Server.clients [ _fromClient ].player.InventoryManager.TransferContentsAll ( fromSlotId, toSlotId );
-                break;
-            case 1: // Transfer ONE
-                Server.clients [ _fromClient ].player.InventoryManager.TransferContentsSingle ( fromSlotId, toSlotId );
-                break;
-            case 2: // Transfer HALF
-                Server.clients [ _fromClient ].player.InventoryManager.TransferContentsHalf ( fromSlotId, toSlotId );
-                break;
-            default:
-                break;
-        }
+        Server.clients [ _fromClient ].player.InventoryManager.TransferContents ( fromSlotId, toSlotId, transferMode );
     }
 
     public static void PlayerInventoryReduceItem ( int _fromClient, Packet _packet )
@@ -119,6 +109,16 @@ public class ServerHandle
 
         Server.clients [ _fromClient ].player.InventoryManager.ReduceItem ( playerItemId, reductionAmount );
     }
+
+    public static void PlayerDropItem ( int _fromClient, Packet _packet )
+    {
+        string fromSlotId = _packet.ReadString ();
+        int transferMode = _packet.ReadInt ();
+
+        Server.clients [ _fromClient ].player.InventoryManager.RemoveItem ( fromSlotId, transferMode );
+    }
+
+    #endregion
 
     public static void PlayerKillSelf ( int _fromClient, Packet _packet )
     {

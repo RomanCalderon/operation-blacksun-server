@@ -186,7 +186,7 @@ public class ServerSend
 
     public static void PlayerUpdateInventorySlot ( int _playerId, string _slotId )
     {
-        PlayerUpdateInventorySlot ( _playerId, _slotId, 0 );
+        PlayerUpdateInventorySlot ( _playerId, _slotId, string.Empty, 0 );
     }
 
     public static void PlayerUpdateInventorySlot ( int _playerId, string _slotId, int _quantity )
@@ -198,8 +198,6 @@ public class ServerSend
     {
         using ( Packet _packet = new Packet ( ( int ) ServerPackets.playerUpdateInventorySlot ) )
         {
-            _packet.Write ( _playerId );
-
             _packet.Write ( _slotId );
             _packet.Write ( _playerItemId );
             _packet.Write ( _quantity );

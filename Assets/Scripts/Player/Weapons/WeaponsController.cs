@@ -123,9 +123,13 @@ public class WeaponsController : MonoBehaviour
 
     private void UpdateAttachments ()
     {
-        if ( ActiveWeapon != null )
+        if ( m_primaryEquipped != null )
         {
-            ActiveWeapon.UpdateAttachments ();
+            m_primaryEquipped.UpdateAttachments ();
+        }
+        if ( m_secondaryEquipped != null )
+        {
+            m_secondaryEquipped.UpdateAttachments ();
         }
     }
 
@@ -358,10 +362,16 @@ public class WeaponsController : MonoBehaviour
         switch ( weapon )
         {
             case Weapons.Primary:
-                m_primaryEquipped.gameObject.SetActive ( true );
+                if ( m_primaryEquipped != null )
+                {
+                    m_primaryEquipped.gameObject.SetActive ( true );
+                }
                 break;
             case Weapons.Secondary:
-                m_secondaryEquipped.gameObject.SetActive ( true );
+                if ( m_secondaryEquipped != null )
+                {
+                    m_secondaryEquipped.gameObject.SetActive ( true );
+                }
                 break;
             default:
                 break;
