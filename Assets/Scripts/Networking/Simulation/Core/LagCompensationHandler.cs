@@ -41,7 +41,7 @@ public class LagCompensationHandler
             ShootEventData eventData = m_clientShootEvents [ clientId ].Dequeue ();
             uint eventTick = ( uint ) Mathf.Min ( eventData.Tick, inputArray [ shootIndex ].ServerTick );
             float clientSubFrame = eventData.ClientSubFrame;
-            Vector3 lookDirection = inputArray [ shootIndex ].LookDirection;
+            Vector3 lookDirection = inputArray [ shootIndex ].GunDirection;
             void action () => player.Shoot ( lookDirection );
             SimulationHelper.Simulate ( serverTick, eventTick, action, clientSubFrame );
 

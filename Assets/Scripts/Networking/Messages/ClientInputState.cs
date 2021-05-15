@@ -18,6 +18,8 @@ public class ClientInputState : Message
     public bool Shoot;
     public bool Aiming;
     [SerializeField]
+    public Vector3 GunDirection;
+    [SerializeField]
     public Vector3 LookDirection;
     // Interactions
     public bool Interact;
