@@ -259,6 +259,17 @@ public class ServerSend
         }
     }
 
+    public static void SpawnItem ( byte [] _spawnerData )
+    {
+        using ( Packet _packet = new Packet ( ( int ) ServerPackets.spawnItem ) )
+        {
+            _packet.Write ( _spawnerData.Length );
+            _packet.Write ( _spawnerData );
+
+            SendTCPDataToAll ( _packet );
+        }
+    }
+
     public static void DestroyItem ( int _spawnerId )
     {
         using ( Packet _packet = new Packet ( ( int ) ServerPackets.destroyItem ) )

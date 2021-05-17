@@ -39,6 +39,9 @@ public class PickupInstance : Interactable
             Debug.LogWarning ( "playerItem is null." );
             return;
         }
+        // Set instance GameObject name
+        gameObject.name = $"Pickup Instance [{config.PlayerItem}]";
+
         // Initialize PlayerItem data
         m_playerItem = config.PlayerItem;
         m_pickupCallback = pickupCallback;

@@ -2,6 +2,7 @@
 using InventorySystem;
 using InventorySystem.Presets;
 using InventorySystem.Slots;
+using InventorySystem.Slots.Results;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -25,11 +26,14 @@ public class InventoryManager : MonoBehaviour
 
     private Player m_player = null;
     public Inventory Inventory { get { return m_inventory; } }
+    public PlayerItemDatabase PlayerItemDatabase { get; private set; } = null;
     [SerializeField]
     private Inventory m_inventory = null;
     [SerializeField]
     private Preset m_inventoryPreset = null;
-    public PlayerItemDatabase PlayerItemDatabase { get; private set; } = null;
+
+    [SerializeField]
+    private Vector3 m_itemDropPositionOffset = Vector3.forward;
 
     #endregion
 
@@ -78,9 +82,38 @@ public class InventoryManager : MonoBehaviour
         m_inventory.ReduceItem ( playerItemId, reductionAmount );
     }
 
-    public void RemoveItem ( string slotId, int transferMode )
+    public void DropItem ( string slotId, int transferMode )
     {
-        m_inventory.RemoveItem ( slotId, transferMode );
+        if ( string.IsNullOrEmpty ( slotId ) )
+        {
+            return;
+        }
+
+        // Remove item(s) from inventory
+        RemovalResult [] removalResults = m_inventory.RemoveItem ( slotId, transferMode );
+
+        // Spawn item(s)
+        if ( removalResults != null )
+        {
+            foreach ( RemovalResult removalResult in removalResults )
+            {
+                if ( removalResult == null )
+                {
+                    Debug.LogError ( "RemovalResult is null." );
+                }
+                else if ( removalResult.Contents != null )
+                {
+                    Debug.Log ( $"Drop item [{removalResult.Contents}] - Quantity [{removalResult.RemoveAmount}]" );
+                    // FIXME: Position item spawner
+                    Vector3 itemSpawnPosition = transform.forward;
+                    ItemSpawnerManager.Instance.SpawnItem ( removalResult.Contents, removalResult.RemoveAmount, itemSpawnPosition );
+                }
+            }
+        }
+        else
+        {
+            Debug.Log ( "removalResults array is null." );
+        }
     }
 
     public void OnValidate ()

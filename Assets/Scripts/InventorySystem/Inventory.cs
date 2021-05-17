@@ -884,27 +884,24 @@ namespace InventorySystem
 
         #region Item Removal
 
-        public void RemoveItem ( string slotId, int transferMode )
+        public RemovalResult [] RemoveItem ( string slotId, int transferMode )
         {
             if ( string.IsNullOrEmpty ( slotId ) )
             {
-                return;
+                return null;
             }
 
             Slot removalSlot = GetSlot ( slotId );
             RemovalResult removalResult = null;
 
-            // Weapon removal
+            // Weapon removal (includes attachments)
             if ( removalSlot is WeaponSlot weaponSlot )
             {
-                RemoveWeapon ( weaponSlot );
-                return;
+                return RemoveWeapon ( weaponSlot );
             }
-            else if ( removalSlot is AttachmentSlot )
+            else if ( removalSlot is AttachmentSlot attachmentSlot )
             {
-                removalSlot.Remove ();
-                ServerSend.PlayerUpdateInventorySlot ( player.Id, removalSlot.Id );
-                return;
+                return new RemovalResult [] { RemoveAttachment ( attachmentSlot ) };
             }
 
             switch ( transferMode )
@@ -922,13 +919,16 @@ namespace InventorySystem
                     break;
                 case 2: // Remove HALF
                     removalResult = removalSlot.RemoveHalf ();
-                    ServerSend.PlayerUpdateInventorySlot ( player.Id, removalSlot.Id, removalSlot.PlayerItem.Id, removalSlot.StackSize );
+                    if ( removalSlot.IsEmpty () )
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, removalSlot.Id );
+                    else
+                        ServerSend.PlayerUpdateInventorySlot ( player.Id, removalSlot.Id, removalSlot.PlayerItem.Id, removalSlot.StackSize );
                     break;
                 default:
                     break;
             }
             OnValidate ();
-            Debug.Log ( $"RemovalResult={removalResult}" );
+            return new RemovalResult [] { removalResult };
         }
 
         /// <summary>
@@ -936,12 +936,13 @@ namespace InventorySystem
         /// from the player's inventory.
         /// </summary>
         /// <param name="weaponSlots"></param>
-        private void RemoveWeapon ( WeaponSlot weaponSlot )
+        private RemovalResult [] RemoveWeapon ( WeaponSlot weaponSlot )
         {
+            RemovalResult [] removalResults = null;
             if ( weaponSlot.Id.Contains ( "primary" ) )
             {
                 // Clear all slots
-                m_primaryWeaponSlots.Clear ();
+                removalResults = m_primaryWeaponSlots.Clear ();
                 // Apply changes
                 m_primaryWeaponSlots.Apply ( player.Id );
                 inventoryManager.OnWeaponSlotsUpdated.Invoke ( m_primaryWeaponSlots );
@@ -949,12 +950,20 @@ namespace InventorySystem
             else if ( weaponSlot.Id.Contains ( "secondary" ) )
             {
                 // Clear all slots
-                m_secondaryWeaponSlots.Clear ();
+                removalResults = m_secondaryWeaponSlots.Clear ();
                 // Apply changes
                 m_secondaryWeaponSlots.Apply ( player.Id );
                 inventoryManager.OnWeaponSlotsUpdated.Invoke ( m_secondaryWeaponSlots );
             }
             OnValidate ();
+            return removalResults;
+        }
+
+        private RemovalResult RemoveAttachment ( AttachmentSlot attachmentSlot )
+        {
+            RemovalResult removalResult = attachmentSlot.Remove ();
+            ServerSend.PlayerUpdateInventorySlot ( player.Id, attachmentSlot.Id );
+            return removalResult;
         }
 
         #endregion

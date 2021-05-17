@@ -228,7 +228,7 @@ public class Client
         }
 
         // Spawn all items for the new player
-        ItemSpawnerManager.Instance.SendSpawners ( id );
+        ItemSpawnerManager.Instance.CreateClientSpawners ( id );
 
         // Send updated NetworkedRigidbody data to this client
         NetworkedRigidbodyManager.Instance.SendData ( id, true );

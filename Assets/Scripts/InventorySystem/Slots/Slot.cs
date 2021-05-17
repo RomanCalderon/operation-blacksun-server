@@ -342,12 +342,16 @@ namespace InventorySystem.Slots
     [Serializable]
     public class WeaponSlots
     {
+        #region Members
+
         public string Id;
         public WeaponSlot WeaponSlot;
         public BarrelSlot BarrelSlot;
         public SightSlot SightSlot;
         public MagazineSlot MagazineSlot;
         public StockSlot StockSlot;
+
+        #endregion
 
         #region Constructors
 
@@ -406,6 +410,8 @@ namespace InventorySystem.Slots
 
         #endregion
 
+        #region Contains
+
         public bool ContainsWeapon ()
         {
             return !WeaponSlot.IsEmpty ();
@@ -456,6 +462,10 @@ namespace InventorySystem.Slots
             return false;
         }
 
+        #endregion
+
+        #region Assignments
+
         public void AssignContents ( Weapon weapon, Barrel barrel, Sight sight, Magazine magazine, Stock stock )
         {
             WeaponSlot.Insert ( weapon );
@@ -494,6 +504,10 @@ namespace InventorySystem.Slots
                 StockSlot.Insert ( other.StockSlot.PlayerItem );
             }
         }
+
+        #endregion
+
+        #region Accessors
 
         public Slot GetSlot ( string slotId )
         {
@@ -576,6 +590,8 @@ namespace InventorySystem.Slots
             return count;
         }
 
+        #endregion
+
         /// <summary>
         /// Sends current WeaponSlot data to the client.
         /// </summary>
@@ -632,13 +648,23 @@ namespace InventorySystem.Slots
             }
         }
 
-        public void Clear ()
+        public RemovalResult [] Clear ()
         {
+            List<RemovalResult> removalResults = new List<RemovalResult>
+            {
+                new RemovalResult ( WeaponSlot, WeaponSlot.PlayerItem, WeaponSlot.StackSize, RemovalResult.Results.SUCCESS ),
+                new RemovalResult ( BarrelSlot, BarrelSlot.PlayerItem, BarrelSlot.StackSize, RemovalResult.Results.SUCCESS ),
+                new RemovalResult ( SightSlot, SightSlot.PlayerItem, SightSlot.StackSize, RemovalResult.Results.SUCCESS ),
+                new RemovalResult ( MagazineSlot, MagazineSlot.PlayerItem, MagazineSlot.StackSize, RemovalResult.Results.SUCCESS ),
+                new RemovalResult ( StockSlot, StockSlot.PlayerItem, StockSlot.StackSize, RemovalResult.Results.SUCCESS )
+            };
+
             WeaponSlot.Clear ();
             BarrelSlot.Clear ();
             SightSlot.Clear ();
             MagazineSlot.Clear ();
             StockSlot.Clear ();
+            return removalResults.ToArray ();
         }
     }
 

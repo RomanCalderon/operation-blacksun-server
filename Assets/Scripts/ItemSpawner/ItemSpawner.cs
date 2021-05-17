@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using UnityEngine;
-using PlayerItemExporter;
+using InventorySystem.PlayerItems;
 
 public class ItemSpawner : MonoBehaviour
 {
@@ -75,21 +75,24 @@ public class ItemSpawner : MonoBehaviour
     private Interactable m_interactableInstance = null;
 
     // Start is called before the first frame update
-    void Start ()
+    private void Start ()
     {
         m_spawnerId = m_nextSpawnerId;
         m_nextSpawnerId++;
         ItemSpawnerManager.Instance.AddItem ( m_spawnerId, this );
-        SpawnItem ( true );
     }
 
     /// <summary>
-    /// Spawns configured PickupInstance at this spawner's position with an optional <paramref name="randomRotationY"/>.
+    /// Spawns pre-configured PickupInstance at this spawner's position with an optional <paramref name="randomRotationY"/>.
     /// Uses Quaternion.identity if <paramref name="randomRotationY"/> is false.
     /// </summary>
     /// <param name="randomRotationY">Use random rotation on y-axis.</param>
-    private void SpawnItem ( bool randomRotationY = false )
+    public void SpawnItem ( bool randomRotationY = false )
     {
+        if ( m_config == null || m_config.PlayerItem == null || m_config.Quantity <= 0 )
+        {
+            return;
+        }
         Quaternion rotation = randomRotationY ? Quaternion.Euler ( 0, UnityEngine.Random.value * 360, 0 ) : Quaternion.identity;
         PickupInstance instance = Instantiate ( m_pickupInstancePrefab, transform.position, rotation, transform );
         instance.Initialize ( m_config, ItemPickedUp );
@@ -97,13 +100,37 @@ public class ItemSpawner : MonoBehaviour
     }
 
     /// <summary>
-    /// Spawns configured PickupInstance at <paramref name="position"/> with <paramref name="rotation"/>.
+    /// Spawns PickupInstance from <paramref name="pickupInstanceConfig"/> at this spawner's position with an optional <paramref name="randomRotationY"/>.
+    /// Uses Quaternion.identity if <paramref name="randomRotationY"/> is false.
     /// </summary>
-    /// <param name="position">Spawn position in worldspace.</param>
-    /// <param name="rotation">Spawn rotation.</param>
-    private void SpawnItem ( Vector3 position, Quaternion rotation )
+    /// <param name="randomRotationY">Use random rotation on y-axis.</param>
+    public void SpawnItem ( PickupInstanceConfig pickupInstanceConfig, bool randomRotationY = false )
     {
-        PickupInstance instance = Instantiate ( m_pickupInstancePrefab, position, rotation, transform );
+        if ( pickupInstanceConfig == null || pickupInstanceConfig.PlayerItem == null || pickupInstanceConfig.Quantity <= 0 )
+        {
+            return;
+        }
+        m_config = pickupInstanceConfig;
+        Quaternion rotation = randomRotationY ? Quaternion.Euler ( 0, UnityEngine.Random.value * 360, 0 ) : Quaternion.identity;
+        PickupInstance instance = Instantiate ( m_pickupInstancePrefab, transform.position, rotation, transform );
+        instance.Initialize ( pickupInstanceConfig, ItemPickedUp );
+        m_interactableInstance = instance;
+    }
+
+    /// <summary>
+    /// Spawns configured PickupInstance at this spawner's position with an optional <paramref name="randomRotationY"/>.
+    /// Uses Quaternion.identity if <paramref name="randomRotationY"/> is false.
+    /// </summary>
+    /// <param name="randomRotationY">Use random rotation on y-axis.</param>
+    public void SpawnItem ( PlayerItem playerItem, int quantity, bool randomRotationY = false )
+    {
+        if ( playerItem == null || quantity <= 0 )
+        {
+            return;
+        }
+        m_config = CreateConfig ( playerItem, quantity );
+        Quaternion rotation = randomRotationY ? Quaternion.Euler ( 0, UnityEngine.Random.value * 360, 0 ) : Quaternion.identity;
+        PickupInstance instance = Instantiate ( m_pickupInstancePrefab, transform.position, rotation, transform );
         instance.Initialize ( m_config, ItemPickedUp );
         m_interactableInstance = instance;
     }
@@ -112,6 +139,7 @@ public class ItemSpawner : MonoBehaviour
     {
         ServerSend.DestroyItem ( m_spawnerId );
         ItemSpawnerManager.Instance.RemoveItem ( m_spawnerId );
+        Destroy ( gameObject );
     }
 
     #region Accessors
@@ -120,7 +148,7 @@ public class ItemSpawner : MonoBehaviour
     {
         if ( !HasItem () )
         {
-            Debug.LogError ( "Failed retrieving spawner data. PickupInstance not configured." );
+            Debug.LogError ( "Failed retrieving spawner data. PickupInstance not configured properly." );
             return null;
         }
 
@@ -138,9 +166,17 @@ public class ItemSpawner : MonoBehaviour
 
     #region Util
 
+    private PickupInstanceConfig CreateConfig ( PlayerItem playerItem, int quantity )
+    {
+        PickupInstanceConfig config = ScriptableObject.CreateInstance ( typeof ( PickupInstanceConfig ) ) as PickupInstanceConfig;
+        config.PlayerItem = playerItem;
+        config.Quantity = quantity;
+        return config;
+    }
+
     private bool HasItem ()
     {
-        return m_config.PlayerItem != null;
+        return m_config.PlayerItem != null && m_config.Quantity > 0;
     }
 
     #endregion
