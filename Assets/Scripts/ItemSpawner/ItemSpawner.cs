@@ -66,6 +66,8 @@ public class ItemSpawner : MonoBehaviour
     public int SpawnerId { get => m_spawnerId; }
     private int m_spawnerId;
 
+    private bool m_initialized = false;
+
     [Header ( "Interaction Settings" )]
     [SerializeField]
     private PickupInstanceConfig m_config;
@@ -74,13 +76,29 @@ public class ItemSpawner : MonoBehaviour
 
     private Interactable m_interactableInstance = null;
 
+    #region Initialization
+
     // Start is called before the first frame update
     private void Start ()
     {
+        Initialize ();
+    }
+
+    public void Initialize ()
+    {
+        if ( m_initialized )
+        {
+            return;
+        }
+        m_initialized = true;
         m_spawnerId = m_nextSpawnerId;
         m_nextSpawnerId++;
         ItemSpawnerManager.Instance.AddItem ( m_spawnerId, this );
     }
+
+    #endregion
+
+    #region Spawn Item
 
     /// <summary>
     /// Spawns pre-configured PickupInstance at this spawner's position with an optional <paramref name="randomRotationY"/>.
@@ -142,6 +160,8 @@ public class ItemSpawner : MonoBehaviour
         Destroy ( gameObject );
     }
 
+    #endregion
+
     #region Accessors
 
     public byte [] GetSpawnerData ( string [] accessKeys )
@@ -153,6 +173,7 @@ public class ItemSpawner : MonoBehaviour
         }
 
         byte [] itemData = m_interactableInstance != null ? m_interactableInstance.GetData ( accessKeys ) : null;
+        Debug.Log ( $"GetSpawnerData() - SpawnerId={SpawnerId}" );
         return new SpawnerData (
             SpawnerId,
             transform.position,

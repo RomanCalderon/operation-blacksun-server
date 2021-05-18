@@ -105,7 +105,7 @@ public class InventoryManager : MonoBehaviour
                 {
                     Debug.Log ( $"Drop item [{removalResult.Contents}] - Quantity [{removalResult.RemoveAmount}]" );
                     // FIXME: Position item spawner
-                    Vector3 itemSpawnPosition = transform.forward;
+                    Vector3 itemSpawnPosition = new Vector3 ( 0, 5, 0 );
                     ItemSpawnerManager.Instance.SpawnItem ( removalResult.Contents, removalResult.RemoveAmount, itemSpawnPosition );
                 }
             }

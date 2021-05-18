@@ -259,9 +259,9 @@ public class ServerSend
         }
     }
 
-    public static void SpawnItem ( byte [] _spawnerData )
+    public static void CreateItemSpawner ( byte [] _spawnerData )
     {
-        using ( Packet _packet = new Packet ( ( int ) ServerPackets.spawnItem ) )
+        using ( Packet _packet = new Packet ( ( int ) ServerPackets.createItemSpawner ) )
         {
             _packet.Write ( _spawnerData.Length );
             _packet.Write ( _spawnerData );

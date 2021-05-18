@@ -59,10 +59,11 @@ public class ItemSpawnerManager : PersistentLazySingleton<ItemSpawnerManager>
         }
         // Create an ItemSpawner and spawn a PlayerItem
         ItemSpawner itemSpawner = Instantiate ( m_itemSpawnerPrefab, position, Quaternion.identity, transform );
+        itemSpawner.Initialize ();
         itemSpawner.SpawnItem ( playerItem, quantity );
 
         // Send spawner data to clients
         byte [] spawnerData = itemSpawner.GetSpawnerData ( new string [ 0 ] );
-        ServerSend.SpawnItem ( spawnerData );
+        ServerSend.CreateItemSpawner ( spawnerData );
     }
 }
