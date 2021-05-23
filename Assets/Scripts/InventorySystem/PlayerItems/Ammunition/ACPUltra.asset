@@ -15,4 +15,4 @@ MonoBehaviour:
   Id: acp-ultra
   Name: ACP Ultra
   StackLimit: 256
-  Caliber: 1
+  Caliber: 2

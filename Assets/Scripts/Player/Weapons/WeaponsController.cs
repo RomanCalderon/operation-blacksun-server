@@ -6,19 +6,19 @@ using System.Linq;
 using InventorySystem.Slots;
 using InventorySystem.PlayerItems;
 
+#region Models
+
+public enum Weapons
+{
+    Primary,
+    Secondary
+}
+
+#endregion
+
 [RequireComponent ( typeof ( Player ) )]
 public class WeaponsController : MonoBehaviour
 {
-    #region Models
-
-    public enum Weapons
-    {
-        Primary,
-        Secondary
-    }
-
-    #endregion
-
     #region Constants
 
     private const string PRIMARY_WEAPON_ID = "primary-weapon";
@@ -256,7 +256,7 @@ public class WeaponsController : MonoBehaviour
         if ( weaponSlot.Id == PRIMARY_WEAPON_ID )
         {
             // No weapon
-            if ( weaponSlot.PlayerItem == null )
+            if ( weaponSlot.IsEmpty () )
             {
                 ClearWeapon ( Weapons.Primary );
                 return;

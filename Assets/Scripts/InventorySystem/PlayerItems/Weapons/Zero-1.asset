@@ -17,7 +17,7 @@ MonoBehaviour:
   StackLimit: 1
   WeaponType: 1
   WeaponClass: 3
-  Caliber: 0
+  Caliber: 3
   BaseDamage: 16
   FireRate: 0.12
   FireMode: 0

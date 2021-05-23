@@ -16,4 +16,4 @@ MonoBehaviour:
   Name: 8 Rnd C3
   StackLimit: 1
   AmmoCapacity: 8
-  CompatibleAmmoCaliber: 6
+  CompatibleAmmoCaliber: 5

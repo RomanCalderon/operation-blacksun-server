@@ -8,11 +8,12 @@ using PlayerItemExporter;
 [RequireComponent ( typeof ( NetworkedRigidbody ) )]
 public class PickupInstance : Interactable
 {
+    private const float BOUNDS_THICKNESS = 0.1f;
     private const float RIGIDBODY_MASS = 10f;
 
-    private PlayerItem m_playerItem = null;
-    private int m_quantity = 1;
-    private Action m_pickupCallback = null;
+    protected PlayerItem m_playerItem = null;
+    protected int m_quantity = 1;
+    protected Action m_pickupCallback = null;
     private BoxCollider m_boxCollider = null;
     private Rigidbody m_rigidbody = null;
     private NetworkedRigidbody m_networkedRigidbody = null;
@@ -85,8 +86,8 @@ public class PickupInstance : Interactable
             return;
         }
 
-        m_boxCollider.center = data.Center/* - transform.position*/;
-        m_boxCollider.size = data.Size;
+        m_boxCollider.center = data.Center;
+        m_boxCollider.size = data.Size + Vector3.one * BOUNDS_THICKNESS;
     }
 
     #endregion

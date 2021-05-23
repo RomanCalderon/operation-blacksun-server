@@ -15,4 +15,4 @@ MonoBehaviour:
   Id: 556-nato
   Name: 5.56 NATO
   StackLimit: 256
-  Caliber: 2
+  Caliber: 0

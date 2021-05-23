@@ -16,4 +16,4 @@ MonoBehaviour:
   Name: 60 Rnd 5.56 NATO
   StackLimit: 1
   AmmoCapacity: 60
-  CompatibleAmmoCaliber: 2
+  CompatibleAmmoCaliber: 0

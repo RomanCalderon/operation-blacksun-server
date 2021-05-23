@@ -16,4 +16,4 @@ MonoBehaviour:
   Name: 28 Rnd ACP
   StackLimit: 1
   AmmoCapacity: 28
-  CompatibleAmmoCaliber: 1
+  CompatibleAmmoCaliber: 2

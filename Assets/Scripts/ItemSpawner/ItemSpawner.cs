@@ -173,7 +173,6 @@ public class ItemSpawner : MonoBehaviour
         }
 
         byte [] itemData = m_interactableInstance != null ? m_interactableInstance.GetData ( accessKeys ) : null;
-        Debug.Log ( $"GetSpawnerData() - SpawnerId={SpawnerId}" );
         return new SpawnerData (
             SpawnerId,
             transform.position,

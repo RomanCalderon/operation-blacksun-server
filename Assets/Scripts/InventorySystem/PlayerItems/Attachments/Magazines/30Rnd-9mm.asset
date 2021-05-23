@@ -16,4 +16,4 @@ MonoBehaviour:
   Name: 30 Rnd 9mm
   StackLimit: 1
   AmmoCapacity: 30
-  CompatibleAmmoCaliber: 0
+  CompatibleAmmoCaliber: 3

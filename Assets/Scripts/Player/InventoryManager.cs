@@ -3,12 +3,15 @@ using InventorySystem;
 using InventorySystem.Presets;
 using InventorySystem.Slots;
 using InventorySystem.Slots.Results;
+using InventorySystem.PlayerItems;
 
 public class InventoryManager : MonoBehaviour
 {
     #region Constants
 
     private const string PLAYER_ITEM_DATABASE = "PlayerItemDatabase";
+    private const float ITEM_DROP_MAX_DISTANCE = 1f;
+    private const float ITEM_DROP_HEIGHT_OFFSET = 0.5f;
 
     #endregion
 
@@ -31,9 +34,9 @@ public class InventoryManager : MonoBehaviour
     private Inventory m_inventory = null;
     [SerializeField]
     private Preset m_inventoryPreset = null;
-
+    [Space]
     [SerializeField]
-    private Vector3 m_itemDropPositionOffset = Vector3.forward;
+    private WeaponsController m_weaponsController = null;
 
     #endregion
 
@@ -72,6 +75,16 @@ public class InventoryManager : MonoBehaviour
 
     #endregion
 
+    #region Weapon
+
+    public void EquipWeapon ( Weapon weapon )
+    {
+        m_inventory.EquipWeapon ( weapon, m_weaponsController.ActiveWeaponSlot, out Weapons targetWeaponSlot );
+        m_weaponsController.ActivateWeapon ( ( int ) targetWeaponSlot );
+    }
+
+    #endregion
+
     public int GetItemCount ( string playerItemId )
     {
         return m_inventory.GetItemCount ( playerItemId );
@@ -104,9 +117,7 @@ public class InventoryManager : MonoBehaviour
                 else if ( removalResult.Contents != null )
                 {
                     Debug.Log ( $"Drop item [{removalResult.Contents}] - Quantity [{removalResult.RemoveAmount}]" );
-                    // FIXME: Position item spawner
-                    Vector3 itemSpawnPosition = new Vector3 ( 0, 5, 0 );
-                    ItemSpawnerManager.Instance.SpawnItem ( removalResult.Contents, removalResult.RemoveAmount, itemSpawnPosition );
+                    ItemSpawnerManager.Instance.SpawnItem ( removalResult.Contents, removalResult.RemoveAmount, GetItemDropPosition () );
                 }
             }
         }
@@ -116,8 +127,24 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    #region Util
+
+    private Vector3 GetItemDropPosition ()
+    {
+        Vector3 origin = transform.position + Vector3.up * ITEM_DROP_HEIGHT_OFFSET;
+        Ray ray = new Ray ( origin, transform.forward );
+
+        if ( Physics.Raycast ( ray, out RaycastHit hit, ITEM_DROP_MAX_DISTANCE ) )
+        {
+            return hit.point - transform.forward * 0.1f;
+        }
+        return origin + transform.forward;
+    }
+
     public void OnValidate ()
     {
         m_inventory.OnValidate ();
     }
+
+    #endregion
 }

@@ -783,23 +783,6 @@ namespace InventorySystem
             return null;
         }
 
-        public WeaponSlot GetWeaponSlot ( string slotId )
-        {
-            // Search primary weapon slots
-            if ( m_primaryWeaponSlots.ContainsSlot ( slotId ) )
-            {
-                return m_primaryWeaponSlots.GetSlot ( slotId ) as WeaponSlot;
-            }
-
-            // Search secondary weapon slots
-            if ( m_secondaryWeaponSlots.ContainsSlot ( slotId ) )
-            {
-                return m_secondaryWeaponSlots.GetSlot ( slotId ) as WeaponSlot;
-            }
-
-            return null;
-        }
-
         public int GetItemCount ( string playerItemId )
         {
             int count = 0;
@@ -1111,6 +1094,71 @@ namespace InventorySystem
         {
             index = Mathf.Clamp ( index, 0, m_backpackSlots.Length - 1 );
             return m_backpackSlots [ index ];
+        }
+
+        #endregion
+
+        #region Weapons
+
+        public void EquipWeapon ( Weapon weapon, Weapons activeWeaponSlot, out Weapons targetWeaponSlot )
+        {
+            // Calculate which weapon slot to equip this weapon to
+            targetWeaponSlot = activeWeaponSlot;
+            Weapons otherWeaponSlot = activeWeaponSlot == Weapons.Primary ? Weapons.Secondary : Weapons.Primary;
+            WeaponSlots activeWeaponSlots = activeWeaponSlot == Weapons.Primary ? m_primaryWeaponSlots : m_secondaryWeaponSlots;
+            WeaponSlots otherWeaponSlots = activeWeaponSlot == Weapons.Primary ? m_secondaryWeaponSlots : m_primaryWeaponSlots;
+            if ( activeWeaponSlots.ContainsWeapon () && !otherWeaponSlots.ContainsWeapon () )
+            {
+                targetWeaponSlot = otherWeaponSlot;
+            }
+
+            switch ( targetWeaponSlot )
+            {
+                case Weapons.Primary:
+
+                    if ( m_primaryWeaponSlots.ContainsWeapon () )
+                    {
+                        inventoryManager.DropItem ( m_primaryWeaponSlots.WeaponSlot.Id, 0 );
+                        //RemoveWeapon ( m_primaryWeaponSlots.WeaponSlot );
+                    }
+                    // TODO: Carry over all compatible attachments
+                    // Use RemoveWeapon () return values
+                    Debug.Log ( $"assign weapon [{weapon}]" );
+                    m_primaryWeaponSlots.AssignContents ( weapon, null, null, null, null );
+                    m_primaryWeaponSlots.Apply ( player.Id );
+                    break;
+                case Weapons.Secondary:
+                    if ( m_secondaryWeaponSlots.ContainsWeapon () )
+                    {
+                        inventoryManager.DropItem ( m_secondaryWeaponSlots.WeaponSlot.Id, 0 );
+                        //RemoveWeapon ( m_secondaryWeaponSlots.WeaponSlot );
+                    }
+                    // TODO: Carry over all compatible attachments
+                    // Use RemoveWeapon () return values
+                    Debug.Log ( $"assign weapon [{weapon}]" );
+                    m_secondaryWeaponSlots.AssignContents ( weapon, null, null, null, null );
+                    m_secondaryWeaponSlots.Apply ( player.Id );
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public WeaponSlot GetWeaponSlot ( string slotId )
+        {
+            // Search primary weapon slots
+            if ( m_primaryWeaponSlots.ContainsSlot ( slotId ) )
+            {
+                return m_primaryWeaponSlots.GetSlot ( slotId ) as WeaponSlot;
+            }
+
+            // Search secondary weapon slots
+            if ( m_secondaryWeaponSlots.ContainsSlot ( slotId ) )
+            {
+                return m_secondaryWeaponSlots.GetSlot ( slotId ) as WeaponSlot;
+            }
+
+            return null;
         }
 
         #endregion

@@ -15,4 +15,4 @@ MonoBehaviour:
   Id: wilson-9mm
   Name: Wilson 9mm
   StackLimit: 256
-  Caliber: 0
+  Caliber: 3

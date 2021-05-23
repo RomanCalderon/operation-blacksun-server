@@ -15,18 +15,16 @@ namespace InventorySystem.PlayerItems
     {
         public enum Calibers
         {
-            /// <summary>SMG, Pistol</summary>
-            Wilson_9MM,
-            /// <summary>SMG, Pistol</summary>
-            ACP_Ultra,
             /// <summary>Rifle</summary>
             NATO_556,
             /// <summary>Rifle</summary>
             AAC,
+            /// <summary>SMG, Pistol</summary>
+            ACP_Ultra,
+            /// <summary>SMG, Pistol</summary>
+            Wilson_9MM,
             /// <summary>Shotgun</summary>
-            G12,
-            /// <summary>Shotgun</summary>
-            Boar_75,
+            GAUGE_12,
             /// <summary>Sniper</summary>
             C3,
             /// <summary>Sniper</summary>

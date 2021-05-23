@@ -16,4 +16,4 @@ MonoBehaviour:
   Name: 16 Rnd 9mm
   StackLimit: 1
   AmmoCapacity: 16
-  CompatibleAmmoCaliber: 0
+  CompatibleAmmoCaliber: 3

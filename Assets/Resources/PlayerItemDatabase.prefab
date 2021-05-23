@@ -44,14 +44,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ammunitionPlayerItems:
-  - {fileID: 11400000, guid: 7da1bea9f9421aa4bbe542aa53b796ad, type: 2}
   - {fileID: 11400000, guid: 789102ec94fcff24a8a50ea4dff6741a, type: 2}
   - {fileID: 11400000, guid: 9147eca41b5da2e48a5816176803d8f4, type: 2}
   - {fileID: 11400000, guid: 879dfc462633c8d47aaa88faaf4e47f5, type: 2}
-  - {fileID: 11400000, guid: 3f212a334ba305248b17d90c72a997e5, type: 2}
+  - {fileID: 11400000, guid: 74dfd6db20ba2e0489b00e96408e9592, type: 2}
+  - {fileID: 11400000, guid: 7da1bea9f9421aa4bbe542aa53b796ad, type: 2}
   - {fileID: 11400000, guid: 1ff2bf4c93009dd4d9c2a138a7e2dd81, type: 2}
   - {fileID: 11400000, guid: 03c500fadd69a97429eb2fe8dabfcf71, type: 2}
-  - {fileID: 11400000, guid: 74dfd6db20ba2e0489b00e96408e9592, type: 2}
   m_attachmentsPlayerItems:
   - {fileID: 11400000, guid: 3900433c2cd9f6f45952cba95398c005, type: 2}
   - {fileID: 11400000, guid: 56f1a4ac4a8f32147b3b3117bc427cab, type: 2}
@@ -63,6 +62,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: db1c7f23f5010324b8124f9a96468aa5, type: 2}
   - {fileID: 11400000, guid: 7d358ddffe23ab54482e5421910e4b56, type: 2}
   - {fileID: 11400000, guid: acf66b9a8f5c1164f9480da9352010bf, type: 2}
+  - {fileID: 11400000, guid: d24e30af99c8fe74f9be73469c934a27, type: 2}
   - {fileID: 11400000, guid: 2652fc1c0983b1943a7dd5526d80cd84, type: 2}
   - {fileID: 11400000, guid: 5b4c7ed734b6542499a1e56a7fe4eca0, type: 2}
   m_equipmentPlayerItems:
@@ -73,3 +73,4 @@ MonoBehaviour:
   m_weaponsPlayerItems:
   - {fileID: 11400000, guid: 4c574b0b4a581d44a9449e88ddc9ecc7, type: 2}
   - {fileID: 11400000, guid: 61109460dffeeaf469dddce79743a4bd, type: 2}
+  - {fileID: 11400000, guid: 1c00435c2ebf94547911207f66ca53de, type: 2}

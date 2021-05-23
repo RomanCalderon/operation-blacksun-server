@@ -9,6 +9,8 @@ public class ItemSpawnerManager : PersistentLazySingleton<ItemSpawnerManager>
 
     [SerializeField]
     private ItemSpawner m_itemSpawnerPrefab = null;
+    [SerializeField]
+    private ItemSpawner m_weaponSpawnerPrefab = null;
 
     private IEnumerator Start ()
     {
@@ -57,8 +59,19 @@ public class ItemSpawnerManager : PersistentLazySingleton<ItemSpawnerManager>
         {
             return;
         }
-        // Create an ItemSpawner and spawn a PlayerItem
-        ItemSpawner itemSpawner = Instantiate ( m_itemSpawnerPrefab, position, Quaternion.identity, transform );
+
+        ItemSpawner itemSpawner;
+        if ( playerItem is Weapon )
+        {
+            // Create a weapon ItemSpawner
+            itemSpawner = Instantiate ( m_weaponSpawnerPrefab, position, Quaternion.identity, transform );
+        }
+        else
+        {
+            // Create an ItemSpawner
+            itemSpawner = Instantiate ( m_itemSpawnerPrefab, position, Quaternion.identity, transform );
+        }
+
         itemSpawner.Initialize ();
         itemSpawner.SpawnItem ( playerItem, quantity );
 
