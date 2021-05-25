@@ -37,8 +37,11 @@ public class InventoryManager : MonoBehaviour
     [Space]
     [SerializeField]
     private WeaponsController m_weaponsController = null;
+    private bool m_initialWeaponsEquipped = false;
 
     #endregion
+
+    #region Initializations
 
     private void Awake ()
     {
@@ -52,6 +55,8 @@ public class InventoryManager : MonoBehaviour
         m_inventory = Inventory.Create ( this, m_player, m_inventoryPreset, OnWeaponSlotsUpdated.Invoke );
         OnInventoryInitialized?.Invoke ();
     }
+
+    #endregion
 
     #region Transfers
 
@@ -79,8 +84,15 @@ public class InventoryManager : MonoBehaviour
 
     public void EquipWeapon ( Weapon weapon )
     {
+        if ( !m_initialWeaponsEquipped )
+        {
+            m_initialWeaponsEquipped = m_weaponsController.HasWeapon ( Weapons.Primary ) && m_weaponsController.HasWeapon ( Weapons.Secondary );
+        }
         m_inventory.EquipWeapon ( weapon, m_weaponsController.ActiveWeaponSlot, out Weapons targetWeaponSlot );
-        m_weaponsController.ActivateWeapon ( ( int ) targetWeaponSlot );
+        if ( m_initialWeaponsEquipped )
+        {
+            m_weaponsController.ActivateWeapon ( ( int ) targetWeaponSlot );
+        }
     }
 
     #endregion

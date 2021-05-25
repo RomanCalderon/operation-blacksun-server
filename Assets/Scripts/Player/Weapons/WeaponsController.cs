@@ -92,6 +92,15 @@ public class WeaponsController : MonoBehaviour
         m_inventoryManager = m_player.InventoryManager;
     }
 
+    #region Accessors
+
+    public bool HasWeapon ( Weapons weapon )
+    {
+        return weapon == Weapons.Primary ? m_primaryEquipped != null : m_secondaryEquipped != null;
+    }
+
+    #endregion
+
     #region Shooting
 
     public void Shoot ( Vector3 lookDirection )
