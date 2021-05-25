@@ -23,8 +23,8 @@ public class WeaponsController : MonoBehaviour
 
     private const string PRIMARY_WEAPON_ID = "primary-weapon";
     private const string SECONDARY_WEAPON_ID = "secondary-weapon";
-    private const string PRIMARY_ATTACHMENT_ID = "primary";
-    private const string SECONDARY_ATTACHMENT_ID = "secondary";
+    private const string PRIMARY_PREFIX = "primary";
+    private const string SECONDARY_PREFIX = "secondary";
     private const string BARREL_ATTACHMENT_ID = "barrel";
     private const string SIGHT_ATTACHMENT_ID = "sight";
     private const string MAGAZINE_ATTACHMENT_ID = "magazine";
@@ -32,8 +32,14 @@ public class WeaponsController : MonoBehaviour
 
     #endregion
 
+    #region Delegates
+
     public delegate void WeaponSwitchHandler ();
     public static WeaponSwitchHandler OnSwitchWeapon;
+
+    #endregion
+
+    #region Members
 
     private Player m_player = null;
     private InventoryManager m_inventoryManager = null;
@@ -73,6 +79,9 @@ public class WeaponsController : MonoBehaviour
     private List<WeaponInstance> m_secondaryWeapons = new List<WeaponInstance> ();
     private WeaponInstance m_secondaryEquipped = null;
 
+    #endregion
+
+    #region Initializations
 
     private void OnEnable ()
     {
@@ -91,6 +100,8 @@ public class WeaponsController : MonoBehaviour
         m_player = GetComponent<Player> ();
         m_inventoryManager = m_player.InventoryManager;
     }
+
+    #endregion
 
     #region Accessors
 
@@ -320,7 +331,7 @@ public class WeaponsController : MonoBehaviour
             return;
         }
 
-        if ( attachmentSlot.Id.Contains ( "primary" ) ) // Primary weapon attachment
+        if ( attachmentSlot.Id.Contains ( PRIMARY_PREFIX ) ) // Primary weapon attachment
         {
             if ( m_primaryEquipped == null )
             {
@@ -329,24 +340,24 @@ public class WeaponsController : MonoBehaviour
             string slotId = attachmentSlot.Id;
 
             // Equip the attachment
-            if ( slotId.Contains ( "barrel" ) )
+            if ( slotId.Contains ( BARREL_ATTACHMENT_ID ) )
             {
                 m_primaryEquipped.EquipAttachment ( ( Barrel ) attachmentSlot.PlayerItem );
             }
-            else if ( slotId.Contains ( "magazine" ) )
+            else if ( slotId.Contains ( MAGAZINE_ATTACHMENT_ID ) )
             {
                 m_primaryEquipped.EquipAttachment ( ( Magazine ) attachmentSlot.PlayerItem );
             }
-            else if ( slotId.Contains ( "sight" ) )
+            else if ( slotId.Contains ( SIGHT_ATTACHMENT_ID ) )
             {
                 m_primaryEquipped.EquipAttachment ( ( Sight ) attachmentSlot.PlayerItem );
             }
-            else if ( slotId.Contains ( "stock" ) )
+            else if ( slotId.Contains ( STOCK_ATTACHMENT_ID ) )
             {
                 m_primaryEquipped.EquipAttachment ( ( Stock ) attachmentSlot.PlayerItem );
             }
         }
-        else if ( attachmentSlot.Id.Contains ( "secondary" ) ) // Secondary weapon attachment
+        else if ( attachmentSlot.Id.Contains ( SECONDARY_PREFIX ) ) // Secondary weapon attachment
         {
             if ( m_secondaryEquipped == null )
             {
@@ -355,19 +366,19 @@ public class WeaponsController : MonoBehaviour
             string slotId = attachmentSlot.Id;
 
             // Equip the attachment
-            if ( slotId.Contains ( "barrel" ) )
+            if ( slotId.Contains ( BARREL_ATTACHMENT_ID ) )
             {
                 m_secondaryEquipped.EquipAttachment ( ( Barrel ) attachmentSlot.PlayerItem );
             }
-            else if ( slotId.Contains ( "magazine" ) )
+            else if ( slotId.Contains ( MAGAZINE_ATTACHMENT_ID ) )
             {
                 m_secondaryEquipped.EquipAttachment ( ( Magazine ) attachmentSlot.PlayerItem );
             }
-            else if ( slotId.Contains ( "sight" ) )
+            else if ( slotId.Contains ( SIGHT_ATTACHMENT_ID ) )
             {
                 m_secondaryEquipped.EquipAttachment ( ( Sight ) attachmentSlot.PlayerItem );
             }
-            else if ( slotId.Contains ( "stock" ) )
+            else if ( slotId.Contains ( STOCK_ATTACHMENT_ID ) )
             {
                 m_secondaryEquipped.EquipAttachment ( ( Stock ) attachmentSlot.PlayerItem );
             }
