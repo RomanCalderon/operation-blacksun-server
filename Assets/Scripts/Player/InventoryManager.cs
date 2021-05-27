@@ -107,15 +107,16 @@ public class InventoryManager : MonoBehaviour
         m_inventory.ReduceItem ( playerItemId, reductionAmount );
     }
 
-    public void DropItem ( string slotId, int transferMode )
+    public void DropItem ( string slotId, int transferMode, out RemovalResult [] removalResults )
     {
+        removalResults = null;
         if ( string.IsNullOrEmpty ( slotId ) )
         {
             return;
         }
 
         // Remove item(s) from inventory
-        RemovalResult [] removalResults = m_inventory.RemoveItem ( slotId, transferMode );
+        removalResults = m_inventory.RemoveItem ( slotId, transferMode );
 
         // Spawn item(s)
         if ( removalResults != null )

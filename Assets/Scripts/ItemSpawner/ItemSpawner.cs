@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using UnityEngine;
 using InventorySystem.PlayerItems;
+using InteractableConfiguration;
 
 public class ItemSpawner : MonoBehaviour
 {
@@ -188,9 +189,16 @@ public class ItemSpawner : MonoBehaviour
 
     private PickupInstanceConfig CreateConfig ( PlayerItem playerItem, int quantity )
     {
-        PickupInstanceConfig config = ScriptableObject.CreateInstance ( typeof ( PickupInstanceConfig ) ) as PickupInstanceConfig;
-        config.PlayerItem = playerItem;
-        config.Quantity = quantity;
+        PickupInstanceConfig config;
+        if ( playerItem is Weapon weapon )
+        {
+            config = ScriptableObject.CreateInstance ( typeof ( WeaponPickupInstanceConfig ) ) as WeaponPickupInstanceConfig;
+            config.Init ( weapon );
+            return config;
+        }
+        
+        config = ScriptableObject.CreateInstance ( typeof ( PickupInstanceConfig ) ) as PickupInstanceConfig;
+        config.Init ( playerItem, quantity );
         return config;
     }
 

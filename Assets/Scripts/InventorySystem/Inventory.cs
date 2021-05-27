@@ -1103,23 +1103,26 @@ namespace InventorySystem
         public void EquipWeapon ( Weapon weapon, Weapons activeWeaponSlot, out Weapons targetWeaponSlot )
         {
             // Calculate which weapon slot to equip this weapon to
+            // Assign target slot to active slot by default
             targetWeaponSlot = activeWeaponSlot;
             Weapons otherWeaponSlot = activeWeaponSlot == Weapons.Primary ? Weapons.Secondary : Weapons.Primary;
+            // Get references to current and other weapon(not in use)
             WeaponSlots activeWeaponSlots = activeWeaponSlot == Weapons.Primary ? m_primaryWeaponSlots : m_secondaryWeaponSlots;
             WeaponSlots otherWeaponSlots = activeWeaponSlot == Weapons.Primary ? m_secondaryWeaponSlots : m_primaryWeaponSlots;
             if ( activeWeaponSlots.ContainsWeapon () && !otherWeaponSlots.ContainsWeapon () )
             {
+                // Set target slot to other weapon(not in use)
                 targetWeaponSlot = otherWeaponSlot;
             }
 
+            RemovalResult [] removalResults = null;
             switch ( targetWeaponSlot )
             {
                 case Weapons.Primary:
-
                     if ( m_primaryWeaponSlots.ContainsWeapon () )
                     {
-                        inventoryManager.DropItem ( m_primaryWeaponSlots.WeaponSlot.Id, 0 );
-                        //RemoveWeapon ( m_primaryWeaponSlots.WeaponSlot );
+                        inventoryManager.DropItem ( m_primaryWeaponSlots.WeaponSlot.Id, 0, out removalResults );
+                        Debug.Log ($"removalResults[0].Contents={removalResults [ 0 ].Contents}" );
                     }
                     // TODO: Carry over all compatible attachments
                     // Use RemoveWeapon () return values
@@ -1130,8 +1133,8 @@ namespace InventorySystem
                 case Weapons.Secondary:
                     if ( m_secondaryWeaponSlots.ContainsWeapon () )
                     {
-                        inventoryManager.DropItem ( m_secondaryWeaponSlots.WeaponSlot.Id, 0 );
-                        //RemoveWeapon ( m_secondaryWeaponSlots.WeaponSlot );
+                        inventoryManager.DropItem ( m_secondaryWeaponSlots.WeaponSlot.Id, 0, out removalResults );
+                        Debug.Log ($"removalResults[0].Contents={removalResults [ 0 ].Contents}" );
                     }
                     // TODO: Carry over all compatible attachments
                     // Use RemoveWeapon () return values

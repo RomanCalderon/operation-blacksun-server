@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using InventorySystem.PlayerItems;
 using PlayerItemExporter;
+using InteractableConfiguration;
 
 [RequireComponent ( typeof ( BoxCollider ) )]
 [RequireComponent ( typeof ( Rigidbody ) )]
@@ -28,7 +29,7 @@ public class PickupInstance : Interactable
     public void Initialize ( PickupInstanceConfig config, Action pickupCallback )
     {
         base.Initialize (
-            ( int ) config.InteractionType,
+            config.InteractionType,
             config.IsInteractable,
             config.PlayerItem.Name,
             config.ContextColor,

@@ -1,17 +1,27 @@
 using UnityEngine;
+using InventorySystem.PlayerItems;
 
-public class InteractableConfig : ScriptableObject
+namespace InteractableConfiguration
 {
+    #region Models
+
     public enum InteractionTypes
     {
         STANDARD,
         REVIVE
     }
 
-    [Header("Interactable Config")]
-    public InteractionTypes InteractionType = 0;
-    public bool IsInteractable = true;
-    public Color ContextColor = Color.white;
-    public float InteractTime = 0;
-    public string AccessKey = null;
+    #endregion
+
+
+    public class InteractableConfig : ScriptableObject
+    {
+        public virtual int InteractionType { get;  protected set; }
+        public bool IsInteractable = true;
+        public Color ContextColor = Color.white;
+        public float InteractTime = 0;
+        public string AccessKey = null;
+        public virtual PlayerItem PlayerItem { get; protected set; }
+        public virtual int Quantity { get; protected set; }
+    }
 }

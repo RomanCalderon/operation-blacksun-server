@@ -10,13 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e11d66284f2d1264db67206d892291bd, type: 3}
-  m_Name: Holographic
+  m_Name: 6x Scope
   m_EditorClassIdentifier: 
-  InteractionType: 0
   IsInteractable: 1
-  InteractionLabel: HOLOGRAPHIC
-  InteractionLabelColor: {r: 1, g: 0.854902, b: 0.54509807, a: 1}
-  InteractTime: 0.5
+  ContextColor: {r: 1, g: 1, b: 1, a: 1}
+  InteractTime: 0
   AccessKey: 
-  PlayerItem: {fileID: 11400000, guid: 7d358ddffe23ab54482e5421910e4b56, type: 2}
-  Quantity: 1
+  m_playerItem: {fileID: 11400000, guid: 6c94fe657f2a88d4d87b5f8153ef4282, type: 2}
