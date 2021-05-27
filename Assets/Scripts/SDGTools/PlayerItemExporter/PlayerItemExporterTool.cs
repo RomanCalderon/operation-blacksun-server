@@ -18,6 +18,7 @@ public class PlayerItemExporterTool : EditorWindowSingleton<PlayerItemExporterTo
     private const int BUTTON_WIDTH = 100;
 
     // Data
+    private const string EXPORTER_DATA_PATH_KEY = "load-data-path";
     private const string EXPORT_FILENAME = "player-item-bounds.json";
 
     // Save/Load keys
@@ -42,9 +43,12 @@ public class PlayerItemExporterTool : EditorWindowSingleton<PlayerItemExporterTo
     // Export
     private string m_exportDirectory = null;
 
+    // Data
+    private string m_exporterDataPath = null;
 
     // Editor GUI
     private Vector2 m_scrollPosition;
+    private Vector3 m_dataPreviewScrollPosition;
 
     #region Initialization
 
@@ -138,8 +142,13 @@ public class PlayerItemExporterTool : EditorWindowSingleton<PlayerItemExporterTo
         int boundsDataCount = m_boundsData.Count;
         GUILayout.BeginVertical ( $"Bounds Data Preview | Staged: {boundsDataCount}", "window" );
 
+        // Begin scrollview
+        m_dataPreviewScrollPosition = EditorGUILayout.BeginScrollView ( m_dataPreviewScrollPosition );
+
         EditorGUILayout.PropertyField ( stagedBoundsData, true );
         serializedObject.ApplyModifiedProperties ();
+
+        EditorGUILayout.EndScrollView ();
 
         GUILayout.EndVertical ();
 
@@ -242,6 +251,52 @@ public class PlayerItemExporterTool : EditorWindowSingleton<PlayerItemExporterTo
 
         #endregion
 
+        EditorGUILayout.Separator ();
+
+        #region Settings
+
+        GUILayout.BeginVertical ( "Settings", "window" );
+
+        // Get exporter data file path
+        EditorGUILayout.LabelField ( "Data file: ", string.IsNullOrEmpty ( m_exporterDataPath ) ? "(not specified)" : m_exporterDataPath );
+
+        GUILayout.BeginHorizontal ();
+
+        GUILayout.FlexibleSpace ();
+
+        // File browser button
+        if ( GUILayout.Button ( "Browse...", GUILayout.MinWidth ( BUTTON_WIDTH ), GUILayout.Height ( 20 ) ) )
+        {
+            m_exporterDataPath = EditorUtility.OpenFilePanel ( "Select import directory...", m_exporterDataPath, "json" );
+        }
+
+        EditorGUI.BeginDisabledGroup ( string.IsNullOrEmpty ( m_exporterDataPath ) );
+
+        if ( GUILayout.Button ( "Open", GUILayout.MinWidth ( BUTTON_WIDTH ), GUILayout.Height ( 20 ) ) )
+        {
+            ShowExplorer ( m_exporterDataPath );
+        }
+
+        EditorGUI.EndDisabledGroup ();
+
+        GUILayout.EndHorizontal ();
+
+        EditorGUILayout.Separator ();
+
+        EditorGUI.BeginDisabledGroup ( string.IsNullOrEmpty ( m_exporterDataPath ) );
+
+        // Load data button
+        if ( GUILayout.Button ( $"Load", GUILayout.Height ( BUTTON_HEIGHT ) ) )
+        {
+            LoadExporterData ();
+        }
+
+        EditorGUI.EndDisabledGroup ();
+
+        GUILayout.EndVertical ();
+
+        #endregion
+
         GUILayout.FlexibleSpace ();
 
         #endregion
@@ -286,7 +341,7 @@ public class PlayerItemExporterTool : EditorWindowSingleton<PlayerItemExporterTo
     {
         if ( JsonFileUtility.ReadFromFile ( m_importFile, out string json ) )
         {
-            // Save import path
+            // Save import file path
             PlayerPrefs.SetString ( IMPORT_PATH_KEY, m_importFile );
 
             if ( TryConvertFromJson ( json, out BoundsDataCollection data ) )
@@ -357,13 +412,13 @@ public class PlayerItemExporterTool : EditorWindowSingleton<PlayerItemExporterTo
 
     #endregion
 
-    #region Editor Data
+    #region Exporter Data
 
     #region Saving
 
     private void SaveExporterData ()
     {
-        ExporterDataManager.SaveData ( m_boundsData.ToArray () );
+        //ExporterDataManager.SaveData ( m_boundsData.ToArray () );
 
         PlayerPrefs.SetString ( EXPORT_DIRECTORY_KEY, m_exportDirectory );
     }
@@ -375,9 +430,15 @@ public class PlayerItemExporterTool : EditorWindowSingleton<PlayerItemExporterTo
     private void LoadExporterData ()
     {
         m_boundsData = new List<BoundsData> ();
-
-        if ( ExporterDataManager.LoadData ( out BoundsDataCollection data ) )
+        string savedExporterDataPath = PlayerPrefs.GetString ( EXPORTER_DATA_PATH_KEY );
+        if ( !string.IsNullOrEmpty ( savedExporterDataPath ) )
         {
+            m_exporterDataPath = savedExporterDataPath;
+        }
+
+        if ( ExporterDataManager.LoadData ( m_exporterDataPath, out BoundsDataCollection data ) )
+        {
+            PlayerPrefs.SetString ( EXPORTER_DATA_PATH_KEY, m_exporterDataPath );
             m_boundsData = new List<BoundsData> ( data.BoundsData );
         }
 
