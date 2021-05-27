@@ -1,9 +1,11 @@
 using System.IO;
+using UnityEngine;
 
 public static class JsonFileUtility
 {
     public static bool WriteToFile ( string path, string json )
     {
+        Debug.Log ( $"WriteToFile() - path={path}" );
         if ( string.IsNullOrEmpty ( path ) || string.IsNullOrEmpty ( json ) )
         {
             return false;
