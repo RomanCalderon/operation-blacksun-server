@@ -13,7 +13,6 @@ namespace InteractableConfiguration
 
     #endregion
 
-
     public class InteractableConfig : ScriptableObject
     {
         public virtual int InteractionType { get;  protected set; }

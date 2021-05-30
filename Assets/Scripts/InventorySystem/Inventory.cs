@@ -1100,7 +1100,7 @@ namespace InventorySystem
 
         #region Weapons
 
-        public void EquipWeapon ( Weapon weapon, Weapons activeWeaponSlot, out Weapons targetWeaponSlot )
+        public void EquipWeapon ( Weapon newWeapon, Weapons activeWeaponSlot, out Weapons targetWeaponSlot )
         {
             // Calculate which weapon slot to equip this weapon to
             // Assign target slot to active slot by default
@@ -1116,31 +1116,60 @@ namespace InventorySystem
             }
 
             RemovalResult [] removalResults = null;
+            Weapon removedWeapon;
+            Barrel barrel;
+            Sight sight;
+            Magazine magazine;
+            Stock stock;
             switch ( targetWeaponSlot )
             {
                 case Weapons.Primary:
                     if ( m_primaryWeaponSlots.ContainsWeapon () )
                     {
-                        inventoryManager.DropItem ( m_primaryWeaponSlots.WeaponSlot.Id, 0, out removalResults );
-                        Debug.Log ($"removalResults[0].Contents={removalResults [ 0 ].Contents}" );
+                        removalResults = RemoveWeapon ( m_primaryWeaponSlots.WeaponSlot );
                     }
-                    // TODO: Carry over all compatible attachments
-                    // Use RemoveWeapon () return values
-                    Debug.Log ( $"assign weapon [{weapon}]" );
-                    m_primaryWeaponSlots.AssignContents ( weapon, null, null, null, null );
+
+                    // Get removed weapon and attachments
+                    removedWeapon = GetRemovedPlayerItem<Weapon> ( removalResults );
+                    barrel = GetRemovedPlayerItem<Barrel> ( removalResults );
+                    sight = GetRemovedPlayerItem<Sight> ( removalResults );
+                    magazine = GetRemovedPlayerItem<Magazine> ( removalResults );
+                    stock = GetRemovedPlayerItem<Stock> ( removalResults );
+
+                    // Check attachment compatibility
+                    // Assign null on failed matches
+
+                    // Drop removed weapon
+                    inventoryManager.DropItem ( removedWeapon );
+
+                    // Assign compatible attachments to new weapon
+                    m_primaryWeaponSlots.AssignContents ( newWeapon, barrel, sight, magazine, stock );
                     m_primaryWeaponSlots.Apply ( player.Id );
+                    inventoryManager.OnWeaponSlotsUpdated.Invoke ( m_primaryWeaponSlots );
                     break;
                 case Weapons.Secondary:
                     if ( m_secondaryWeaponSlots.ContainsWeapon () )
                     {
-                        inventoryManager.DropItem ( m_secondaryWeaponSlots.WeaponSlot.Id, 0, out removalResults );
-                        Debug.Log ($"removalResults[0].Contents={removalResults [ 0 ].Contents}" );
+                        removalResults = RemoveWeapon ( m_secondaryWeaponSlots.WeaponSlot );
                     }
-                    // TODO: Carry over all compatible attachments
-                    // Use RemoveWeapon () return values
-                    Debug.Log ( $"assign weapon [{weapon}]" );
-                    m_secondaryWeaponSlots.AssignContents ( weapon, null, null, null, null );
+
+                    // Get removed weapon and attachments
+                    removedWeapon = GetRemovedPlayerItem<Weapon> ( removalResults );
+                    barrel = GetRemovedPlayerItem<Barrel> ( removalResults );
+                    sight = GetRemovedPlayerItem<Sight> ( removalResults );
+                    magazine = GetRemovedPlayerItem<Magazine> ( removalResults );
+                    stock = GetRemovedPlayerItem<Stock> ( removalResults );
+
+                    // Check attachment compatibility
+                    // Assign null on failed matches
+
+                    // Drop removed weapon
+                    inventoryManager.DropItem ( removedWeapon );
+
+                    // Assign compatible attachments to new weapon
+                    m_secondaryWeaponSlots.AssignContents ( newWeapon, barrel, sight, magazine, stock );
                     m_secondaryWeaponSlots.Apply ( player.Id );
+                    inventoryManager.OnWeaponSlotsUpdated.Invoke ( m_secondaryWeaponSlots );
                     break;
                 default:
                     break;
@@ -1163,6 +1192,31 @@ namespace InventorySystem
 
             return null;
         }
+
+        #region Weapon Equip Util
+
+        // Returns a PlayerItem from a RemovalResult array
+        private T GetRemovedPlayerItem<T> ( RemovalResult [] removalResults )
+        {
+            if ( removalResults == null )
+            {
+                return default;
+            }
+            foreach ( RemovalResult removalResult in removalResults )
+            {
+                if ( removalResult.Contents == null )
+                {
+                    continue;
+                }
+                else if ( removalResult.Contents is T match )
+                {
+                    return match;
+                }
+            }
+            return default;
+        }
+
+        #endregion
 
         #endregion
 

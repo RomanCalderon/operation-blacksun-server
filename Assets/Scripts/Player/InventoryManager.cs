@@ -140,6 +140,22 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    public void DropItem ( PlayerItem playerItem )
+    {
+        DropItem ( playerItem, 1 );
+    }
+
+    public void DropItem ( PlayerItem playerItem, int quantity )
+    {
+        if ( playerItem == null )
+        {
+            return;
+        }
+
+        // Spawn PlayerItem
+        ItemSpawnerManager.Instance.SpawnItem ( playerItem, quantity, GetItemDropPosition () );
+    }
+
     #region Util
 
     private Vector3 GetItemDropPosition ()

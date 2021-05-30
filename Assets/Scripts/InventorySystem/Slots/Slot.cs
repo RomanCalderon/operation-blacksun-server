@@ -650,20 +650,35 @@ namespace InventorySystem.Slots
 
         public RemovalResult [] Clear ()
         {
-            List<RemovalResult> removalResults = new List<RemovalResult>
+            List<RemovalResult> removalResults = new List<RemovalResult> ();
+
+            if ( !WeaponSlot.IsEmpty () )
             {
-                new RemovalResult ( WeaponSlot, WeaponSlot.PlayerItem, WeaponSlot.StackSize, RemovalResult.Results.SUCCESS ),
-                new RemovalResult ( BarrelSlot, BarrelSlot.PlayerItem, BarrelSlot.StackSize, RemovalResult.Results.SUCCESS ),
-                new RemovalResult ( SightSlot, SightSlot.PlayerItem, SightSlot.StackSize, RemovalResult.Results.SUCCESS ),
-                new RemovalResult ( MagazineSlot, MagazineSlot.PlayerItem, MagazineSlot.StackSize, RemovalResult.Results.SUCCESS ),
-                new RemovalResult ( StockSlot, StockSlot.PlayerItem, StockSlot.StackSize, RemovalResult.Results.SUCCESS )
-            };
+                removalResults.Add ( new RemovalResult ( WeaponSlot, WeaponSlot.PlayerItem, WeaponSlot.StackSize, RemovalResult.Results.SUCCESS ) );
+            }
+            if ( !BarrelSlot.IsEmpty () )
+            {
+                removalResults.Add ( new RemovalResult ( BarrelSlot, BarrelSlot.PlayerItem, BarrelSlot.StackSize, RemovalResult.Results.SUCCESS ) );
+            }
+            if ( !SightSlot.IsEmpty () )
+            {
+                removalResults.Add ( new RemovalResult ( SightSlot, SightSlot.PlayerItem, SightSlot.StackSize, RemovalResult.Results.SUCCESS ) );
+            }
+            if ( !MagazineSlot.IsEmpty () )
+            {
+                removalResults.Add ( new RemovalResult ( MagazineSlot, MagazineSlot.PlayerItem, MagazineSlot.StackSize, RemovalResult.Results.SUCCESS ) );
+            }
+            if ( !StockSlot.IsEmpty () )
+            {
+                removalResults.Add ( new RemovalResult ( StockSlot, StockSlot.PlayerItem, StockSlot.StackSize, RemovalResult.Results.SUCCESS ) );
+            }
 
             WeaponSlot.Clear ();
             BarrelSlot.Clear ();
             SightSlot.Clear ();
             MagazineSlot.Clear ();
             StockSlot.Clear ();
+
             return removalResults.ToArray ();
         }
     }
