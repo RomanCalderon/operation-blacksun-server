@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace InventorySystem.PlayerItems
@@ -57,5 +55,25 @@ namespace InventorySystem.PlayerItems
         public float FireRate = 0.2f;
         [Tooltip ( "The weapon's firing mode." )]
         public FireModes FireMode = FireModes.SemiAuto;
+
+        [Header ( "Compatible Attachments" )]
+        [Tooltip ( "List of every compatible Barrel for this Weapon." )]
+        public Barrel [] m_compatibleBarrels = null;
+        [Tooltip ( "List of every compatible Sight for this Weapon." )]
+        public Sight [] m_compatibleSights = null;
+        [Tooltip ( "List of every compatible Stock for this Weapon." )]
+        public Stock [] m_compatibleStocks = null;
+
+        public bool IsCompatibleAttachment ( Attachment attachment )
+        {
+            return attachment switch
+            {
+                Barrel barrel => m_compatibleBarrels.Any ( b => b.Id == barrel.Id ),
+                Sight sight => m_compatibleSights.Any ( s => s.Id == sight.Id ),
+                Magazine magazine => magazine.CompatibleAmmoCaliber == Caliber,
+                Stock stock => m_compatibleStocks.Any ( s => s.Id == stock.Id ),
+                _ => false,
+            };
+        }
     }
 }

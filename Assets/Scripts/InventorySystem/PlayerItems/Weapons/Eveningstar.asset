@@ -21,3 +21,9 @@ MonoBehaviour:
   BaseDamage: 110
   FireRate: 1.4
   FireMode: 0
+  m_compatibleBarrels: []
+  m_compatibleSights:
+  - {fileID: 11400000, guid: acf66b9a8f5c1164f9480da9352010bf, type: 2}
+  - {fileID: 11400000, guid: 7d358ddffe23ab54482e5421910e4b56, type: 2}
+  - {fileID: 11400000, guid: 6c94fe657f2a88d4d87b5f8153ef4282, type: 2}
+  m_compatibleStocks: []

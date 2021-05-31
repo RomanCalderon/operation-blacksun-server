@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e11d66284f2d1264db67206d892291bd, type: 3}
+  m_Name: 28Rnd-ACP
+  m_EditorClassIdentifier: 
+  IsInteractable: 1
+  ContextColor: {r: 1, g: 1, b: 1, a: 1}
+  InteractTime: 0
+  AccessKey: 
+  m_playerItem: {fileID: 11400000, guid: 8abd58a58c11ddb4d9d54379eb6b5b35, type: 2}

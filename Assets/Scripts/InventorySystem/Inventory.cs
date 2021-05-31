@@ -1106,7 +1106,7 @@ namespace InventorySystem
             // Assign target slot to active slot by default
             targetWeaponSlot = activeWeaponSlot;
             Weapons otherWeaponSlot = activeWeaponSlot == Weapons.Primary ? Weapons.Secondary : Weapons.Primary;
-            // Get references to current and other weapon(not in use)
+            // Get references to current and other weapon(not currently active)
             WeaponSlots activeWeaponSlots = activeWeaponSlot == Weapons.Primary ? m_primaryWeaponSlots : m_secondaryWeaponSlots;
             WeaponSlots otherWeaponSlots = activeWeaponSlot == Weapons.Primary ? m_secondaryWeaponSlots : m_primaryWeaponSlots;
             if ( activeWeaponSlots.ContainsWeapon () && !otherWeaponSlots.ContainsWeapon () )
@@ -1116,31 +1116,31 @@ namespace InventorySystem
             }
 
             RemovalResult [] removalResults = null;
-            Weapon removedWeapon;
-            Barrel barrel;
-            Sight sight;
-            Magazine magazine;
-            Stock stock;
+            Weapon removedWeapon = null;
+            Barrel barrel = null;
+            Sight sight = null;
+            Magazine magazine = null;
+            Stock stock = null;
             switch ( targetWeaponSlot )
             {
                 case Weapons.Primary:
                     if ( m_primaryWeaponSlots.ContainsWeapon () )
                     {
+                        // Remove current weapon and attachments
                         removalResults = RemoveWeapon ( m_primaryWeaponSlots.WeaponSlot );
+
+                        // Get removed attachments
+                        barrel = GetRemovedPlayerItem<Barrel> ( removalResults );
+                        sight = GetRemovedPlayerItem<Sight> ( removalResults );
+                        magazine = GetRemovedPlayerItem<Magazine> ( removalResults );
+                        stock = GetRemovedPlayerItem<Stock> ( removalResults );
+
+                        GetCompatibleWeaponAttachments ( newWeapon, ref barrel, ref sight, ref magazine, ref stock );
+
+                        // Drop removed weapon
+                        removedWeapon = GetRemovedPlayerItem<Weapon> ( removalResults );
+                        inventoryManager.DropItem ( removedWeapon );
                     }
-
-                    // Get removed weapon and attachments
-                    removedWeapon = GetRemovedPlayerItem<Weapon> ( removalResults );
-                    barrel = GetRemovedPlayerItem<Barrel> ( removalResults );
-                    sight = GetRemovedPlayerItem<Sight> ( removalResults );
-                    magazine = GetRemovedPlayerItem<Magazine> ( removalResults );
-                    stock = GetRemovedPlayerItem<Stock> ( removalResults );
-
-                    // Check attachment compatibility
-                    // Assign null on failed matches
-
-                    // Drop removed weapon
-                    inventoryManager.DropItem ( removedWeapon );
 
                     // Assign compatible attachments to new weapon
                     m_primaryWeaponSlots.AssignContents ( newWeapon, barrel, sight, magazine, stock );
@@ -1150,21 +1150,21 @@ namespace InventorySystem
                 case Weapons.Secondary:
                     if ( m_secondaryWeaponSlots.ContainsWeapon () )
                     {
+                        // Remove current weapon and attachments
                         removalResults = RemoveWeapon ( m_secondaryWeaponSlots.WeaponSlot );
+
+                        // Get removed attachments
+                        barrel = GetRemovedPlayerItem<Barrel> ( removalResults );
+                        sight = GetRemovedPlayerItem<Sight> ( removalResults );
+                        magazine = GetRemovedPlayerItem<Magazine> ( removalResults );
+                        stock = GetRemovedPlayerItem<Stock> ( removalResults );
+
+                        GetCompatibleWeaponAttachments ( newWeapon, ref barrel, ref sight, ref magazine, ref stock );
+
+                        // Drop removed weapon
+                        removedWeapon = GetRemovedPlayerItem<Weapon> ( removalResults );
+                        inventoryManager.DropItem ( removedWeapon );
                     }
-
-                    // Get removed weapon and attachments
-                    removedWeapon = GetRemovedPlayerItem<Weapon> ( removalResults );
-                    barrel = GetRemovedPlayerItem<Barrel> ( removalResults );
-                    sight = GetRemovedPlayerItem<Sight> ( removalResults );
-                    magazine = GetRemovedPlayerItem<Magazine> ( removalResults );
-                    stock = GetRemovedPlayerItem<Stock> ( removalResults );
-
-                    // Check attachment compatibility
-                    // Assign null on failed matches
-
-                    // Drop removed weapon
-                    inventoryManager.DropItem ( removedWeapon );
 
                     // Assign compatible attachments to new weapon
                     m_secondaryWeaponSlots.AssignContents ( newWeapon, barrel, sight, magazine, stock );
@@ -1214,6 +1214,36 @@ namespace InventorySystem
                 }
             }
             return default;
+        }
+
+        private void GetCompatibleWeaponAttachments ( Weapon newWeapon, ref Barrel barrel, ref Sight sight, ref Magazine magazine, ref Stock stock )
+        {
+            // Check attachment compatibility
+            // Assign null on failed matches
+            if ( !newWeapon.IsCompatibleAttachment ( barrel ) )
+            {
+                // Drop incompatible barrel
+                inventoryManager.DropItem ( barrel );
+                barrel = null;
+            }
+            if ( !newWeapon.IsCompatibleAttachment ( sight ) )
+            {
+                // Drop incompatible sight
+                inventoryManager.DropItem ( sight );
+                sight = null;
+            }
+            if ( !newWeapon.IsCompatibleAttachment ( magazine ) )
+            {
+                // Drop incompatible magazine
+                inventoryManager.DropItem ( magazine );
+                magazine = null;
+            }
+            if ( !newWeapon.IsCompatibleAttachment ( stock ) )
+            {
+                // Drop incompatible stock
+                inventoryManager.DropItem ( stock );
+                stock = null;
+            }
         }
 
         #endregion
