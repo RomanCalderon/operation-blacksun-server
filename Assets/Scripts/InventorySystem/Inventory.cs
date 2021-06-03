@@ -302,19 +302,26 @@ namespace InventorySystem
                 return;
             }
 
-            // Sight swap
-            if ( fromSlot is SightSlot fromSightSlot && toSlot is SightSlot toSightSlot )
+            // Attachment transfer
+            if ( fromSlot is AttachmentSlot || toSlot is AttachmentSlot )
             {
-                TransferSight ( fromSightSlot, toSightSlot );
+                TransferAttachments ( fromSlot, toSlot );
                 return;
             }
 
-            // Magazine swap
-            if ( fromSlot.PlayerItem is Magazine && toSlot is MagazineSlot magazineSlot )
-            {
-                TransferMagazine ( fromSlot, magazineSlot );
-                return;
-            }
+            //// Sight swap
+            //if ( fromSlot is SightSlot fromSightSlot || toSlot is SightSlot toSightSlot )
+            //{
+            //    TransferSight ( fromSlot, toSlot );
+            //    return;
+            //}
+
+            //// Magazine swap
+            //if ( fromSlot.PlayerItem is Magazine && toSlot is MagazineSlot magazineSlot )
+            //{
+            //    TransferMagazine ( fromSlot, magazineSlot );
+            //    return;
+            //}
 
             PlayerItem fromSlotItem = fromSlot.PlayerItem;
             if ( fromSlotItem != null )
@@ -557,7 +564,77 @@ namespace InventorySystem
             OnValidate ();
         }
 
-        private void TransferSight ( SightSlot fromSlot, SightSlot toSlot )
+        private void TransferAttachments ( Slot fromSlot, Slot toSlot )
+        {
+            // Check for 1-to-1 attachment swapping (AttachmentSlot to AttachmentSlot)
+            if ( fromSlot is BarrelSlot fromBarrelSlot && toSlot is BarrelSlot toBarrelSlot )
+            {
+                SwapAttachments<Barrel> ( fromBarrelSlot, toBarrelSlot );
+            }
+            else if ( fromSlot is SightSlot fromSightSlot && toSlot is SightSlot toSightSlot )
+            {
+                SwapAttachments<Sight> ( fromSightSlot, toSightSlot );
+            }
+            else if ( fromSlot is MagazineSlot fromMagazineSlot && toSlot is MagazineSlot toMagazineSlot )
+            {
+                SwapAttachments<Magazine> ( fromMagazineSlot, toMagazineSlot );
+            }
+            else if ( fromSlot is StockSlot fromStockSlot && toSlot is StockSlot toStockSlot )
+            {
+                SwapAttachments<Stock> ( fromStockSlot, toStockSlot );
+            }
+            else
+            {
+                // At this point, either fromSlot or toSlot is not an AttachmentSlot.
+                // Determine which slot is an AttachmentSlot, perform the proper
+                // compatibility check, then transfer the attachment.
+
+                // From non-AttachmentSlot to AttachmentSlot
+                if ( !( fromSlot is AttachmentSlot ) && toSlot is AttachmentSlot toAttachmentSlot )
+                {
+                    switch ( toAttachmentSlot )
+                    {
+                        case BarrelSlot barrelSlot:
+                            TransferAttachment<Barrel> ( fromSlot, barrelSlot );
+                            break;
+                        case SightSlot sightSlot:
+                            TransferAttachment<Sight> ( fromSlot, sightSlot );
+                            break;
+                        case MagazineSlot magazineSlot:
+                            TransferAttachment<Magazine> ( fromSlot, magazineSlot );
+                            break;
+                        case StockSlot stockSlot:
+                            TransferAttachment<Stock> ( fromSlot, stockSlot );
+                            break;
+                        default:
+                            throw new NotImplementedException ( $"Unknown AttachmentSlot [{toAttachmentSlot}]" );
+                    }
+                }
+                // From AttachmentSlot to non-AttachmentSlot
+                else if ( fromSlot is AttachmentSlot fromAttachmentSlot && !( toSlot is AttachmentSlot ) )
+                {
+                    switch ( fromAttachmentSlot )
+                    {
+                        case BarrelSlot barrelSlot:
+                            TransferAttachment<Barrel> ( barrelSlot, toSlot );
+                            break;
+                        case SightSlot sightSlot:
+                            TransferAttachment<Sight> ( sightSlot, toSlot );
+                            break;
+                        case MagazineSlot magazineSlot:
+                            TransferAttachment<Magazine> ( magazineSlot, toSlot );
+                            break;
+                        case StockSlot stockSlot:
+                            TransferAttachment<Stock> ( stockSlot, toSlot );
+                            break;
+                        default:
+                            throw new NotImplementedException ( $"Unknown AttachmentSlot [{fromAttachmentSlot}]" );
+                    }
+                }
+            }
+        }
+
+        private void SwapAttachments<T> ( AttachmentSlot fromSlot, AttachmentSlot toSlot ) where T : Attachment
         {
             if ( fromSlot == null || toSlot == null )
             {
@@ -566,109 +643,185 @@ namespace InventorySystem
                 return;
             }
 
-            // Check if toSlot is associated with a weapon (Is primary WeaponSlot empty)
+            // Check if toSlot is associated with a weapon
             if ( toSlot.Id.Contains ( "primary" ) )
             {
+                // Missing weapon check
                 if ( !m_primaryWeaponSlots.ContainsWeapon () )
                 {
                     CancelSwap ( fromSlot, toSlot );
                     OnValidate ();
                     return;
                 }
+                // Primary weapon-attachment compatibility check
+                if ( !m_primaryWeaponSlots.WeaponSlot.Weapon.IsCompatibleAttachment ( fromSlot.PlayerItem as T ) )
+                {
+                    CancelSwap ( fromSlot, toSlot );
+                    OnValidate ();
+                    return;
+                }
+                // Secondary weapon-attachment compatibility check
+                else if ( !m_secondaryWeaponSlots.WeaponSlot.Weapon.IsCompatibleAttachment ( toSlot.PlayerItem as T ) )
+                {
+                    // Check if inventory can hold the attachment
+                    InsertionResult backpackResult = AddToBackpack ( toSlot.PlayerItem );
+                    toSlot.Clear ();
+                    if ( backpackResult.Result != InsertionResult.Results.SUCCESS )
+                    {
+                        // Drop attachment
+                        inventoryManager.DropItem ( backpackResult.Contents );
+                    }
+                }
             }
-            // Check if toSlot is associated with a weapon (Is secondary WeaponSlot empty)
-            if ( toSlot.Id.Contains ( "secondary" ) )
+            // Check if toSlot is associated with a weapon
+            else if ( toSlot.Id.Contains ( "secondary" ) )
             {
+                // Missing weapon check
                 if ( !m_secondaryWeaponSlots.ContainsWeapon () )
                 {
                     CancelSwap ( fromSlot, toSlot );
                     OnValidate ();
                     return;
                 }
+                // Secondary weapon-attachment compatibility check
+                if ( !m_secondaryWeaponSlots.WeaponSlot.Weapon.IsCompatibleAttachment ( fromSlot.PlayerItem as T ) )
+                {
+                    CancelSwap ( fromSlot, toSlot );
+                    OnValidate ();
+                    return;
+                }
+                // Primary weapon-attachment compatibility check
+                else if ( !m_primaryWeaponSlots.WeaponSlot.Weapon.IsCompatibleAttachment ( toSlot.PlayerItem as T ) )
+                {
+                    // Check if inventory can hold the attachment
+                    InsertionResult backpackResult = AddToBackpack ( toSlot.PlayerItem );
+                    toSlot.Clear ();
+                    if ( backpackResult.Result != InsertionResult.Results.SUCCESS )
+                    {
+                        // Drop attachment
+                        inventoryManager.DropItem ( backpackResult.Contents );
+                    }
+                }
             }
-
-            // TODO: Check weapon/sight compatibility
 
             // Swap slot contents
             SwapItems ( fromSlot, toSlot );
 
-            if ( fromSlot.Id.Contains ( "primary" ) || toSlot.Id.Contains ( "primary" ) )
-            {
-                Debug.Log ( "update primary weapon slot - sight changed" );
-                inventoryManager.OnWeaponSlotsUpdated.Invoke ( m_primaryWeaponSlots );
-            }
-            if ( fromSlot.Id.Contains ( "secondary" ) || toSlot.Id.Contains ( "secondary" ) )
-            {
-                Debug.Log ( "update secondary weapon slot - sight changed" );
-                inventoryManager.OnWeaponSlotsUpdated.Invoke ( m_secondaryWeaponSlots );
-            }
+            inventoryManager.OnWeaponSlotsUpdated.Invoke ( m_primaryWeaponSlots );
+            inventoryManager.OnWeaponSlotsUpdated.Invoke ( m_secondaryWeaponSlots );
+            OnValidate ();
         }
 
-        private void TransferMagazine ( Slot fromSlot, MagazineSlot magazineSlot )
+        private void TransferAttachment<T> ( Slot fromSlot, AttachmentSlot toAttachmentSlot ) where T : Attachment
         {
-            if ( fromSlot == null || magazineSlot == null )
+            if ( fromSlot.IsEmpty () )
             {
-                Debug.Assert ( fromSlot != null );
-                Debug.Assert ( magazineSlot != null );
+                CancelSwap ( fromSlot, toAttachmentSlot );
+                OnValidate ();
                 return;
             }
 
-            // Check if magazineSlot is associated with a weapon (Is weapon slot empty)
-            if ( magazineSlot.Id.Contains ( "primary" ) )
+            // Check if toAttachmentSlot is associated with a weapon
+            if ( toAttachmentSlot.Id.Contains ( "primary" ) )
             {
+                // Missing weapon check
                 if ( !m_primaryWeaponSlots.ContainsWeapon () )
                 {
-                    CancelSwap ( fromSlot, magazineSlot );
+                    CancelSwap ( fromSlot, toAttachmentSlot );
+                    OnValidate ();
+                    return;
+                }
+                // Weapon-Attachment compatibility check
+                if ( !m_primaryWeaponSlots.WeaponSlot.Weapon.IsCompatibleAttachment ( fromSlot.PlayerItem as T ) )
+                {
+                    CancelSwap ( fromSlot, toAttachmentSlot );
                     OnValidate ();
                     return;
                 }
             }
-            if ( magazineSlot.Id.Contains ( "secondary" ) )
+            // Check if toAttachmentSlot is associated with a weapon
+            else if ( toAttachmentSlot.Id.Contains ( "secondary" ) )
             {
+                // Missing weapon check
                 if ( !m_secondaryWeaponSlots.ContainsWeapon () )
                 {
-                    CancelSwap ( fromSlot, magazineSlot );
+                    CancelSwap ( fromSlot, toAttachmentSlot );
+                    OnValidate ();
+                    return;
+                }
+                // Weapon-Attachment compatibility check
+                if ( !m_secondaryWeaponSlots.WeaponSlot.Weapon.IsCompatibleAttachment ( fromSlot.PlayerItem as T ) )
+                {
+                    CancelSwap ( fromSlot, toAttachmentSlot );
                     OnValidate ();
                     return;
                 }
             }
 
-            // Get magazine caliber
-            Magazine magazine = fromSlot.PlayerItem as Magazine;
-            Ammunition.Calibers magazineCaliber = magazine.CompatibleAmmoCaliber;
+            // Swap slot contents
+            SwapItems ( fromSlot, toAttachmentSlot );
 
-            // Get magazine slot caliber
-            Ammunition.Calibers magazineSlotCaliber = Ammunition.Calibers.AAC;
-            if ( magazineSlot.Id.Contains ( "primary" ) )
+            inventoryManager.OnWeaponSlotsUpdated.Invoke ( m_primaryWeaponSlots );
+            inventoryManager.OnWeaponSlotsUpdated.Invoke ( m_secondaryWeaponSlots );
+            OnValidate ();
+        }
+
+        private void TransferAttachment<T> ( AttachmentSlot fromAttachmentSlot, Slot toSlot ) where T : Attachment
+        {
+            if ( fromAttachmentSlot.IsEmpty () )
             {
-                magazineSlotCaliber = ( m_primaryWeaponSlots.WeaponSlot.PlayerItem as Weapon ).Caliber;
-            }
-            else if ( magazineSlot.Id.Contains ( "secondary" ) )
-            {
-                magazineSlotCaliber = ( m_secondaryWeaponSlots.WeaponSlot.PlayerItem as Weapon ).Caliber;
+                CancelSwap ( fromAttachmentSlot, toSlot );
+                OnValidate ();
+                return;
             }
 
-            // Check for caliber compatibility
-            if ( magazineCaliber == magazineSlotCaliber )
+            // Check if fromAttachmentSlot is associated with a weapon
+            if ( fromAttachmentSlot.Id.Contains ( "primary" ) )
             {
-                if ( magazineSlot.IsEmpty () ) // Empty magazine slot
+                // Missing weapon check
+                if ( !m_primaryWeaponSlots.ContainsWeapon () )
                 {
-                    magazineSlot.Insert ( magazine );
-                    fromSlot.Clear ();
-
-                    ServerSend.PlayerUpdateInventorySlot ( player.Id, fromSlot.Id, 1 ); // fromSlot
-                    ServerSend.PlayerUpdateInventorySlot ( player.Id, magazineSlot.Id, magazine.Id, 1 ); // magazineSlot
-                    CheckWeaponSlotsUpdated ( magazineSlot );
+                    CancelSwap ( fromAttachmentSlot, toSlot );
+                    OnValidate ();
+                    return;
                 }
-                else // Swap magazines
+                // Weapon-Attachment compatibility check
+                if ( !toSlot.IsEmpty () )
                 {
-                    SwapItems ( fromSlot, magazineSlot );
+                    if ( !m_primaryWeaponSlots.WeaponSlot.Weapon.IsCompatibleAttachment ( toSlot.PlayerItem as T ) )
+                    {
+                        CancelSwap ( fromAttachmentSlot, toSlot );
+                        OnValidate ();
+                        return;
+                    }
                 }
             }
-            else // Incompatible magazine
+            // Check if fromAttachmentSlot is associated with a weapon
+            else if ( fromAttachmentSlot.Id.Contains ( "secondary" ) )
             {
-                CancelSwap ( fromSlot, magazineSlot );
+                // Missing weapon check
+                if ( !m_secondaryWeaponSlots.ContainsWeapon () )
+                {
+                    CancelSwap ( fromAttachmentSlot, toSlot );
+                    OnValidate ();
+                    return;
+                }
+                // Weapon-Attachment compatibility check
+                if ( !toSlot.IsEmpty () )
+                {
+                    if ( !m_secondaryWeaponSlots.WeaponSlot.Weapon.IsCompatibleAttachment ( toSlot.PlayerItem as T ) )
+                    {
+                        CancelSwap ( fromAttachmentSlot, toSlot );
+                        OnValidate ();
+                        return;
+                    }
+                }
             }
+
+            SwapItems ( fromAttachmentSlot, toSlot );
+
+            inventoryManager.OnWeaponSlotsUpdated.Invoke ( m_primaryWeaponSlots );
+            inventoryManager.OnWeaponSlotsUpdated.Invoke ( m_secondaryWeaponSlots );
             OnValidate ();
         }
 
@@ -705,7 +858,7 @@ namespace InventorySystem
             else
             {
                 // Swapped two empty slots (invalid)
-                Debug.LogError ( "Invalid swap ( slotA and slotB are empty)" );
+                Debug.LogError ( $"Invalid swap ( slotA [{slotA}] and slotB [{slotB}] are empty)" );
             }
         }
 
@@ -1195,7 +1348,12 @@ namespace InventorySystem
 
         #region Weapon Equip Util
 
-        // Returns a PlayerItem from a RemovalResult array
+        /// <summary>
+        /// Retrieves a PlayerItem from a RemovalResult array.
+        /// </summary>
+        /// <typeparam name="T">The target PlayerItem type to retrieve.</typeparam>
+        /// <param name="removalResults">An array of RemovalResult type.</param>
+        /// <returns></returns>
         private T GetRemovedPlayerItem<T> ( RemovalResult [] removalResults )
         {
             if ( removalResults == null )

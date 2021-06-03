@@ -8,6 +8,12 @@ namespace InventorySystem.Slots
     [Serializable]
     public class WeaponSlot : Slot
     {
+        #region Members
+
+        public Weapon Weapon { get => PlayerItem as Weapon; }
+
+        #endregion
+
         #region Constructors
 
         public WeaponSlot ( string id )

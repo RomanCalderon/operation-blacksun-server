@@ -60,18 +60,24 @@ public class InventoryManager : MonoBehaviour
 
     #region Transfers
 
-    public void TransferContents ( string fromSlot, string toSlot, int transferMode )
+    public void TransferContents ( string fromSlotId, string toSlotId, int transferMode )
     {
+        if ( fromSlotId.Contains ( "primary" ) || fromSlotId.Contains ( "secondary" ) ||
+            toSlotId.Contains ( "primary" ) || toSlotId.Contains ( "secondary" ) )
+        {
+            transferMode = 0;
+        }
+
         switch ( transferMode )
         {
             case 0: // Transfer ALL
-                m_inventory.TransferContentsAll ( fromSlot, toSlot );
+                m_inventory.TransferContentsAll ( fromSlotId, toSlotId );
                 break;
             case 1: // Transfer ONE
-                m_inventory.TransferContentsSingle ( fromSlot, toSlot );
+                m_inventory.TransferContentsSingle ( fromSlotId, toSlotId );
                 break;
             case 2: // Transfer HALF
-                m_inventory.TransferContentsHalf ( fromSlot, toSlot );
+                m_inventory.TransferContentsHalf ( fromSlotId, toSlotId );
                 break;
             default:
                 break;

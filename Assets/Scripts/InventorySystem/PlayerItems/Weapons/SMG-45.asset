@@ -25,6 +25,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3900433c2cd9f6f45952cba95398c005, type: 2}
   - {fileID: 11400000, guid: 56f1a4ac4a8f32147b3b3117bc427cab, type: 2}
   m_compatibleSights:
+  - {fileID: 11400000, guid: d24e30af99c8fe74f9be73469c934a27, type: 2}
   - {fileID: 11400000, guid: acf66b9a8f5c1164f9480da9352010bf, type: 2}
   - {fileID: 11400000, guid: 7d358ddffe23ab54482e5421910e4b56, type: 2}
   m_compatibleStocks: []
