@@ -11,6 +11,7 @@ public class WeaponInstance : PlayerItemInstance
 
     private Player m_player = null;
 
+    public Weapon Weapon { get => PlayerItem as Weapon; }
     public Barrel Barrel { get; private set; } = null;
     public Magazine Magazine { get; private set; } = null;
     public Sight Sight { get; private set; } = null;

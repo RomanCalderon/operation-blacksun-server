@@ -562,6 +562,43 @@ namespace InventorySystem.Slots
             return slots;
         }
 
+        public T [] GetItem<T> () where T : PlayerItem
+        {
+            List<T> results = new List<T> ();
+
+            // Check Weapon
+            if ( ContainsWeapon () && WeaponSlot.PlayerItem is T weapon )
+            {
+                results.Add ( weapon );
+            }
+
+            // Check Barrel
+            if ( ContainsBarrel () && BarrelSlot.PlayerItem is T barrel )
+            {
+                results.Add ( barrel );
+            }
+
+            // Check Sight
+            if ( ContainsSight () && SightSlot.PlayerItem is T sight )
+            {
+                results.Add ( sight );
+            }
+
+            // Check Magazine
+            if ( ContainsMagazine () && MagazineSlot.PlayerItem is T magazine )
+            {
+                results.Add ( magazine );
+            }
+
+            // Check Stock
+            if ( ContainsStock () && StockSlot.PlayerItem is T stock )
+            {
+                results.Add ( stock );
+            }
+
+            return results.ToArray ();
+        }
+
         public int GetItemCount ( string playerItemId )
         {
             int count = 0;

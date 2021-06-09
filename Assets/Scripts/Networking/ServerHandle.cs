@@ -115,7 +115,7 @@ public class ServerHandle
         string fromSlotId = _packet.ReadString ();
         int transferMode = _packet.ReadInt ();
 
-        Server.clients [ _fromClient ].player.InventoryManager.DropItem ( fromSlotId, transferMode, out _ );
+        Server.clients [ _fromClient ].player.InventoryManager.DropFromInventory ( fromSlotId, transferMode, out _ );
     }
 
     #endregion

@@ -309,20 +309,6 @@ namespace InventorySystem
                 return;
             }
 
-            //// Sight swap
-            //if ( fromSlot is SightSlot fromSightSlot || toSlot is SightSlot toSightSlot )
-            //{
-            //    TransferSight ( fromSlot, toSlot );
-            //    return;
-            //}
-
-            //// Magazine swap
-            //if ( fromSlot.PlayerItem is Magazine && toSlot is MagazineSlot magazineSlot )
-            //{
-            //    TransferMagazine ( fromSlot, magazineSlot );
-            //    return;
-            //}
-
             PlayerItem fromSlotItem = fromSlot.PlayerItem;
             if ( fromSlotItem != null )
             {
@@ -873,25 +859,6 @@ namespace InventorySystem
             ServerSend.PlayerUpdateInventorySlot ( player.Id, toSlot.Id, magazineSlotItemId, 1 );
         }
 
-        /// <summary>
-        /// Invokes InventoryManager.OnWeaponSlotsUpdated() with the associated WeaponSlots based on updated slot <paramref name="slot"/>.
-        /// </summary>
-        /// <param name="slot">The slot which was updated.</param>
-        private void CheckWeaponSlotsUpdated ( Slot slot )
-        {
-            if ( slot is WeaponSlot || slot is AttachmentSlot )
-            {
-                WeaponSlots weaponSlotsUpdated = slot.Id.Contains ( "primary" ) ? m_primaryWeaponSlots :
-                    ( slot.Id.Contains ( "secondary" ) ? m_secondaryWeaponSlots : null );
-                if ( weaponSlotsUpdated == null )
-                {
-                    Debug.LogError ( "weaponSlotsUpdated == null" );
-                    return;
-                }
-                inventoryManager.OnWeaponSlotsUpdated.Invoke ( weaponSlotsUpdated );
-            }
-        }
-
         #endregion
 
         #region Slot access
@@ -934,6 +901,19 @@ namespace InventorySystem
             }
 
             return null;
+        }
+
+        public T [] GetFromInventory<T> ( bool includeWeaponSlots = true ) where T : PlayerItem
+        {
+            List<T> results = new List<T> ();
+            results.AddRange ( GetFromRig<T> () );
+            results.AddRange ( GetFromBackpack<T> () );
+            if ( includeWeaponSlots )
+            {
+                results.AddRange ( GetFromWeaponSlots<T> ( Weapons.Primary ) );
+                results.AddRange ( GetFromWeaponSlots<T> ( Weapons.Secondary ) );
+            }
+            return results.ToArray ();
         }
 
         public int GetItemCount ( string playerItemId )
@@ -1067,6 +1047,27 @@ namespace InventorySystem
             return new RemovalResult [] { removalResult };
         }
 
+        public RemovalResult RemoveItem ( PlayerItem playerItem )
+        {
+            if ( playerItem == null )
+            {
+                return null;
+            }
+
+            List<string> slotIds = new List<string> ();
+            slotIds.AddRange ( GetOccupiedSlotsBackpack () );
+            slotIds.AddRange ( GetOccupiedSlotsRig () );
+            foreach ( string slotId in slotIds )
+            {
+                Slot slot = GetSlot ( slotId );
+                if ( slot != null && slot.PlayerItem == playerItem )
+                {
+                    return RemoveItem ( slotId, 0 ) [ 0 ];
+                }
+            }
+            return null;
+        }
+
         /// <summary>
         /// Removes a specified weapon and all of its attachments
         /// from the player's inventory.
@@ -1152,6 +1153,19 @@ namespace InventorySystem
         {
             index = Mathf.Clamp ( index, 0, m_rigSlots.Length - 1 );
             return m_rigSlots [ index ];
+        }
+
+        public T [] GetFromRig<T> () where T : PlayerItem
+        {
+            List<T> results = new List<T> ();
+            foreach ( Slot slot in m_rigSlots )
+            {
+                if ( !slot.IsEmpty () && slot.PlayerItem is T )
+                {
+                    results.Add ( slot.PlayerItem as T );
+                }
+            }
+            return results.ToArray ();
         }
 
         #endregion
@@ -1249,6 +1263,19 @@ namespace InventorySystem
             return m_backpackSlots [ index ];
         }
 
+        public T [] GetFromBackpack<T> () where T : PlayerItem
+        {
+            List<T> results = new List<T> ();
+            foreach ( Slot slot in m_backpackSlots )
+            {
+                if ( !slot.IsEmpty () && slot.PlayerItem is T )
+                {
+                    results.Add ( slot.PlayerItem as T );
+                }
+            }
+            return results.ToArray ();
+        }
+
         #endregion
 
         #region Weapons
@@ -1329,21 +1356,37 @@ namespace InventorySystem
             }
         }
 
-        public WeaponSlot GetWeaponSlot ( string slotId )
+        public WeaponSlots GetWeaponSlots ( Weapons weapon )
+        {
+            return weapon == Weapons.Primary ? m_primaryWeaponSlots : m_secondaryWeaponSlots;
+        }
+
+
+        public T GetWeaponSlot<T> ( string slotId ) where T : Slot
         {
             // Search primary weapon slots
             if ( m_primaryWeaponSlots.ContainsSlot ( slotId ) )
             {
-                return m_primaryWeaponSlots.GetSlot ( slotId ) as WeaponSlot;
+                return m_primaryWeaponSlots.GetSlot ( slotId ) as T;
             }
 
             // Search secondary weapon slots
             if ( m_secondaryWeaponSlots.ContainsSlot ( slotId ) )
             {
-                return m_secondaryWeaponSlots.GetSlot ( slotId ) as WeaponSlot;
+                return m_secondaryWeaponSlots.GetSlot ( slotId ) as T;
             }
 
             return null;
+        }
+
+        private T [] GetFromWeaponSlots<T> ( Weapons weapon ) where T : PlayerItem
+        {
+            return weapon switch
+            {
+                Weapons.Primary => m_primaryWeaponSlots.GetItem<T> (),
+                Weapons.Secondary => m_secondaryWeaponSlots.GetItem<T> (),
+                _ => null
+            };
         }
 
         #region Weapon Equip Util
@@ -1411,6 +1454,23 @@ namespace InventorySystem
         #endregion
 
         #region Util
+
+        /// <summary>
+        /// Invokes InventoryManager.OnWeaponSlotsUpdated() with the associated WeaponSlots based on updated slot <paramref name="slot"/>.
+        /// </summary>
+        /// <param name="slot">The slot which was updated.</param>
+        private void CheckWeaponSlotsUpdated ( Slot slot )
+        {
+            if ( slot is WeaponSlot || slot is AttachmentSlot )
+            {
+                WeaponSlots weaponSlotsUpdated = slot.Id.Contains ( "primary" ) ? m_primaryWeaponSlots :
+                    ( slot.Id.Contains ( "secondary" ) ? m_secondaryWeaponSlots : null );
+                if ( weaponSlotsUpdated != null )
+                {
+                    inventoryManager.OnWeaponSlotsUpdated.Invoke ( weaponSlotsUpdated );
+                }
+            }
+        }
 
         /// <summary>
         /// Updates the inspector when a change to the inventory is made.

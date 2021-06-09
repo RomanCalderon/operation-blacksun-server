@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: cb-comp
   Name: CB Comp
+  Rarity: 1
   StackLimit: 1
   BarrelType: 0

@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: rangefinder
   Name: Rangefinder
+  Rarity: 1
   StackLimit: 1
   EquipmentType: 2

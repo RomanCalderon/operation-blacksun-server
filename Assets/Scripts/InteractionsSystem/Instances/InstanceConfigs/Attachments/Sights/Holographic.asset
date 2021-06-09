@@ -9,11 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc87c788eeb4a0e4da1c045ef9e4a52e, type: 3}
-  m_Name: Eveningstar
+  m_Script: {fileID: 11500000, guid: 516d4fb39ca64444fbc14288824de5ed, type: 3}
+  m_Name: Holographic
   m_EditorClassIdentifier: 
   IsInteractable: 1
   ContextColor: {r: 1, g: 1, b: 1, a: 1}
-  InteractTime: 0
+  <InteractTime>k__BackingField: 0
   AccessKey: 
-  m_playerItem: {fileID: 11400000, guid: 1c00435c2ebf94547911207f66ca53de, type: 2}
+  <PlayerItem>k__BackingField: {fileID: 11400000, guid: 7d358ddffe23ab54482e5421910e4b56,
+    type: 2}
+  <Quantity>k__BackingField: 1

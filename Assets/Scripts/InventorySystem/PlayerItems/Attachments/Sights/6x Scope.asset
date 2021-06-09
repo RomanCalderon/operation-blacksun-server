@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: scope-6x
   Name: 6x Scope
+  Rarity: 1
   StackLimit: 1
   SightZoomStrength: 6
   PlayerZoomModifier: 1.5

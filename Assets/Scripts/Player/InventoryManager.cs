@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using InventorySystem;
 using InventorySystem.Presets;
 using InventorySystem.Slots;
@@ -46,6 +47,7 @@ public class InventoryManager : MonoBehaviour
     private void Awake ()
     {
         m_player = GetComponent<Player> ();
+        Debug.Assert ( m_player != null, "m_player is null." );
         PlayerItemDatabase = Resources.Load<PlayerItemDatabase> ( PLAYER_ITEM_DATABASE );
         Debug.Assert ( PlayerItemDatabase != null, "PlayerItemDatabase is null." );
     }
@@ -86,7 +88,7 @@ public class InventoryManager : MonoBehaviour
 
     #endregion
 
-    #region Weapon
+    #region Weapon/Attachment Equipping
 
     public void EquipWeapon ( Weapon weapon )
     {
@@ -99,9 +101,145 @@ public class InventoryManager : MonoBehaviour
         {
             m_weaponsController.ActivateWeapon ( ( int ) targetWeaponSlot );
         }
+
+        // Find attachments in inventory to equip to the weapon
+        List<Attachment> [] allAttachments = new List<Attachment> []
+        {
+            new List<Attachment> ( m_inventory.GetFromInventory<Barrel> ( false ) ),
+            new List<Attachment> ( m_inventory.GetFromInventory<Sight> ( false ) ),
+            new List<Attachment> ( m_inventory.GetFromInventory<Magazine> ( false ) ),
+            new List<Attachment> ( m_inventory.GetFromInventory<Stock> ( false ) )
+        };
+
+        // For each attachment, equip the highest-rarity, compatible attachment
+        for ( int i = 0; i < allAttachments.Length; i++ )
+        {
+            foreach ( Attachment attachment in allAttachments [ i ] )
+            {
+                if ( EquipAttachmentToWeapon ( targetWeaponSlot, attachment ) )
+                {
+                    // Remove attachment from inventory
+                    RemovalResult result = m_inventory.RemoveItem ( attachment );
+                    if ( result.Result != RemovalResult.Results.SUCCESS )
+                    {
+                        throw new System.Exception ( $"Error removing attachment [{attachment}] from inventory. RemovalResult = [{result.Result}]" );
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
+    public void EquipAttachment ( Attachment attachment )
+    {
+        /// 1. If there are any compatible weapons:
+        ///     - Prioritize the active weapon, fallback to other weapon.
+        ///     - Else, try to add attachment to inventory.
+        ///     - Else, drop attachment.
+        /// 2. If a compatible weapon is found:
+        ///     - Check if the attachment slot is empty:
+        ///         - If so, equip the attachment.
+        ///         - Else, determine if attachment should replace the current-equipped attachment.
+        ///             - If so, drop current-equipped attachment, equip new attachment.
+        ///             - Else, if other weapon is compatible and hasn't been checked:
+        ///                 - Repeat step 2 for other weapon.
+        ///             - Else, try to add attachment to inventory.
+        ///             - Else, drop attachment.
+
+        // Equip to active weapon
+        if ( !EquipAttachmentToWeapon ( m_weaponsController.ActiveWeaponSlot, attachment ) )
+        {
+            // Equip to inactive weapon
+            if ( !EquipAttachmentToWeapon ( m_weaponsController.InactiveWeaponSlot, attachment ) )
+            {
+                // Try to add attachment to inventory
+                if ( !AddToInventory ( attachment ) )
+                {
+                    // Drop attachment
+                    Debug.Log ( $"Failed to equip/add [{attachment}]. Dropping item." );
+                    DropItem ( attachment );
+                }
+            }
+        }
+    }
+
+    private bool EquipAttachmentToWeapon ( Weapons weapon, Attachment attachment )
+    {
+        if ( attachment == null )
+        {
+            Debug.LogError ( "attachment is null." );
+            return false;
+        }
+        if ( !m_weaponsController.IsCompatibleAttachment ( weapon, attachment ) )
+        {
+            return false;
+        }
+
+        // Compatible weapon found
+        // Check if AttachmentSlot is empty
+        WeaponSlots weaponSlots = m_inventory.GetWeaponSlots ( weapon );
+        AttachmentSlot attachmentSlot = attachment switch
+        {
+            Barrel _ => weaponSlots.BarrelSlot,
+            Sight _ => weaponSlots.SightSlot,
+            Magazine _ => weaponSlots.MagazineSlot,
+            Stock _ => weaponSlots.StockSlot,
+            _ => throw new System.NotImplementedException ( $"InventoryManager::attachment [{attachment}] is null or not supported." ),
+        };
+
+        if ( attachmentSlot.IsEmpty () )
+        {
+            // Equip attachment to empty attachment slot
+            InsertionResult result = attachmentSlot.Insert ( attachment );
+            Debug.Log ( $"Equip attachment [{attachment}] result [{result.Contents}]" );
+
+            OnWeaponSlotsUpdated?.Invoke ( weaponSlots );
+            weaponSlots.Apply ( m_player.Id );
+            return true;
+        }
+        // Determine if attachment should replace the current-equipped attachment, based on Rarity
+        // or if the attachment is a Sight
+        else if ( attachment.Rarity >= attachmentSlot.PlayerItem.Rarity ||
+                  attachmentSlot is SightSlot )
+        {
+            // Drop current-equipped attachment
+            DropFromInventory ( attachmentSlot.Id, 0, out _ );
+
+            // Equip attachment to empty attachment slot
+            InsertionResult result = attachmentSlot.Insert ( attachment );
+            Debug.Log ( $"Equip attachment [{attachment}] result [{result.Contents}]" );
+
+            OnWeaponSlotsUpdated?.Invoke ( weaponSlots );
+            weaponSlots.Apply ( m_player.Id );
+            return true;
+        }
+
+        return false;
     }
 
     #endregion
+
+    public bool AddToInventory ( PlayerItem playerItem )
+    {
+        // Add to backpack
+        InsertionResult backpackResult = m_inventory.AddToBackpack ( playerItem );
+        if ( backpackResult.Result == InsertionResult.Results.SUCCESS )
+        {
+            Debug.Log ( $"Successfully added [{playerItem}] to backpack." );
+            return true;
+        }
+        else
+        {
+            // Add to rig
+            InsertionResult rigResult = m_inventory.AddToRig ( playerItem );
+            if ( rigResult.Result == InsertionResult.Results.SUCCESS )
+            {
+                Debug.Log ( $"Successfully added [{playerItem}] to rig." );
+                return true;
+            }
+        }
+        return false;
+    }
 
     public int GetItemCount ( string playerItemId )
     {
@@ -113,7 +251,7 @@ public class InventoryManager : MonoBehaviour
         m_inventory.ReduceItem ( playerItemId, reductionAmount );
     }
 
-    public void DropItem ( string slotId, int transferMode, out RemovalResult [] removalResults )
+    public void DropFromInventory ( string slotId, int transferMode, out RemovalResult [] removalResults )
     {
         removalResults = null;
         if ( string.IsNullOrEmpty ( slotId ) )
@@ -136,22 +274,17 @@ public class InventoryManager : MonoBehaviour
                 else if ( removalResult.Contents != null )
                 {
                     Debug.Log ( $"Drop item [{removalResult.Contents}] - Quantity [{removalResult.RemoveAmount}]" );
-                    ItemSpawnerManager.Instance.SpawnItem ( removalResult.Contents, removalResult.RemoveAmount, GetItemDropPosition () );
+                    DropItem ( removalResult.Contents, removalResult.RemoveAmount );
                 }
             }
         }
         else
         {
-            Debug.Log ( "removalResults array is null." );
+            Debug.LogError ( "removalResults array is null." );
         }
     }
 
-    public void DropItem ( PlayerItem playerItem )
-    {
-        DropItem ( playerItem, 1 );
-    }
-
-    public void DropItem ( PlayerItem playerItem, int quantity )
+    public void DropItem ( PlayerItem playerItem, int quantity = 1 )
     {
         if ( playerItem == null )
         {

@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: s-hush
   Name: S.HUSH
+  Rarity: 2
   StackLimit: 1
   BarrelType: 1

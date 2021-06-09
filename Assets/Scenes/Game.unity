@@ -299,8 +299,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac4b00f0a8efc714197b0c17fb673b50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_config: {fileID: 11400000, guid: 780d38966f7311842b69aa662dd1382c, type: 2}
-  m_pickupInstancePrefab: {fileID: 5873726945410332584, guid: ebf27eddc5cd054448bcd5047cd589a6,
+  m_config: {fileID: 11400000, guid: 89f8ea2e0993b4345a7e0582b120ec8f, type: 2}
+  m_pickupInstancePrefab: {fileID: 1479536658160999294, guid: caee1b1198d6d1b4b848be84bf138c6c,
     type: 3}
 --- !u!1 &273762146
 GameObject:
@@ -855,7 +855,7 @@ GameObject:
   - component: {fileID: 708186800}
   - component: {fileID: 708186801}
   m_Layer: 0
-  m_Name: Weapon Item Spawner (3)
+  m_Name: Weapon Item Spawner (1)
   m_TagString: Untagged
   m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -887,7 +887,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac4b00f0a8efc714197b0c17fb673b50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_config: {fileID: 11400000, guid: 15ba26629b510be488a5157fabe24bf0, type: 2}
+  m_config: {fileID: 11400000, guid: 4a85ba9afd5bcb84895c7a2adc47f097, type: 2}
   m_pickupInstancePrefab: {fileID: -2462404048290995719, guid: 4113faa6aabdd644991f1daf1172d896,
     type: 3}
 --- !u!1 &917239847
@@ -1076,8 +1076,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac4b00f0a8efc714197b0c17fb673b50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_config: {fileID: 11400000, guid: e3288df1966619a439abf6eec7cf159d, type: 2}
-  m_pickupInstancePrefab: {fileID: 5873726945410332584, guid: ebf27eddc5cd054448bcd5047cd589a6,
+  m_config: {fileID: 11400000, guid: d19bbca2f07541541b969e9b63c1af91, type: 2}
+  m_pickupInstancePrefab: {fileID: 1479536658160999294, guid: caee1b1198d6d1b4b848be84bf138c6c,
     type: 3}
 --- !u!1 &998919835
 GameObject:
@@ -1130,6 +1130,8 @@ MonoBehaviour:
   m_itemSpawnerPrefab: {fileID: 8524130111264119885, guid: 2ba1f1ce0da457a4db93a1162474ca76,
     type: 3}
   m_weaponSpawnerPrefab: {fileID: 1534049925013953953, guid: 1e9f313c57f3fb64da056fc16df3afff,
+    type: 3}
+  m_attachmentSpawnerPrefab: {fileID: 1534049925013953953, guid: 929304b378d95ab4d86812ca8db47b8b,
     type: 3}
 --- !u!1 &1138550018
 GameObject:
@@ -1429,8 +1431,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac4b00f0a8efc714197b0c17fb673b50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_config: {fileID: 11400000, guid: b20a9a0ad3d67a44e9c0f4e0bfe4a1c5, type: 2}
-  m_pickupInstancePrefab: {fileID: 5873726945410332584, guid: ebf27eddc5cd054448bcd5047cd589a6,
+  m_config: {fileID: 11400000, guid: 4c1b1bc967b30f74a80655213b1f279f, type: 2}
+  m_pickupInstancePrefab: {fileID: 1479536658160999294, guid: caee1b1198d6d1b4b848be84bf138c6c,
     type: 3}
 --- !u!1 &1740009799
 GameObject:
@@ -1473,7 +1475,7 @@ GameObject:
   - component: {fileID: 1821898962}
   - component: {fileID: 1821898963}
   m_Layer: 0
-  m_Name: Weapon Item Spawner (2)
+  m_Name: Weapon Item Spawner
   m_TagString: Untagged
   m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -1505,7 +1507,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac4b00f0a8efc714197b0c17fb673b50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_config: {fileID: 11400000, guid: 263d6d29acc56c348b9d38ec7831e3e7, type: 2}
+  m_config: {fileID: 11400000, guid: e13ead26862249148afb2d3f414f77fd, type: 2}
   m_pickupInstancePrefab: {fileID: -2462404048290995719, guid: 4113faa6aabdd644991f1daf1172d896,
     type: 3}
 --- !u!1 &1845741114

@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: vanquisher
   Name: Vanquisher
+  Rarity: 2
   StackLimit: 24
   Caliber: 6

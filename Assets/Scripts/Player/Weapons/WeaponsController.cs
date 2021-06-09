@@ -47,11 +47,20 @@ public class WeaponsController : MonoBehaviour
     private int m_activeWeaponIndex = 0;
 
     public Weapons ActiveWeaponSlot { get; private set; } = Weapons.Primary;
+    public Weapons InactiveWeaponSlot { get => ActiveWeaponSlot == Weapons.Primary ? Weapons.Secondary : Weapons.Primary; }
     public WeaponInstance ActiveWeapon
     {
         get
         {
             return ActiveWeaponSlot == Weapons.Primary ? m_primaryEquipped : m_secondaryEquipped;
+        }
+    }
+
+    public WeaponInstance InactiveWeapon
+    {
+        get
+        {
+            return ActiveWeaponSlot == Weapons.Primary ? m_secondaryEquipped : m_primaryEquipped;
         }
     }
 
@@ -156,6 +165,16 @@ public class WeaponsController : MonoBehaviour
     #endregion
 
     #region Weapon and Attachment Equipping
+
+    public bool IsCompatibleAttachment ( Weapons targetWeapon, Attachment attachment )
+    {
+        return targetWeapon switch
+        {
+            Weapons.Primary => m_primaryEquipped != null && m_primaryEquipped.Weapon.IsCompatibleAttachment ( attachment ),
+            Weapons.Secondary => m_secondaryEquipped != null && m_secondaryEquipped.Weapon.IsCompatibleAttachment ( attachment ),
+            _ => false,
+        };
+    }
 
     private void UpdateAttachments ()
     {
