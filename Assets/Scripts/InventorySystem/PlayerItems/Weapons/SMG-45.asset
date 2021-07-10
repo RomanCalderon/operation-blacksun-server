@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: smg-45
   Name: SMG-45
+  Rarity: 0
   StackLimit: 1
   WeaponType: 0
   WeaponClass: 1
