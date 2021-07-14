@@ -12,6 +12,9 @@ public class Server
     public delegate void PacketHandler ( int _fromClient, Packet _packet );
     public static Dictionary<int, PacketHandler> packetHandlers;
 
+    public static Action<int> onServerStarted;
+    public static Action onServerStopped;
+
     private static TcpListener tcpListener;
     private static UdpClient udpListener;
 
@@ -34,6 +37,7 @@ public class Server
         udpListener = new UdpClient ( Port );
         udpListener.BeginReceive ( UDPReceiveCallback, null );
 
+        onServerStarted?.Invoke ( Port );
         Debug.Log ( $"Server started on port {Port}." );
     }
 
@@ -149,5 +153,6 @@ public class Server
     {
         tcpListener.Stop ();
         udpListener.Close ();
+        onServerStopped?.Invoke ();
     }
 }

@@ -10,6 +10,7 @@ public class NetworkManager : MonoBehaviour
 
     [SerializeField]
     private int m_maxPlayers = 50;
+    public int Port { get => m_port; }
     [SerializeField]
     private int m_port = 26950;
 
