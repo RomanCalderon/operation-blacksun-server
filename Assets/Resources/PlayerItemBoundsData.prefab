@@ -43,3 +43,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81f0b638c11ae0b489455d542d0596fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_dataPath: E:\Game Projects\OperationBlacksun\GameData\PlayerItemBounds\player-item-bounds.json

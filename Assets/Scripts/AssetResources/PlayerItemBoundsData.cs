@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Collections;
 using UnityEngine;
 using PlayerItemExporter;
 
@@ -15,7 +16,7 @@ public class PlayerItemBoundsData : MonoBehaviour
             if ( m_instance == null )
             {
                 m_instance = Instantiate ( Resources.Load<PlayerItemBoundsData> ( "PlayerItemBoundsData" ) );
-                Initialize ();
+                m_instance.Initialize ();
                 return m_instance;
             }
             return m_instance;
@@ -25,13 +26,25 @@ public class PlayerItemBoundsData : MonoBehaviour
 
     #endregion
 
-    private static BoundsData [] m_boundsData = null;
+    [SerializeField]
+    private string m_dataPath = null;
+
+    [SerializeField]
+    private BoundsData [] m_boundsData = null;
 
     #endregion
 
-    private static void Initialize ()
+    private void Initialize ()
     {
-        m_boundsData = PlayerItemExporterTool.Instance.GetBoundsData ();
+        if ( JsonFileUtility.ReadFromFile ( m_dataPath, out string json ) )
+        {
+            m_boundsData = JsonUtility.FromJson<BoundsDataCollection> ( json ).BoundsData;
+        }
+        else
+        {
+            Debug.LogError ( $"Failed to read json from file {m_dataPath}" );
+        }
+        //m_boundsData = PlayerItemExporterTool.Instance.GetBoundsData ();
     }
 
     public BoundsData GetBoundsData ( string id )
