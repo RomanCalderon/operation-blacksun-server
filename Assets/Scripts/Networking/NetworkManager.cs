@@ -8,6 +8,7 @@ public class NetworkManager : MonoBehaviour
 
     public GameObject playerPrefab;
 
+    public int MaxPlayers { get => m_maxPlayers; }
     [SerializeField]
     private int m_maxPlayers = 50;
     public int Port { get => m_port; }

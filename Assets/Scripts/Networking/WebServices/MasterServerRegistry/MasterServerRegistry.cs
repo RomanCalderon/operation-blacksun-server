@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using WebServiceCommunications;
 
@@ -10,21 +11,19 @@ public class MasterServerRegistry : MonoBehaviour
     public class ServerRegistrationRequestData
     {
         public string name;
-        // DEBUG - Revert to private
         public string ip;
-        public short port;
-        public int sceneIndex;
-        private short playerCount;
-        [SerializeField]
-        private short maxPlayers;
+        public ushort port;
+        public byte clientSceneIndex;
+        public byte playerCount;
+        public byte maxPlayers;
 
-        public ServerRegistrationRequestData ( string name, string ip, short port, int sceneIndex, short maxPlayers )
+        public ServerRegistrationRequestData ( string name, string ip, ushort port, byte clientSceneIndex, byte playerCount, byte maxPlayers )
         {
             this.name = name;
             this.ip = ip;
             this.port = port;
-            this.sceneIndex = sceneIndex;
-            this.playerCount = 0;
+            this.clientSceneIndex = clientSceneIndex;
+            this.playerCount = playerCount;
             this.maxPlayers = maxPlayers;
         }
     }
@@ -32,38 +31,23 @@ public class MasterServerRegistry : MonoBehaviour
     [System.Serializable]
     public class ServerRegistrationResponseData
     {
-        [System.Serializable]
-        public class LinkContainer
-        {
-            [System.Serializable]
-            public struct Link
-            {
-                public string href;
-            }
-
-            public Link self;
-            public Link gameservers;
-        }
-
-        public int id;
+        public long id;
         public string name;
         public string ip;
-        public short port;
-        public string sceneIndex;
-        public string playerCount;
-        public string maxPlayers;
-        public LinkContainer _links;
+        public ushort port;
+        public byte clientSceneIndex;
+        public byte playerCount;
+        public byte maxPlayers;
 
-        public ServerRegistrationResponseData ( int id, string name, string ip, short port, string sceneIndex, string playerCount, string maxPlayers, LinkContainer links )
+        public ServerRegistrationResponseData ( long id, string name, string ip, ushort port, byte clientSceneIndex, byte playerCount, byte maxPlayers )
         {
             this.id = id;
             this.name = name;
             this.ip = ip;
             this.port = port;
-            this.sceneIndex = sceneIndex;
+            this.clientSceneIndex = clientSceneIndex;
             this.playerCount = playerCount;
             this.maxPlayers = maxPlayers;
-            _links = links;
         }
 
         public override string ToString ()
@@ -76,16 +60,17 @@ public class MasterServerRegistry : MonoBehaviour
 
     #region Members
 
-    private const string REQUEST_URL_RELATIVE = "/gameservers";
+    private const string REQUEST_URL_RELATIVE = "/api/gameserver";
 
     [SerializeField]
     private WebServiceCommunication m_communicator = null;
+    [SerializeField]
+    private NetworkManager m_networkManager = null;
+    [SerializeField]
+    private int m_clientSceneIndex = 1;
     private IPManager m_ipManager = null;
 
-
-    [Header ( "DEBUG" )]
-    [SerializeField]
-    private ServerRegistrationRequestData m_serverRegistrationRequest;
+    [Header ( "Registration Info" )]
     [SerializeField]
     private ServerRegistrationResponseData m_serverRegistrationResponse;
 
@@ -112,20 +97,24 @@ public class MasterServerRegistry : MonoBehaviour
 
     #region Server Event Listeners
 
-    private async void ServerStartup ( int port )
+    private void ServerStartup ( int port )
     {
-        // Retrieve public ip address and port
-        string ip = await m_ipManager.GetPublicIpInfo ();
-
-        m_communicator.Get ( REQUEST_URL_RELATIVE, RegisterServer );
-        //m_communicator.Put ( "/" + m_serverRegistrationResponse.id, requestBody, ServerRegistrationResponse );
+        m_communicator.Get ( REQUEST_URL_RELATIVE, PostServer );
     }
 
-    private void RegisterServer ( string responseBody )
+    private async void PostServer ( string responseBody )
     {
-        // TODO: Get port value
-        // TODO: Create registration request at runtime
-        string requestBody = JsonUtility.ToJson ( /*DEBUG*/ m_serverRegistrationRequest );
+        // DEBUG
+        Debug.Log ( responseBody );
+
+        // Create registration request at runtime
+        string name = $"TS_{DateTime.Now.ToShortTimeString ()}";
+        string public_ip = await m_ipManager.GetPublicIpInfo ();
+        ushort port = ( ushort ) m_networkManager.Port;
+        byte maxPlayers = ( byte ) m_networkManager.MaxPlayers;
+
+        ServerRegistrationRequestData request = new ServerRegistrationRequestData ( name, public_ip, port, ( byte ) m_clientSceneIndex, 0, maxPlayers );
+        string requestBody = JsonUtility.ToJson ( request );
 
         m_communicator.Post ( REQUEST_URL_RELATIVE, requestBody, ServerRegistrationResponse );
     }
