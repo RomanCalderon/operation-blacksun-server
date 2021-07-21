@@ -951,14 +951,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_communicator: {fileID: 862436589}
   m_networkManager: {fileID: 380976495}
-  m_clientSceneIndex: 1
-  m_serverRegistrationRequest:
-    id: 0
-    name: Apollo
-    ip: 99.24.219.47
-    port: 26950
-    clientSceneIndex: 0
-    maxPlayers: 60
+  m_clientSceneIndex: 2
   m_serverRegistrationResponse:
     id: 0
     name: 
