@@ -29,4 +29,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d24e30af99c8fe74f9be73469c934a27, type: 2}
   - {fileID: 11400000, guid: acf66b9a8f5c1164f9480da9352010bf, type: 2}
   - {fileID: 11400000, guid: 7d358ddffe23ab54482e5421910e4b56, type: 2}
-  m_compatibleStocks: []
+  m_compatibleStocks:
+  - {fileID: 11400000, guid: 5b4c7ed734b6542499a1e56a7fe4eca0, type: 2}

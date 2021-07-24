@@ -267,7 +267,11 @@ public class PlayerItemExporterTool : EditorWindowSingleton<PlayerItemExporterTo
         // File browser button
         if ( GUILayout.Button ( "Browse...", GUILayout.MinWidth ( BUTTON_WIDTH ), GUILayout.Height ( 20 ) ) )
         {
+            // Get exporter data path
             m_exporterDataPath = EditorUtility.OpenFilePanel ( "Select import directory...", m_exporterDataPath, "json" );
+
+            // Save exporter data path
+            PlayerPrefs.SetString ( EXPORTER_DATA_PATH_KEY, m_exporterDataPath );
         }
 
         EditorGUI.BeginDisabledGroup ( string.IsNullOrEmpty ( m_exporterDataPath ) );
