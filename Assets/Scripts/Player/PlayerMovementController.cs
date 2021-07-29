@@ -297,7 +297,7 @@ public class PlayerMovementController : MonoBehaviour
         // Crouch/stand up smoothly 
         m_collider.height = Mathf.SmoothDamp ( m_collider.height, height, ref m_crouchCurrVelocity, CROUCH_SMOOTH_TIME * deltaTime );
         // Fix vertical position
-        m_collider.center += new Vector3 ( 0f, ( m_collider.height - lastHeight ) * 0.2f, 0f );
+        m_collider.center += new Vector3 ( 0f, ( m_collider.height - lastHeight ) * CROUCH_POSITION_MODIFIER, 0f );
     }
 
     #endregion

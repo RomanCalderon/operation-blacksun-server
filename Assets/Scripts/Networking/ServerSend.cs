@@ -126,14 +126,15 @@ public class ServerSend
         }
     }
 
-    public static void PlayerMovement ( int _playerId, int moveInputX, int moveInputY, float moveSpeed, bool _run, bool _crouch )
+    public static void PlayerMovement ( int playerId, int moveInputX, int moveInputY, float moveSpeed, float cameraPitch, bool _run, bool _crouch )
     {
         using ( Packet _packet = new Packet ( ( int ) ServerPackets.playerMovement ) )
         {
-            _packet.Write ( _playerId );
+            _packet.Write ( playerId );
             _packet.Write ( moveInputX );
             _packet.Write ( moveInputY );
             _packet.Write ( moveSpeed );
+            _packet.Write ( cameraPitch );
             _packet.Write ( _run );
             _packet.Write ( _crouch );
 

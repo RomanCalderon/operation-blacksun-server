@@ -17,10 +17,12 @@ public class ClientInputState : Message
     // Weapons
     public bool Shoot;
     public bool Aiming;
+    // Orientation
     [SerializeField]
     public Vector3 GunDirection;
     [SerializeField]
     public Vector3 LookDirection;
+    public float CameraPitch;
     // Interactions
     public bool Interact;
 

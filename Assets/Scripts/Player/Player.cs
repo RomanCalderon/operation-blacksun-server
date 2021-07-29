@@ -139,7 +139,7 @@ public class Player : MonoBehaviour
         int inputMoveX = state.MoveRight ? 1 : state.MoveLeft ? -1 : 0;
         int inputMoveY = state.MoveForward ? 1 : state.MoveBackward ? -1 : 0;
         float moveSpeed = MovementController.Velocity.magnitude;
-        ServerSend.PlayerMovement ( Id, inputMoveX, inputMoveY, moveSpeed, state.Run, state.Crouch );
+        ServerSend.PlayerMovement ( Id, inputMoveX, inputMoveY, moveSpeed, state.CameraPitch, state.Run, state.Crouch );
     }
 
     private IEnumerator DeathSequence ()
