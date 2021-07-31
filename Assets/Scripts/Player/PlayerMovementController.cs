@@ -52,6 +52,7 @@ public class PlayerMovementController : MonoBehaviour
 
     // Movement
     public Vector3 Velocity { get => m_rigidbody.velocity; }
+    public bool IsGrounded { get => m_isGrounded; }
     private Vector3 m_gravity;
     private bool m_isGrounded;
     private bool m_jumpCheck = false;

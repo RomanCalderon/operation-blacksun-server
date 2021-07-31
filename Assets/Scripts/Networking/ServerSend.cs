@@ -126,7 +126,7 @@ public class ServerSend
         }
     }
 
-    public static void PlayerMovement ( int playerId, int moveInputX, int moveInputY, float moveSpeed, float cameraPitch, bool _run, bool _crouch )
+    public static void PlayerMovement ( int playerId, int moveInputX, int moveInputY, float moveSpeed, float cameraPitch, bool run, bool crouch, bool jump, bool isGrounded )
     {
         using ( Packet _packet = new Packet ( ( int ) ServerPackets.playerMovement ) )
         {
@@ -135,8 +135,10 @@ public class ServerSend
             _packet.Write ( moveInputY );
             _packet.Write ( moveSpeed );
             _packet.Write ( cameraPitch );
-            _packet.Write ( _run );
-            _packet.Write ( _crouch );
+            _packet.Write ( run );
+            _packet.Write ( crouch );
+            _packet.Write ( jump );
+            _packet.Write ( isGrounded );
 
             SendUDPDataToAll ( _packet );
         }
