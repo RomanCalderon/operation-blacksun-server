@@ -30,7 +30,7 @@ namespace build_manager
 
         #region Initialization
 
-        [MenuItem ( "Window/Build Manager" )]
+        [MenuItem ( "Tools/Silver Dog Games/Build Manager" )]
         public static void ShowWindow ()
         {
             Initialize ();

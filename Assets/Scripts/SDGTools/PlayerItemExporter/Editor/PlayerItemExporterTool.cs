@@ -52,7 +52,7 @@ public class PlayerItemExporterTool : EditorWindowSingleton<PlayerItemExporterTo
 
     #region Initialization
 
-    [MenuItem ( "Window/SDG/Player Item Exporter" )]
+    [MenuItem ( "Tools/Silver Dog Games/Player Item Exporter" )]
     public static void ShowWindow ()
     {
         EditorWindow window = GetWindow ( typeof ( PlayerItemExporterTool ), false, "Player Item Exporter" );
